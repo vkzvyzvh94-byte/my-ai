@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>玄境 AI · 智慧館</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          #352719,
+          #100e0b 45%,
+          #070706 100%
+        );
+      color: #eee3ce;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Serif TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      height: 72px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(210,170,90,.16);
+      background: rgba(7,7,6,.8);
+      backdrop-filter: blur(16px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      letter-spacing: 3px;
+    }
+
+    .logo-symbol {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #bd954e;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #d8b36a;
+    }
+
+    .user {
+      color: #918979;
+      font-size: 14px;
+    }
+
+    .container {
+      width: min(1180px, 90%);
+      margin: auto;
+      padding: 60px 0;
+    }
+
+    .welcome {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .welcome small {
+      color: #b28b49;
+      letter-spacing: 5px;
+    }
+
+    .welcome h1 {
+      margin: 18px 0;
+      font-size: clamp(34px, 5vw, 55px);
+      font-weight: 500;
+      letter-spacing: 6px;
+      background: linear-gradient(#f2dfb4, #af813b);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .welcome p {
+      color: #948d80;
+      line-height: 2;
+    }
+
+    .tools {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .tool {
+      min-height: 180px;
+      padding: 28px 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(208,165,84,.16);
+      background: rgba(255,255,255,.025);
+      transition: .25s;
+    }
+
+    .tool:hover {
+      transform: translateY(-5px);
+      border-color: rgba(213,171,91,.45);
+      background: rgba(188,142,56,.06);
+    }
+
+    .tool .icon {
+      font-size: 32px;
+      margin-bottom: 18px;
+    }
+
+    .tool h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 9px;
+      color: #dfc48e;
+    }
+
+    .tool p {
+      font-size: 13px;
+      line-height: 1.8;
+      color: #878073;
+    }
+
+    .chat {
+      margin-top: 50px;
+      border: 1px solid rgba(209,166,83,.22);
+      border-radius: 22px;
+      padding: 35px;
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(176,130,46,.09),
+          transparent 65%
+        );
+    }
+
+    .chat h2 {
+      text-align: center;
+      font-weight: 500;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .chat-desc {
+      text-align: center;
+      color: #817a6e;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    .chat-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-box input {
+      flex: 1;
+      padding: 15px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(210,170,90,.2);
+      outline: none;
+      background: rgba(0,0,0,.25);
+      color: #eee3ce;
+      font-size: 14px;
+    }
+
+    .chat-box button {
+      border: 1px solid #b99049;
+      border-radius: 30px;
+      padding: 0 26px;
+      background: #785520;
+      color: #fff4da;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #625d53;
+      font-size: 12px;
+    }
+
+    @media(max-width: 900px) {
+      .tools {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width: 550px) {
+      .tools {
+        grid-template-columns: 1fr;
+      }
+
+      .chat {
+        padding: 22px;
+      }
+
+      .chat-box {
+        flex-direction: column;
+      }
+
+      .chat-box button {
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <a href="index.html" class="logo">
+    <div class="logo-symbol">☯</div>
+    玄境 AI
+  </a>
+
+  <div class="user">
+    AI 智慧館
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <div class="welcome">
+
+    <small>WELCOME TO XUANJING</small>
+
+    <h1>你的 AI 人生智慧館</h1>
+
+    <p>
+      命理、靈籤、風水、塔羅、心理、哲學與人生決策
+      <br>
+      在這裡，用不同角度看見自己。
+    </p>
+
+  </div>
+
+
+  <div class="tools">
+
+    <a href="#" class="tool">
+      <div class="icon">🧧</div>
+      <h2>AI 靈籤</h2>
+      <p>虛擬求籤、抽籤與 AI 解籤。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">🃏</div>
+      <h2>AI 塔羅</h2>
+      <p>感情、事業與人生牌陣探索。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">☯️</div>
+      <h2>八字命理</h2>
+      <p>探索五行與傳統命理文化。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">⭐</div>
+      <h2>星盤</h2>
+      <p>探索星座與出生星盤。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">🏠</div>
+      <h2>AI 風水</h2>
+      <p>探索空間、方位與居家風水。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">🧭</div>
+      <h2>人生決策</h2>
+      <p>用風險、概率與決策學分析選擇。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">🧠</div>
+      <h2>心理探索</h2>
+      <p>了解情緒、人格與人際關係。</p>
+    </a>
+
+    <a href="#" class="tool">
+      <div class="icon">🏛️</div>
+      <h2>國學哲學</h2>
+      <p>探索易經、儒家、道家與哲學思想。</p>
+    </a>
+
+  </div>
+
+
+  <div class="chat">
+
+    <h2>💬 問問你的 AI</h2>
+
+    <div class="chat-desc">
+      先輸入你現在最想問的一件事
+    </div>
+
+    <div class="chat-box">
+
+      <input
+        type="text"
+        placeholder="例如：我最近適合換工作嗎？"
+      >
+
+      <button onclick="startChat()">
+        開始
+      </button>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+  玄境 AI · Eastern Wisdom × Artificial Intelligence
+</footer>
+
+
+<script>
+  function startChat() {
+    const input = document.querySelector("input");
+
+    if (!input.value.trim()) {
+      alert("請先輸入你想問的事情。");
+      return;
+    }
+
+    alert(
+      "AI 對話功能下一階段接入 Groq。\n\n你的問題："
+      + input.value
+    );
+  }
+</script>
+
+</body>
+</html>
