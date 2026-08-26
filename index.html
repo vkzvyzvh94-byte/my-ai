@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>玄境 AI · 人生智慧館</title>
+  <meta name="description" content="東方智慧 × AI，探索人生、命理、風水、決策與自我。">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Serif TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        serif;
+      background:
+        radial-gradient(circle at 50% 0%, #302315 0%, #120f0b 38%, #070706 100%);
+      color: #f3ead7;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ===== 頂部 ===== */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+      background: rgba(8, 8, 7, 0.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(212, 169, 85, 0.18);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 21px;
+      letter-spacing: 3px;
+      font-weight: 700;
+    }
+
+    .logo-symbol {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #b9924c;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #d9b66d;
+      font-size: 21px;
+      box-shadow: 0 0 25px rgba(201, 159, 73, 0.15);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: #bdb3a0;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #e0bc73;
+    }
+
+    .login-btn {
+      border: 1px solid rgba(216, 179, 99, .5);
+      padding: 9px 18px;
+      border-radius: 20px;
+      color: #d9b66d;
+    }
+
+    /* ===== Hero ===== */
+
+    .hero {
+      position: relative;
+      min-height: 690px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .orb {
+      position: absolute;
+      width: 580px;
+      height: 580px;
+      border-radius: 50%;
+      border: 1px solid rgba(211, 169, 87, .15);
+      box-shadow:
+        0 0 100px rgba(175, 130, 48, .08),
+        inset 0 0 100px rgba(175, 130, 48, .05);
+    }
+
+    .orb::before {
+      content: "";
+      position: absolute;
+      inset: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(211, 169, 87, .1);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 850px;
+    }
+
+    .eyebrow {
+      color: #c8a45d;
+      letter-spacing: 6px;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: 1.15;
+      letter-spacing: 8px;
+      font-weight: 500;
+      background: linear-gradient(180deg, #f4e4bd, #bb8c3e);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 26px;
+    }
+
+    .hero-subtitle {
+      color: #aaa08e;
+      font-size: 17px;
+      line-height: 2;
+      letter-spacing: 2px;
+      margin-bottom: 42px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 14px 30px;
+      border-radius: 30px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .primary-btn {
+      border: 1px solid #c59a4b;
+      background: linear-gradient(135deg, #b8893e, #70501f);
+      color: #fff8e8;
+      box-shadow: 0 10px 35px rgba(155, 108, 32, .2);
+    }
+
+    .secondary-btn {
+      border: 1px solid rgba(211, 169, 87, .35);
+      color: #d5c5a6;
+      background: rgba(255,255,255,.025);
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    /* ===== Section ===== */
+
+    section {
+      width: min(1200px, 90%);
+      margin: auto;
+      padding: 70px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .section-title span {
+      display: block;
+      color: #b99049;
+      letter-spacing: 4px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      font-size: 31px;
+      font-weight: 500;
+      letter-spacing: 4px;
+    }
+
+    /* ===== Cards ===== */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 210px;
+      padding: 30px;
+      border: 1px solid rgba(205, 163, 84, .17);
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.012)
+        );
+      transition: .3s;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -50px;
+      bottom: -50px;
+      border-radius: 50%;
+      border: 1px solid rgba(205, 163, 84, .12);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(214, 172, 92, .45);
+      background: rgba(194, 147, 66, .06);
+    }
+
+    .icon {
+      font-size: 34px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #ead6ad;
+    }
+
+    .card p {
+      color: #968e80;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* ===== Daily Fortune ===== */
+
+    .fortune {
+      position: relative;
+      padding: 70px 30px;
+      text-align: center;
+      border-radius: 25px;
+      border: 1px solid rgba(205, 163, 84, .25);
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(161, 119, 47, .13),
+          transparent 60%
+        );
+    }
+
+    .fortune-symbol {
+      font-size: 65px;
+      margin-bottom: 18px;
+    }
+
+    .fortune h2 {
+      font-weight: 500;
+      letter-spacing: 5px;
+      color: #dfbd77;
+      margin-bottom: 14px;
+    }
+
+    .fortune p {
+      color: #a9a092;
+      line-height: 2;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .fortune-btn {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 13px 32px;
+      border-radius: 25px;
+      border: 1px solid #b99049;
+      color: #e0bd75;
+    }
+
+    /* ===== Footer ===== */
+
+    footer {
+      margin-top: 80px;
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(205,163,84,.12);
+      color: #716b60;
+      font-size: 13px;
+      line-height: 2;
+    }
+
+    /* ===== Mobile ===== */
+
+    @media (max-width: 800px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: 600px;
+      }
+
+      .orb {
+        width: 360px;
+        height: 360px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        width: 88%;
+      }
+
+      h1 {
+        letter-spacing: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-symbol">☯</div>
+      玄境 AI
+    </a>
+
+    <nav>
+      <a href="#wisdom">智慧</a>
+      <a href="#fortune">靈籤</a>
+      <a href="#ai">AI 問事</a>
+      <a href="#about">關於</a>
+      <a href="#" class="login-btn">登入</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+
+      <div class="orb"></div>
+
+      <div class="hero-content">
+
+        <div class="eyebrow">
+          EASTERN WISDOM · AI · LIFE
+        </div>
+
+        <h1>玄境</h1>
+
+        <p class="hero-subtitle">
+          以東方智慧觀人生<br>
+          以 AI 看見更多可能
+        </p>
+
+        <div class="hero-actions">
+          <a href="home.html" class="primary-btn">
+            進入智慧館
+          </a>
+
+          <a href="#fortune" class="secondary-btn">
+            今日求一籤
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section id="wisdom">
+
+      <div class="section-title">
+        <span>EXPLORE</span>
+        <h2>探索人生智慧</h2>
+      </div>
+
+      <div class="cards">
+
+        <a href="home.html" class="card">
+          <div class="icon">🔮</div>
+          <h3>AI 問事</h3>
+          <p>
+            將你的問題交給 AI，
+            從傳統智慧、心理與決策角度一起探索。
+          </p>
+        </a>
+
+        <a href="home.html" class="card">
+          <div class="icon">🧧</div>
+          <h3>靈籤</h3>
+          <p>
+            線上求籤、抽籤、解籤，
+            用傳統文化為今天的問題尋找一個方向。
+          </p>
+        </a>
+
+        <a href="home.html" class="card">
+          <div class="icon">🃏</div>
+          <h3>AI 塔羅</h3>
+          <p>
+            透過牌陣探索感情、事業、
+            人際與人生選擇。
+          </p>
+        </a>
+
+        <a href="home.html" class="card">
+          <div class="icon">☯️</div>
+          <h3>八字命理</h3>
+          <p>
+            從出生資訊探索五行、
+            性格與傳統命理觀點。
+          </p>
+        </a>
+
+        <a href="home.html" class="card">
+          <div class="icon">🏠</div>
+          <h3>AI 風水</h3>
+          <p>
+            探索居家、空間與方位的
+            傳統風水文化。
+          </p>
+        </a>
+
+        <a href="home.html" class="card">
+          <div class="icon">🧭</div>
+          <h3>人生決策</h3>
+          <p>
+            結合決策學、心理學、
+            機率與風險思維。
+          </p>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <section id="fortune">
+
+      <div class="fortune">
+
+        <div class="fortune-symbol">🧧</div>
+
+        <h2>今日靈籤</h2>
+
+        <p>
+          人生有時並不是沒有答案，
+          而是需要一個讓自己停下來思考的時刻。
+          <br>
+          今日，是否願意為自己求一籤？
+        </p>
+
+        <a href="home.html" class="fortune-btn">
+          開始求籤
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <section id="ai">
+
+      <div class="section-title">
+        <span>AI WISDOM</span>
+        <h2>不只算命，更看見人生</h2>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="icon">🧠</div>
+          <h3>心理學</h3>
+          <p>
+            從情緒、人格、關係與行為模式，
+            更了解自己。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🏛️</div>
+          <h3>哲學與國學</h3>
+          <p>
+            易經、儒家、道家與東西方哲學，
+            探索人生問題。
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🛡️</div>
+          <h3>安全防護</h3>
+          <p>
+            協助識別網路詐騙、
+            可疑訊息與常見風險。
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer id="about">
+    <div>玄境 AI · Eastern Wisdom × Artificial Intelligence</div>
+    <div>
+      傳統文化內容僅供文化探索與娛樂參考，不取代醫療、法律或專業意見。
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
