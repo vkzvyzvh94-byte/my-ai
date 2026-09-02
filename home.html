@@ -4,110 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>我的玄境 · 玄境 AI</title>
+  <title>玄境 · 我的空间</title>
 
   <style>
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-    }
-
-    :root {
-      --bg: #05040a;
-      --panel: rgba(255, 255, 255, 0.055);
-      --panel-hover: rgba(255, 255, 255, 0.09);
-      --border: rgba(255, 255, 255, 0.12);
-      --text: rgba(255, 255, 255, 0.94);
-      --muted: rgba(255, 255, 255, 0.52);
-      --soft: rgba(255, 255, 255, 0.7);
-      --accent: #c7a5ff;
-      --accent-soft: rgba(199, 165, 255, 0.2);
+      box-sizing: border-box;
     }
 
     html,
     body {
       width: 100%;
       min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
+        "Segoe UI",
         "PingFang SC",
         "Microsoft YaHei",
-        "Segoe UI",
         sans-serif;
+
+      background: #03040b;
+      color: #ffffff;
     }
 
     body {
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
 
-    button {
-      cursor: pointer;
-    }
+    /* =====================================
+       背景
+    ===================================== */
 
-    /* =========================
-       整体空间
-    ========================= */
+    .background {
+      position: fixed;
+      inset: 0;
 
-    .world {
-      position: relative;
-      min-height: 100vh;
-      overflow: hidden;
+      z-index: -10;
 
       background:
         radial-gradient(
-          circle at 50% 30%,
-          rgba(94, 57, 130, 0.35),
-          transparent 35%
+          circle at 50% 20%,
+          rgba(85, 65, 150, 0.22),
+          transparent 45%
         ),
         radial-gradient(
-          circle at 15% 80%,
-          rgba(75, 43, 100, 0.22),
-          transparent 30%
+          circle at 20% 80%,
+          rgba(40, 80, 130, 0.12),
+          transparent 40%
         ),
-        radial-gradient(
-          circle at 85% 75%,
-          rgba(58, 43, 100, 0.2),
-          transparent 30%
-        ),
-        #05040a;
+        #03040b;
     }
 
-    /* =========================
-       星空
-    ========================= */
 
     .stars {
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      opacity: 0.55;
+
+      z-index: -9;
+
+      opacity: 0.5;
 
       background-image:
-        radial-gradient(circle, rgba(255,255,255,.75) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.45) 1px, transparent 1px);
+        radial-gradient(
+          circle,
+          rgba(255,255,255,0.8) 1px,
+          transparent 1px
+        ),
+        radial-gradient(
+          circle,
+          rgba(180,190,255,0.5) 1px,
+          transparent 1px
+        );
 
       background-size:
         100px 100px,
-        170px 170px;
+        180px 180px;
 
-      background-position:
-        20px 30px,
-        70px 90px;
-
-      animation: starFloat 25s linear infinite;
+      animation: starsMove 35s linear infinite;
     }
 
-    @keyframes starFloat {
+
+    @keyframes starsMove {
+
       from {
         transform: scale(1);
       }
@@ -115,329 +98,351 @@
       to {
         transform: scale(1.08);
       }
+
     }
 
-    /* =========================
-       顶部导航
-    ========================= */
+
+    /* =====================================
+       顶部
+    ===================================== */
 
     .topbar {
-      position: relative;
-      z-index: 20;
 
-      width: 100%;
-      padding: 20px 28px;
+      height: 70px;
 
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
 
-      border-bottom: 1px solid rgba(255,255,255,.07);
+      padding: 0 35px;
 
-      background: rgba(5,4,10,.48);
+      border-bottom:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        rgba(3,4,11,0.65);
+
       backdrop-filter: blur(20px);
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 50;
     }
 
-    .brand {
+
+    .logo {
+
+      font-size: 24px;
+
+      font-weight: 300;
+
+      letter-spacing: 0.3em;
+
+      padding-left: 0.3em;
+    }
+
+
+    .top-right {
+
       display: flex;
+
       align-items: center;
+
       gap: 12px;
     }
 
-    .brand-symbol {
-      width: 38px;
-      height: 38px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .icon-button {
 
-      border: 1px solid rgba(210,180,255,.35);
+      width: 42px;
+
+      height: 42px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid rgba(255,255,255,0.12);
+
+      background:
+        rgba(255,255,255,0.04);
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 17px;
+
+      transition: 0.3s;
+    }
+
+
+    .icon-button:hover {
+
+      background:
+        rgba(255,255,255,0.1);
+
+      transform: translateY(-2px);
+    }
+
+
+    /* =====================================
+       主内容
+    ===================================== */
+
+    .container {
+
+      width: min(1180px, calc(100% - 40px));
+
+      margin: 0 auto;
+
+      padding: 55px 0 80px;
+    }
+
+
+    .welcome {
+
+      margin-bottom: 35px;
+    }
+
+
+    .welcome h1 {
+
+      font-size: clamp(30px, 5vw, 48px);
+
+      font-weight: 300;
+
+      letter-spacing: 0.08em;
+
+      margin-bottom: 12px;
+    }
+
+
+    .welcome p {
+
+      color:
+        rgba(255,255,255,0.48);
+
+      font-size: 15px;
+
+      line-height: 1.8;
+    }
+
+
+    /* =====================================
+       我的玄境
+    ===================================== */
+
+    .space-card {
+
+      position: relative;
+
+      min-height: 390px;
+
+      border-radius: 30px;
+
+      overflow: hidden;
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(70,55,130,0.18),
+          rgba(255,255,255,0.025)
+        );
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.35);
+
+      margin-bottom: 28px;
+    }
+
+
+    .space-light {
+
+      position: absolute;
+
+      width: 450px;
+
+      height: 450px;
+
+      left: 50%;
+
+      top: 50%;
+
+      transform: translate(-50%, -50%);
+
       border-radius: 50%;
 
       background:
         radial-gradient(
           circle,
-          rgba(205,170,255,.28),
-          rgba(255,255,255,.03)
+          rgba(130,110,255,0.18),
+          transparent 65%
         );
 
-      box-shadow:
-        0 0 25px rgba(180,130,255,.18);
+      filter: blur(10px);
     }
 
-    .brand-name {
-      font-size: 18px;
-      letter-spacing: .16em;
-      font-weight: 300;
-    }
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .space-content {
 
-    .icon-button {
-      width: 42px;
-      height: 42px;
+      position: relative;
+
+      min-height: 390px;
 
       display: flex;
+
+      flex-direction: column;
+
       align-items: center;
+
       justify-content: center;
 
-      border: 1px solid var(--border);
-      border-radius: 50%;
-
-      background: rgba(255,255,255,.045);
-      color: var(--soft);
-
-      transition: .25s ease;
-    }
-
-    .icon-button:hover {
-      background: var(--panel-hover);
-      transform: translateY(-2px);
-    }
-
-    /* =========================
-       主区域
-    ========================= */
-
-    .main {
-      position: relative;
-      z-index: 5;
-
-      width: min(1180px, 92%);
-      margin: 0 auto;
-
-      padding: 55px 0 100px;
-    }
-
-    .welcome {
       text-align: center;
-      margin-bottom: 42px;
+
+      padding: 40px;
     }
 
-    .welcome-small {
-      color: var(--muted);
-      font-size: 13px;
-      letter-spacing: .25em;
-      margin-bottom: 14px;
-    }
-
-    .welcome-title {
-      font-size: clamp(32px, 6vw, 62px);
-      font-weight: 300;
-      letter-spacing: .12em;
-
-      background:
-        linear-gradient(
-          120deg,
-          #ffffff,
-          #d6bcff,
-          #ffffff
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      text-shadow:
-        0 0 40px rgba(205,170,255,.18);
-    }
-
-    .welcome-desc {
-      margin-top: 15px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* =========================
-       小小的我
-    ========================= */
-
-    .little-space {
-      position: relative;
-
-      min-height: 430px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      margin-bottom: 28px;
-
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 30px;
-
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at 50% 48%,
-          rgba(144,91,188,.24),
-          transparent 32%
-        ),
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.045),
-          rgba(255,255,255,.015)
-        );
-
-      box-shadow:
-        inset 0 0 80px rgba(120,70,160,.08),
-        0 20px 80px rgba(0,0,0,.3);
-    }
-
-    .orbit {
-      position: absolute;
-
-      width: 300px;
-      height: 300px;
-
-      border: 1px solid rgba(203,170,255,.13);
-      border-radius: 50%;
-
-      animation: orbit 18s linear infinite;
-    }
-
-    .orbit::before {
-      content: "";
-
-      position: absolute;
-
-      width: 8px;
-      height: 8px;
-
-      top: 18px;
-      left: 50%;
-
-      border-radius: 50%;
-
-      background: #e5d6ff;
-
-      box-shadow:
-        0 0 20px rgba(215,185,255,.9);
-    }
-
-    .orbit-two {
-      width: 390px;
-      height: 180px;
-
-      transform: rotate(-25deg);
-
-      border-color: rgba(255,255,255,.07);
-
-      animation-duration: 24s;
-      animation-direction: reverse;
-    }
-
-    @keyframes orbit {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .little-me-container {
-      position: relative;
-      z-index: 3;
-
-      text-align: center;
-    }
 
     .little-me {
-      width: 125px;
-      height: 125px;
 
-      margin: 0 auto;
+      width: 150px;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 150px;
 
       border-radius: 50%;
 
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 65px;
+
       background:
         radial-gradient(
-          circle at 35% 28%,
-          #ffffff 0%,
-          #e3d0ff 28%,
-          #a879d3 55%,
-          #50306d 100%
+          circle at 35% 30%,
+          rgba(255,255,255,0.25),
+          rgba(90,75,160,0.22) 35%,
+          rgba(10,10,25,0.9)
         );
 
+      border:
+        1px solid rgba(210,200,255,0.22);
+
       box-shadow:
-        0 0 30px rgba(190,145,255,.35),
-        0 0 100px rgba(140,80,190,.25);
+        0 0 35px rgba(110,90,255,0.3),
+        inset 0 0 35px rgba(120,100,255,0.15);
 
-      font-size: 52px;
+      margin-bottom: 25px;
 
-      animation: littleFloat 4s ease-in-out infinite;
+      animation:
+        littleFloat 5s ease-in-out infinite;
     }
 
+
     @keyframes littleFloat {
-      0%,100% {
+
+      0%,
+      100% {
         transform: translateY(0);
       }
 
       50% {
-        transform: translateY(-12px);
+        transform: translateY(-8px);
       }
+
     }
 
-    .little-name {
-      margin-top: 22px;
 
-      font-size: 20px;
-      letter-spacing: .12em;
+    .space-title {
+
+      font-size: 25px;
+
+      font-weight: 300;
+
+      margin-bottom: 10px;
     }
 
-    .little-status {
-      margin-top: 8px;
 
-      color: var(--muted);
-      font-size: 13px;
+    .space-description {
+
+      max-width: 520px;
+
+      color:
+        rgba(255,255,255,0.5);
+
+      line-height: 1.8;
+
+      font-size: 14px;
+
+      margin-bottom: 25px;
     }
 
-    .talk-button {
-      margin-top: 25px;
 
-      padding: 12px 28px;
+    .primary-button {
 
-      border: 1px solid rgba(215,185,255,.3);
-      border-radius: 30px;
+      border: none;
+
+      border-radius: 999px;
+
+      padding: 13px 28px;
 
       color: white;
 
       background:
-        rgba(190,150,255,.08);
+        linear-gradient(
+          135deg,
+          rgba(130,110,255,0.8),
+          rgba(80,65,180,0.8)
+        );
 
-      transition: .3s ease;
-    }
+      box-shadow:
+        0 10px 30px rgba(90,70,220,0.25);
 
-    .talk-button:hover {
-      background: rgba(190,150,255,.17);
-      transform: translateY(-2px);
-    }
-
-    /* =========================
-       功能区域
-    ========================= */
-
-    .section-title {
-      margin: 35px 0 18px;
+      cursor: pointer;
 
       font-size: 14px;
-      color: var(--muted);
-      letter-spacing: .18em;
+
+      transition: 0.3s;
     }
 
-    .cards {
+
+    .primary-button:hover {
+
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 15px 40px rgba(90,70,220,0.4);
+    }
+
+
+    /* =====================================
+       功能区域
+    ===================================== */
+
+    .section-title {
+
+      font-size: 20px;
+
+      font-weight: 300;
+
+      letter-spacing: 0.08em;
+
+      margin:
+        45px 0 18px;
+    }
+
+
+    .grid {
+
       display: grid;
 
       grid-template-columns:
@@ -446,453 +451,526 @@
       gap: 15px;
     }
 
+
     .card {
+
       min-height: 150px;
-
-      padding: 22px;
-
-      border: 1px solid var(--border);
-      border-radius: 20px;
-
-      background: var(--panel);
-
-      transition:
-        transform .3s ease,
-        background .3s ease,
-        border-color .3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-
-      background: var(--panel-hover);
-
-      border-color:
-        rgba(205,170,255,.25);
-    }
-
-    .card-icon {
-      font-size: 25px;
-      margin-bottom: 18px;
-    }
-
-    .card-title {
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .card-description {
-      font-size: 12px;
-      line-height: 1.7;
-      color: var(--muted);
-    }
-
-    /* =========================
-       我的事情
-    ========================= */
-
-    .project-area {
-      display: grid;
-
-      grid-template-columns:
-        1.5fr 1fr;
-
-      gap: 15px;
-    }
-
-    .panel {
-      border: 1px solid var(--border);
-      border-radius: 20px;
 
       padding: 25px;
 
-      background: var(--panel);
+      border-radius: 22px;
+
+      border:
+        1px solid rgba(255,255,255,0.08);
+
+      background:
+        rgba(255,255,255,0.035);
+
+      cursor: pointer;
+
+      transition:
+        transform 0.3s,
+        background 0.3s,
+        border-color 0.3s;
     }
 
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+
+    .card:hover {
+
+      transform: translateY(-5px);
+
+      background:
+        rgba(255,255,255,0.065);
+
+      border-color:
+        rgba(180,170,255,0.22);
+    }
+
+
+    .card-icon {
+
+      font-size: 25px;
 
       margin-bottom: 20px;
     }
 
-    .panel-title {
-      font-size: 17px;
+
+    .card h3 {
+
+      font-size: 16px;
+
+      font-weight: 400;
+
+      margin-bottom: 8px;
     }
 
-    .small-button {
-      border: 1px solid var(--border);
 
-      background: rgba(255,255,255,.04);
+    .card p {
 
-      color: var(--soft);
+      font-size: 13px;
+
+      line-height: 1.6;
+
+      color:
+        rgba(255,255,255,0.4);
+    }
+
+
+    /* =====================================
+       我的事情
+    ===================================== */
+
+    .projects {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 15px;
+    }
+
+
+    .project {
+
+      padding: 23px;
 
       border-radius: 20px;
 
-      padding: 8px 14px;
+      background:
+        rgba(255,255,255,0.035);
 
-      font-size: 12px;
+      border:
+        1px solid rgba(255,255,255,0.07);
+
+      transition: 0.3s;
     }
 
-    .project {
-      display: flex;
-      align-items: center;
-      gap: 15px;
 
-      padding: 16px 0;
+    .project:hover {
 
-      border-bottom: 1px solid rgba(255,255,255,.07);
+      transform: translateY(-4px);
+
+      background:
+        rgba(255,255,255,0.06);
     }
 
-    .project:last-child {
-      border-bottom: none;
-    }
-
-    .project-dot {
-      width: 10px;
-      height: 10px;
-
-      border-radius: 50%;
-
-      background: #bda0e9;
-
-      box-shadow:
-        0 0 14px rgba(190,150,255,.6);
-    }
 
     .project-name {
-      font-size: 14px;
+
+      font-size: 16px;
+
+      margin-bottom: 10px;
     }
 
-    .project-info {
-      margin-top: 5px;
 
-      color: var(--muted);
-      font-size: 11px;
+    .project-status {
+
+      font-size: 12px;
+
+      color:
+        rgba(255,255,255,0.4);
+
+      margin-bottom: 15px;
     }
 
-    /* =========================
-       今日状态
-    ========================= */
 
-    .status-box {
-      min-height: 100%;
+    .progress {
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      width: 100%;
 
-      text-align: center;
-    }
+      height: 5px;
 
-    .status-word {
-      font-size: 34px;
-      font-weight: 300;
-
-      margin-bottom: 12px;
+      border-radius: 999px;
 
       background:
-        linear-gradient(
-          120deg,
-          white,
-          #c6a2ff
-        );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      color: transparent;
-    }
-
-    .status-description {
-      color: var(--muted);
-
-      font-size: 13px;
-
-      line-height: 1.8;
-    }
-
-    /* =========================
-       底部
-    ========================= */
-
-    .footer {
-      position: relative;
-      z-index: 5;
-
-      padding: 30px;
-
-      text-align: center;
-
-      color: rgba(255,255,255,.28);
-
-      font-size: 11px;
-
-      letter-spacing: .08em;
-    }
-
-    /* =========================
-       对话窗口
-    ========================= */
-
-    .chat-overlay {
-      position: fixed;
-
-      inset: 0;
-
-      z-index: 100;
-
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(8px);
-
-      opacity: 0;
-      visibility: hidden;
-
-      transition: .35s ease;
-    }
-
-    .chat-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .chat-window {
-      width: min(650px, 94%);
-
-      margin-bottom: 25px;
-
-      border: 1px solid rgba(220,190,255,.2);
-      border-radius: 25px;
-
-      background:
-        rgba(15,10,22,.95);
-
-      box-shadow:
-        0 20px 100px rgba(0,0,0,.65);
+        rgba(255,255,255,0.08);
 
       overflow: hidden;
-
-      transform: translateY(30px);
-
-      transition: .35s ease;
     }
 
-    .chat-overlay.active .chat-window {
-      transform: translateY(0);
+
+    .progress-bar {
+
+      height: 100%;
+
+      width: 45%;
+
+      border-radius: 999px;
+
+      background:
+        rgba(150,135,255,0.75);
     }
 
-    .chat-head {
-      padding: 18px 20px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* =====================================
+       状态
+    ===================================== */
 
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
+    .status {
 
-    .chat-head-title {
-      font-size: 15px;
-    }
-
-    .close-chat {
-      width: 35px;
-      height: 35px;
-
-      border: none;
-      border-radius: 50%;
-
-      color: var(--soft);
-
-      background: rgba(255,255,255,.06);
-    }
-
-    .messages {
-      height: 260px;
+      margin-top: 25px;
 
       padding: 20px;
 
-      overflow-y: auto;
+      border-radius: 20px;
+
+      background:
+        rgba(255,255,255,0.025);
+
+      border:
+        1px solid rgba(255,255,255,0.06);
     }
 
-    .message {
-      max-width: 82%;
 
-      padding: 12px 15px;
+    .status-title {
 
-      margin-bottom: 12px;
+      font-size: 14px;
 
-      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+
+
+    .status-text {
 
       font-size: 13px;
+
+      color:
+        rgba(255,255,255,0.45);
 
       line-height: 1.7;
     }
 
-    .message.ai {
-      background: rgba(190,150,255,.08);
-      border: 1px solid rgba(190,150,255,.1);
+
+    /* =====================================
+       AI 对话窗口
+    ===================================== */
+
+    .chat-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,0.65);
+
+      backdrop-filter: blur(12px);
+
+      z-index: 100;
+
+      display: none;
+
+      align-items: flex-end;
+
+      justify-content: center;
+
+      padding: 20px;
     }
+
+
+    .chat-overlay.active {
+
+      display: flex;
+    }
+
+
+    .chat {
+
+      width: min(700px, 100%);
+
+      height: min(680px, 90vh);
+
+      border-radius: 28px;
+
+      background:
+        rgba(12,13,27,0.97);
+
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      box-shadow:
+        0 30px 100px rgba(0,0,0,0.6);
+
+      display: flex;
+
+      flex-direction: column;
+
+      overflow: hidden;
+    }
+
+
+    .chat-header {
+
+      height: 65px;
+
+      padding: 0 20px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      border-bottom:
+        1px solid rgba(255,255,255,0.07);
+    }
+
+
+    .chat-header-title {
+
+      font-size: 16px;
+    }
+
+
+    .close-chat {
+
+      width: 36px;
+
+      height: 36px;
+
+      border-radius: 50%;
+
+      border: none;
+
+      background:
+        rgba(255,255,255,0.05);
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 18px;
+    }
+
+
+    .messages {
+
+      flex: 1;
+
+      overflow-y: auto;
+
+      padding: 25px;
+    }
+
+
+    .message {
+
+      margin-bottom: 18px;
+
+      display: flex;
+    }
+
 
     .message.user {
-      margin-left: auto;
 
-      background: rgba(255,255,255,.08);
+      justify-content: flex-end;
     }
 
-    .chat-input-area {
+
+    .bubble {
+
+      max-width: 78%;
+
+      padding: 13px 16px;
+
+      border-radius: 18px;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+    }
+
+
+    .message.ai .bubble {
+
+      background:
+        rgba(255,255,255,0.06);
+
+      border:
+        1px solid rgba(255,255,255,0.06);
+    }
+
+
+    .message.user .bubble {
+
+      background:
+        rgba(110,95,220,0.7);
+    }
+
+
+    .chat-input {
+
       display: flex;
+
       gap: 10px;
 
       padding: 15px;
 
-      border-top: 1px solid rgba(255,255,255,.08);
+      border-top:
+        1px solid rgba(255,255,255,0.07);
     }
 
-    .chat-input {
+
+    .chat-input input {
+
       flex: 1;
 
-      min-width: 0;
+      height: 48px;
 
-      padding: 12px 15px;
+      border-radius: 14px;
 
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 25px;
+      border:
+        1px solid rgba(255,255,255,0.1);
+
+      background:
+        rgba(255,255,255,0.04);
+
+      color: white;
+
+      padding: 0 15px;
 
       outline: none;
 
-      background: rgba(255,255,255,.045);
-      color: white;
+      font-size: 14px;
     }
 
-    .send-button {
-      padding: 0 20px;
+
+    .chat-input input:focus {
+
+      border-color:
+        rgba(160,145,255,0.4);
+    }
+
+
+    .send {
+
+      width: 70px;
 
       border: none;
-      border-radius: 25px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(120,105,230,0.75);
 
       color: white;
 
-      background: rgba(180,140,240,.25);
+      cursor: pointer;
     }
 
-    /* =========================
+
+    /* =====================================
        响应式
-    ========================= */
+    ===================================== */
 
-    @media (max-width: 900px) {
+    @media (max-width: 850px) {
 
-      .cards {
+      .grid {
+
         grid-template-columns:
           repeat(2, 1fr);
       }
 
-      .project-area {
-        grid-template-columns: 1fr;
+      .projects {
+
+        grid-template-columns:
+          1fr;
       }
+
     }
+
 
     @media (max-width: 600px) {
 
       .topbar {
-        padding: 16px 18px;
+
+        padding: 0 18px;
       }
 
-      .main {
-        width: 92%;
-        padding-top: 40px;
+      .container {
+
+        width:
+          calc(100% - 28px);
+
+        padding-top: 35px;
       }
 
-      .little-space {
-        min-height: 390px;
-        border-radius: 25px;
+      .space-card {
+
+        min-height: 350px;
+
+        border-radius: 24px;
       }
 
-      .orbit {
-        width: 250px;
-        height: 250px;
-      }
+      .space-content {
 
-      .orbit-two {
-        width: 320px;
-        height: 150px;
+        min-height: 350px;
+
+        padding: 25px;
       }
 
       .little-me {
-        width: 105px;
-        height: 105px;
-        font-size: 42px;
+
+        width: 120px;
+
+        height: 120px;
+
+        font-size: 50px;
       }
 
-      .cards {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+      .grid {
+
+        grid-template-columns:
+          1fr;
       }
 
-      .card {
-        min-height: 135px;
-        padding: 17px;
+      .chat {
+
+        height: 90vh;
+
+        border-radius: 24px;
       }
 
-      .card-icon {
-        font-size: 22px;
-        margin-bottom: 12px;
-      }
-
-      .card-title {
-        font-size: 14px;
-      }
-
-      .card-description {
-        font-size: 11px;
-      }
     }
+
   </style>
 </head>
 
+
 <body>
 
-<div class="world">
+  <!-- 背景 -->
+
+  <div class="background"></div>
 
   <div class="stars"></div>
 
-  <!-- =========================
-       顶部
-  ========================== -->
+
+  <!-- 顶部 -->
 
   <header class="topbar">
 
-    <div class="brand">
-
-      <div class="brand-symbol">
-        ✦
-      </div>
-
-      <div class="brand-name">
-        玄境
-      </div>
-
+    <div class="logo">
+      玄境
     </div>
 
-    <div class="top-actions">
+    <div class="top-right">
 
       <button
         class="icon-button"
-        onclick="openChat()"
-        title="与玄境交流">
-        ◇
+        title="设置"
+        onclick="showMessage('设置功能将在后续版本开放')"
+      >
+        ⚙
       </button>
 
       <button
         class="icon-button"
-        onclick="showNotice('这里以后会连接你的玄境设置。')"
-        title="设置">
-        ⚙
+        title="个人空间"
+        onclick="showMessage('这是你的私人玄境')"
+      >
+        ◉
       </button>
 
     </div>
@@ -900,55 +978,62 @@
   </header>
 
 
-  <!-- =========================
-       主内容
-  ========================== -->
+  <!-- 主内容 -->
 
-  <main class="main">
+  <main class="container">
+
+
+    <!-- 欢迎 -->
 
     <section class="welcome">
 
-      <div class="welcome-small">
-        YOUR PRIVATE SPACE
-      </div>
-
-      <h1 class="welcome-title">
+      <h1>
         我的玄境
       </h1>
 
-      <p class="welcome-desc">
-        这里属于你。
+      <p>
+        这里不是一个普通的应用。
+        <br>
+        这里是属于你的数字空间。
       </p>
 
     </section>
 
 
-    <!-- =========================
-         中央空间
-    ========================== -->
+    <!-- 我的玄境 -->
 
-    <section class="little-space">
+    <section class="space-card">
 
-      <div class="orbit"></div>
-      <div class="orbit orbit-two"></div>
+      <div class="space-light"></div>
 
-      <div class="little-me-container">
+
+      <div class="space-content">
 
         <div class="little-me">
           ✦
         </div>
 
-        <div class="little-name">
+
+        <div class="space-title">
           小小的我
         </div>
 
-        <div class="little-status">
-          正在这里陪你
+
+        <div class="space-description">
+
+          一个属于你的数字化入口。
+          <br>
+
+          你的记忆、事情、世界和未来，
+          都可以慢慢来到这里。
+
         </div>
 
+
         <button
-          class="talk-button"
-          onclick="openChat()">
+          class="primary-button"
+          onclick="openChat()"
+        >
           和我聊聊
         </button>
 
@@ -957,239 +1042,227 @@
     </section>
 
 
-    <!-- =========================
-         核心功能
-    ========================== -->
+    <!-- 核心功能 -->
 
-    <div class="section-title">
-      玄境
-    </div>
+    <h2 class="section-title">
+      我的玄境
+    </h2>
 
-    <section class="cards">
+
+    <section class="grid">
+
 
       <div
         class="card"
-        onclick="openChat()">
+        onclick="openChat()"
+      >
 
         <div class="card-icon">
           ◇
         </div>
 
-        <div class="card-title">
+        <h3>
           与玄境交流
-        </div>
+        </h3>
 
-        <div class="card-description">
-          说说你正在想什么，或者告诉玄境你想解决的事情。
-        </div>
+        <p>
+          和玄境说说话，
+          思考问题、整理想法。
+        </p>
 
       </div>
 
 
       <div
         class="card"
-        onclick="showNotice('项目功能下一阶段连接 Supabase。')">
+        onclick="showMessage('事情管理即将连接 Supabase')"
+      >
 
         <div class="card-icon">
           ◎
         </div>
 
-        <div class="card-title">
+        <h3>
           我的事情
-        </div>
+        </h3>
 
-        <div class="card-description">
-          管理目标、项目、任务，让想法真正走向现实。
-        </div>
+        <p>
+          目标、项目、任务，
+          逐渐形成你的人生操作台。
+        </p>
 
       </div>
 
 
       <div
         class="card"
-        onclick="showNotice('玄忆功能下一阶段连接 Supabase。')">
+        onclick="showMessage('玄忆系统将在下一阶段连接')"
+      >
 
         <div class="card-icon">
           ✧
         </div>
 
-        <div class="card-title">
+        <h3>
           玄忆
-        </div>
+        </h3>
 
-        <div class="card-description">
-          记录你允许玄境记住的事情，并由你决定什么应该被遗忘。
-        </div>
+        <p>
+          让玄境逐渐记住
+          你真正希望留下的东西。
+        </p>
 
       </div>
 
 
       <div
         class="card"
-        onclick="showNotice('世界系统将在后续版本加入。')">
+        onclick="showMessage('世界生成器将在后续开放')"
+      >
 
         <div class="card-icon">
-          ◉
+          ◌
         </div>
 
-        <div class="card-title">
+        <h3>
           我的世界
-        </div>
+        </h3>
 
-        <div class="card-description">
-          未来可以拥有森林、星空、海洋以及属于你的平行世界。
-        </div>
+        <p>
+          创建属于你的世界，
+          未来可以不断变化和成长。
+        </p>
 
       </div>
+
 
     </section>
 
 
-    <!-- =========================
-         我的事情
-    ========================== -->
+    <!-- 我的事情 -->
 
-    <div class="section-title">
-      我的事情
-    </div>
-
-    <section class="project-area">
+    <h2 class="section-title">
+      最近的事情
+    </h2>
 
 
-      <div class="panel">
+    <section class="projects">
 
-        <div class="panel-head">
 
-          <div class="panel-title">
-            最近的事情
-          </div>
+      <div class="project">
 
-          <button
-            class="small-button"
-            onclick="showNotice('项目创建功能即将连接 Supabase。')">
-            ＋ 新建
-          </button>
-
+        <div class="project-name">
+          建立我的玄境
         </div>
 
-
-        <div class="project">
-
-          <div class="project-dot"></div>
-
-          <div>
-
-            <div class="project-name">
-              玄境 AI
-            </div>
-
-            <div class="project-info">
-              正在搭建第一阶段 · 数据库已完成
-            </div>
-
-          </div>
-
+        <div class="project-status">
+          正在进行
         </div>
 
-
-        <div class="project">
-
-          <div class="project-dot"></div>
-
-          <div>
-
-            <div class="project-name">
-              第一个玄境入口
-            </div>
-
-            <div class="project-info">
-              GitHub Pages 已发布
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="project">
+        <div class="progress">
 
           <div
-            class="project-dot"
-            style="opacity:.35;">
-          </div>
-
-          <div>
-
-            <div class="project-name">
-              我的第一个 AI
-            </div>
-
-            <div class="project-info">
-              等待开始
-            </div>
-
-          </div>
+            class="progress-bar"
+            style="width: 45%;"
+          ></div>
 
         </div>
 
       </div>
 
 
-      <!-- =========================
-           今日状态
-      ========================== -->
+      <div class="project">
 
-      <div class="panel status-box">
-
-        <div class="status-word">
-          今天
+        <div class="project-name">
+          学习 AI
         </div>
 
-        <div class="status-description">
-          你已经为玄境<br>
-          建立了第一副骨架。
-          <br><br>
-          下一步，<br>
-          让它真正开始思考。
+        <div class="project-status">
+          进行中
         </div>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar"
+            style="width: 25%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="project">
+
+        <div class="project-name">
+          我的未来计划
+        </div>
+
+        <div class="project-status">
+          尚未开始
+        </div>
+
+        <div class="progress">
+
+          <div
+            class="progress-bar"
+            style="width: 5%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- 状态 -->
+
+    <section class="status">
+
+      <div class="status-title">
+        玄境状态
+      </div>
+
+      <div class="status-text">
+
+        当前是你的私人空间。
+        <br>
+
+        玄境正在等待与你一起成长。
 
       </div>
 
     </section>
+
 
   </main>
 
 
-  <!-- =========================
-       底部
-  ========================== -->
-
-  <footer class="footer">
-
-    玄境 AI · 以人为本，以人为核心
-
-  </footer>
-
-
-  <!-- =========================
+  <!-- =====================================
        AI 对话窗口
-  ========================== -->
+  ====================================== -->
 
   <div
     class="chat-overlay"
-    id="chatOverlay">
+    id="chatOverlay"
+  >
 
-    <div class="chat-window">
+    <div class="chat">
 
-      <div class="chat-head">
 
-        <div class="chat-head-title">
-          玄境 · 与你交流
+      <div class="chat-header">
+
+        <div class="chat-header-title">
+          玄境
         </div>
 
         <button
           class="close-chat"
-          onclick="closeChat()">
+          onclick="closeChat()"
+        >
           ×
         </button>
 
@@ -1198,184 +1271,262 @@
 
       <div
         class="messages"
-        id="messages">
+        id="messages"
+      >
 
         <div class="message ai">
-          你好，我是你的玄境。
-          <br><br>
-          现在我还只是第一阶段的前端，
-          但以后，我会逐渐学习你允许我记住的东西，
-          帮你思考、分析、规划和执行。
+
+          <div class="bubble">
+
+            你好。
+
+            <br><br>
+
+            这里是你的玄境。
+
+            <br>
+
+            你可以告诉我：
+            <br>
+
+            「我现在在想什么」
+            <br>
+
+            「我最近有什么事情」
+            <br>
+
+            「我不知道该怎么办」
+            <br>
+
+            「帮我整理一下」
+
+            <br><br>
+
+            我会先理解，
+            再和你一起想办法。
+
+          </div>
+
         </div>
 
       </div>
 
 
-      <div class="chat-input-area">
+      <div class="chat-input">
 
         <input
-          id="chatInput"
-          class="chat-input"
           type="text"
-          placeholder="告诉玄境你现在想做什么……"
+          id="chatInput"
+          placeholder="告诉玄境你正在想什么……"
           onkeydown="handleEnter(event)"
         >
 
         <button
-          class="send-button"
-          onclick="sendMessage()">
+          class="send"
+          onclick="sendMessage()"
+        >
           发送
         </button>
 
       </div>
 
+
     </div>
 
   </div>
 
-</div>
+
+  <script>
 
 
-<script>
+    /* =====================================
+       打开聊天
+    ===================================== */
 
-  /* =========================
-     打开对话
-  ========================== */
-
-  function openChat() {
-
-    const overlay =
-      document.getElementById("chatOverlay");
-
-    overlay.classList.add("active");
-
-    setTimeout(() => {
+    function openChat() {
 
       document
-        .getElementById("chatInput")
-        .focus();
+        .getElementById("chatOverlay")
+        .classList
+        .add("active");
 
-    }, 300);
-  }
+      setTimeout(() => {
 
+        document
+          .getElementById("chatInput")
+          .focus();
 
-  /* =========================
-     关闭对话
-  ========================== */
+      }, 200);
 
-  function closeChat() {
-
-    document
-      .getElementById("chatOverlay")
-      .classList.remove("active");
-  }
-
-
-  /* =========================
-     发送消息
-  ========================== */
-
-  function sendMessage() {
-
-    const input =
-      document.getElementById("chatInput");
-
-    const text =
-      input.value.trim();
-
-    if (!text) {
-      return;
     }
 
-    const messages =
-      document.getElementById("messages");
+
+    /* =====================================
+       关闭聊天
+    ===================================== */
+
+    function closeChat() {
+
+      document
+        .getElementById("chatOverlay")
+        .classList
+        .remove("active");
+
+    }
 
 
-    /* 用户消息 */
+    /* =====================================
+       发送消息
+    ===================================== */
 
-    const userMessage =
-      document.createElement("div");
+    function sendMessage() {
 
-    userMessage.className =
-      "message user";
+      const input =
+        document.getElementById("chatInput");
 
-    userMessage.textContent =
-      text;
-
-    messages.appendChild(userMessage);
-
-
-    input.value = "";
+      const text =
+        input.value.trim();
 
 
-    /* 当前只是模拟回复 */
+      if (!text) {
 
-    setTimeout(() => {
+        return;
 
-      const aiMessage =
+      }
+
+
+      const messages =
+        document.getElementById("messages");
+
+
+      /* 用户消息 */
+
+      const userMessage =
         document.createElement("div");
 
-      aiMessage.className =
-        "message ai";
+      userMessage.className =
+        "message user";
 
-      aiMessage.textContent =
-        "我已经听到了。真正的 AI 思考能力将在下一阶段接入。现在我们先把玄境的空间和基础结构建立起来。";
 
-      messages.appendChild(aiMessage);
+      const userBubble =
+        document.createElement("div");
+
+      userBubble.className =
+        "bubble";
+
+      userBubble.textContent =
+        text;
+
+
+      userMessage.appendChild(
+        userBubble
+      );
+
+
+      messages.appendChild(
+        userMessage
+      );
+
+
+      input.value = "";
+
 
       messages.scrollTop =
         messages.scrollHeight;
 
-    }, 700);
+
+      /* =================================
+         目前是演示回复
+         后面会连接真正 AI
+      ================================= */
+
+      setTimeout(() => {
+
+        const aiMessage =
+          document.createElement("div");
+
+        aiMessage.className =
+          "message ai";
 
 
-    messages.scrollTop =
-      messages.scrollHeight;
-  }
+        const aiBubble =
+          document.createElement("div");
+
+        aiBubble.className =
+          "bubble";
 
 
-  /* =========================
-     Enter 发送
-  ========================== */
+        aiBubble.textContent =
+          "我收到了。现在的玄境还只是第一副骨架，下一步我会真正连接记忆、事情和 AI，让这里慢慢成为一个真正属于你的空间。";
 
-  function handleEnter(event) {
 
-    if (event.key === "Enter") {
+        aiMessage.appendChild(
+          aiBubble
+        );
 
-      sendMessage();
+
+        messages.appendChild(
+          aiMessage
+        );
+
+
+        messages.scrollTop =
+          messages.scrollHeight;
+
+      }, 600);
 
     }
-  }
 
 
-  /* =========================
-     提示
-  ========================== */
+    /* =====================================
+       Enter 发送
+    ===================================== */
 
-  function showNotice(text) {
+    function handleEnter(event) {
 
-    alert(text);
+      if (event.key === "Enter") {
 
-  }
-
-
-  /* =========================
-     点击遮罩关闭
-  ========================== */
-
-  document
-    .getElementById("chatOverlay")
-    .addEventListener("click", function(event) {
-
-      if (event.target === this) {
-
-        closeChat();
+        sendMessage();
 
       }
 
-    });
+    }
 
-</script>
+
+    /* =====================================
+       普通提示
+    ===================================== */
+
+    function showMessage(text) {
+
+      alert(text);
+
+    }
+
+
+    /* =====================================
+       点击黑色区域关闭聊天
+    ===================================== */
+
+    document
+      .getElementById("chatOverlay")
+      .addEventListener(
+        "click",
+        function(event) {
+
+          if (
+            event.target === this
+          ) {
+
+            closeChat();
+
+          }
+
+        }
+      );
+
+
+  </script>
 
 </body>
 </html>
