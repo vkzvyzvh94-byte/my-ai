@@ -1,1106 +1,1155 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>玄境 AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玄境 AI｜Home</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<script src="config.js"></script>
 
-    body {
-      min-height: 100vh;
-      font-family:
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(126, 76, 255, .18), transparent 30%),
+        radial-gradient(circle at 20% 70%, rgba(91, 42, 180, .12), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(170, 80, 255, .10), transparent 25%),
+        #05030b;
+    color: #fff;
+    font-family:
         -apple-system,
         BlinkMacSystemFont,
-        "PingFang SC",
-        "Microsoft YaHei",
+        "PingFang TC",
+        "Noto Sans TC",
         sans-serif;
-      color: #eee;
-      background:
-        radial-gradient(circle at 50% 30%, #252044 0%, #100e20 42%, #05050b 100%);
-      overflow-x: hidden;
-    }
+    overflow-y: auto;
+    position: relative;
+}
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px),
-        radial-gradient(circle, rgba(170,150,255,.5) 1px, transparent 1px);
-      background-size: 90px 90px, 150px 150px;
-      background-position: 10px 20px, 50px 80px;
-      opacity: .18;
+/* =========================
+   紫色星光
+========================= */
+
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(210, 180, 255, .9);
+    box-shadow:
+        0 0 5px rgba(177, 110, 255, .9),
+        0 0 12px rgba(137, 73, 255, .5);
+    animation: twinkle var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+.star.big {
+    width: 3px;
+    height: 3px;
+    box-shadow:
+        0 0 7px rgba(226, 201, 255, 1),
+        0 0 18px rgba(151, 86, 255, .8),
+        0 0 30px rgba(108, 49, 255, .35);
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: .18;
+        transform: scale(.7);
     }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+/* =========================
+   星雲
+========================= */
+
+.nebula {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(70px);
+    opacity: .16;
+}
+
+.nebula.one {
+    background: #713cff;
+    top: 5%;
+    left: -140px;
+    animation: floatOne 15s ease-in-out infinite alternate;
+}
+
+.nebula.two {
+    background: #a34dff;
+    right: -160px;
+    top: 30%;
+    animation: floatTwo 18s ease-in-out infinite alternate;
+}
+
+.nebula.three {
+    background: #4920a5;
+    left: 25%;
+    bottom: -220px;
+    animation: floatThree 20s ease-in-out infinite alternate;
+}
+
+@keyframes floatOne {
+    from { transform: translate(0, 0); }
+    to { transform: translate(80px, 60px); }
+}
+
+@keyframes floatTwo {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-70px, -40px); }
+}
+
+@keyframes floatThree {
+    from { transform: translate(0, 0); }
+    to { transform: translate(40px, -60px); }
+}
+
+/* =========================
+   頂部
+========================= */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    width: 100%;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 20px;
+
+    background: rgba(5, 3, 11, .62);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(177, 116, 255, .12);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+
+    border: 1px solid rgba(202, 165, 255, .65);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 15px rgba(130, 72, 255, .35),
+        inset 0 0 12px rgba(130, 72, 255, .15);
+}
+
+.brand-mark::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #c59aff;
+    box-shadow: 0 0 12px #9b5cff;
+}
+
+.brand-title {
+    font-size: 18px;
+    letter-spacing: 4px;
+}
+
+.brand-sub {
+    font-size: 9px;
+    color: rgba(220, 205, 240, .48);
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+
+/* =========================
+   圖示按鈕
+========================= */
+
+.icon-btn {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(194, 158, 255, .22);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.025);
+    color: #ddd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: .25s;
+}
+
+.icon-btn:hover {
+    border-color: rgba(194, 158, 255, .6);
+    box-shadow: 0 0 18px rgba(126, 65, 255, .25);
+}
+
+.icon-btn svg {
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* =========================
+   主內容
+========================= */
+
+.container {
+    position: relative;
+    z-index: 2;
+
+    width: min(1080px, calc(100% - 32px));
+    margin: 0 auto;
+
+    padding: 42px 0 80px;
+}
+
+/* =========================
+   歡迎
+========================= */
+
+.welcome {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.welcome .small {
+    color: rgba(216, 195, 240, .58);
+    font-size: 12px;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.welcome h1 {
+    font-size: clamp(30px, 8vw, 52px);
+    font-weight: 300;
+    letter-spacing: 10px;
+
+    text-shadow:
+        0 0 20px rgba(157, 91, 255, .45),
+        0 0 55px rgba(109, 48, 255, .18);
+}
+
+.welcome p {
+    margin-top: 14px;
+    color: rgba(225, 216, 235, .62);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =========================
+   中央玄境
+========================= */
+
+.core {
+    position: relative;
+
+    width: min(620px, 100%);
+    min-height: 360px;
+
+    margin: 0 auto 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orbit {
+    position: absolute;
+
+    width: min(330px, 70vw);
+    height: min(330px, 70vw);
+
+    border: 1px solid rgba(177, 119, 255, .18);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 50px rgba(112, 54, 255, .08),
+        inset 0 0 50px rgba(112, 54, 255, .05);
+
+    animation: orbitRotate 25s linear infinite;
+}
+
+.orbit::before,
+.orbit::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+}
+
+.orbit::before {
+    width: 7px;
+    height: 7px;
+    background: #d2b2ff;
+    box-shadow: 0 0 18px #a56aff;
+    top: 7%;
+    left: 27%;
+}
+
+.orbit::after {
+    width: 4px;
+    height: 4px;
+    background: #a878ff;
+    box-shadow: 0 0 15px #8b4fff;
+    bottom: 15%;
+    right: 18%;
+}
+
+@keyframes orbitRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.core-glow {
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    border-radius: 50%;
+
+    background: rgba(114, 53, 255, .10);
+    filter: blur(30px);
+
+    animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(.92);
+        opacity: .45;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: .85;
+    }
+}
+
+.core-center {
+    position: relative;
+    z-index: 2;
+
+    width: 150px;
+    height: 150px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(circle,
+        rgba(174, 116, 255, .30),
+        rgba(56, 24, 110, .16) 48%,
+        rgba(5, 3, 11, .3) 72%);
+
+    border: 1px solid rgba(213, 183, 255, .35);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 35px rgba(128, 66, 255, .25),
+        inset 0 0 30px rgba(160, 100, 255, .12);
+}
+
+.core-center .little {
+    font-size: 12px;
+    color: rgba(225, 207, 248, .65);
+    letter-spacing: 3px;
+    margin-bottom: 9px;
+}
+
+.core-center strong {
+    font-size: 27px;
+    font-weight: 300;
+    letter-spacing: 7px;
+
+    text-shadow:
+        0 0 18px rgba(190, 143, 255, .7);
+}
+
+.core-center span {
+    margin-top: 8px;
+    font-size: 10px;
+    color: rgba(215, 195, 240, .42);
+    letter-spacing: 2px;
+}
+
+/* =========================
+   AI入口
+========================= */
+
+.ai-entry {
+    width: min(720px, 100%);
+    margin: 0 auto 30px;
+
+    padding: 21px 22px;
+
+    border: 1px solid rgba(181, 125, 255, .20);
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(113, 55, 200, .12),
+            rgba(255,255,255,.025)
+        );
+
+    backdrop-filter: blur(14px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    cursor: pointer;
+    transition: .25s;
+}
+
+.ai-entry:hover {
+    transform: translateY(-2px);
+    border-color: rgba(193, 150, 255, .42);
+    box-shadow: 0 10px 40px rgba(86, 39, 180, .15);
+}
+
+.ai-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ai-symbol {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(205, 170, 255, .35);
+
+    box-shadow: 0 0 22px rgba(126, 65, 255, .20);
+}
+
+.ai-symbol svg {
+    width: 21px;
+    height: 21px;
+    stroke: #d5bbff;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ai-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.ai-text span {
+    display: block;
+    margin-top: 5px;
+    color: rgba(220, 207, 235, .5);
+    font-size: 11px;
+}
+
+.arrow {
+    color: rgba(218, 192, 255, .55);
+    font-size: 24px;
+}
+
+/* =========================
+   功能區
+========================= */
+
+.section-title {
+    text-align: center;
+    margin: 42px 0 18px;
+}
+
+.section-title h2 {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 4px;
+}
+
+.section-title p {
+    font-size: 10px;
+    color: rgba(220, 205, 235, .4);
+    margin-top: 7px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 13px;
+}
+
+.card {
+    min-height: 155px;
+
+    border: 1px solid rgba(184, 139, 240, .15);
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(108, 55, 177, .045)
+        );
+
+    padding: 21px 17px;
+
+    cursor: pointer;
+    transition: .28s;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: rgba(125, 69, 240, .09);
+    filter: blur(25px);
+
+    right: -35px;
+    bottom: -35px;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(197, 161, 255, .38);
+    box-shadow: 0 12px 35px rgba(90, 39, 170, .13);
+}
+
+.card-icon {
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid rgba(198, 163, 255, .25);
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 17px;
+}
+
+.card-icon svg {
+    width: 18px;
+    height: 18px;
+
+    stroke: #cdb0f8;
+    fill: none;
+    stroke-width: 1.45;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.card h3 {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.card p {
+    font-size: 10px;
+    color: rgba(219, 205, 232, .46);
+    line-height: 1.7;
+    margin-top: 8px;
+}
+
+/* =========================
+   底部
+========================= */
+
+.bottom {
+    text-align: center;
+    padding: 45px 0 20px;
+}
+
+.bottom p {
+    color: rgba(212, 198, 229, .28);
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.settings-link {
+    margin-top: 17px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: rgba(221, 203, 245, .48);
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.settings-link svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.4;
+}
+
+/* =========================
+   手機
+========================= */
+
+@media (max-width: 700px) {
 
     .topbar {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 30px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(5,5,12,.42);
-      backdrop-filter: blur(16px);
-      position: relative;
-      z-index: 5;
-    }
-
-    .logo {
-      font-size: 24px;
-      letter-spacing: 5px;
-      font-weight: 500;
-    }
-
-    .top-status {
-      font-size: 13px;
-      color: #aaa4c7;
+        padding: 13px 15px;
     }
 
     .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 45px 0 70px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .welcome {
-      text-align: center;
-      margin-bottom: 42px;
+        width: calc(100% - 24px);
+        padding-top: 34px;
     }
 
     .welcome h1 {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 400;
-      letter-spacing: 10px;
-      margin-bottom: 14px;
+        letter-spacing: 7px;
     }
 
-    .welcome p {
-      color: #aaa4c7;
-      font-size: 15px;
+    .core {
+        min-height: 310px;
     }
 
-    .main-space {
-      min-height: 430px;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at center, rgba(108,86,180,.15), transparent 45%),
-        rgba(10,9,20,.65);
-      box-shadow:
-        0 30px 90px rgba(0,0,0,.45),
-        inset 0 0 80px rgba(150,120,255,.04);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+    .orbit {
+        width: 270px;
+        height: 270px;
     }
 
-    .main-space::before {
-      content: "";
-      position: absolute;
-      width: 360px;
-      height: 360px;
-      border-radius: 50%;
-      border: 1px solid rgba(180,160,255,.12);
-      box-shadow:
-        0 0 80px rgba(120,90,220,.08),
-        inset 0 0 80px rgba(120,90,220,.05);
+    .core-center {
+        width: 130px;
+        height: 130px;
     }
 
-    .avatar {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
-      background:
-        radial-gradient(circle at 35% 30%, #7168a6, #292343 55%, #100e1c);
-      border: 1px solid rgba(220,210,255,.22);
-      box-shadow:
-        0 0 50px rgba(130,110,240,.2),
-        inset 0 0 30px rgba(255,255,255,.04);
-      position: relative;
-      z-index: 2;
-      margin-bottom: 24px;
+    .core-center strong {
+        font-size: 23px;
     }
 
-    .avatar.active {
-      animation: breathe 2.2s ease-in-out infinite;
-    }
-
-    @keyframes breathe {
-      0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 50px rgba(130,110,240,.2);
-      }
-
-      50% {
-        transform: scale(1.045);
-        box-shadow: 0 0 75px rgba(150,120,255,.38);
-      }
-    }
-
-    .little-title {
-      position: relative;
-      z-index: 2;
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-
-    .little-subtitle {
-      position: relative;
-      z-index: 2;
-      color: #8f89aa;
-      font-size: 13px;
-      margin-bottom: 25px;
-    }
-
-    .primary-btn {
-      position: relative;
-      z-index: 2;
-      border: 1px solid rgba(220,210,255,.2);
-      border-radius: 999px;
-      padding: 13px 30px;
-      color: #fff;
-      background: rgba(100,85,170,.2);
-      cursor: pointer;
-      font-size: 14px;
-      transition: .25s;
-      backdrop-filter: blur(10px);
-    }
-
-    .primary-btn:hover {
-      background: rgba(130,110,210,.32);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 35px rgba(100,80,180,.2);
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 20px;
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
 
     .card {
-      min-height: 150px;
-      padding: 25px;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 20px;
-      background: rgba(12,11,24,.65);
-      cursor: pointer;
-      transition: .25s;
+        min-height: 145px;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(190,170,255,.22);
-      background: rgba(22,19,40,.75);
+    .ai-entry {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 390px) {
+
+    .brand-sub {
+        display: none;
     }
 
-    .card-icon {
-      font-size: 27px;
-      margin-bottom: 16px;
+    .welcome h1 {
+        font-size: 29px;
+        letter-spacing: 6px;
     }
 
-    .card h3 {
-      font-size: 16px;
-      font-weight: 500;
-      margin-bottom: 8px;
+    .core {
+        min-height: 285px;
     }
 
-    .card p {
-      color: #858098;
-      font-size: 12px;
-      line-height: 1.7;
+    .orbit {
+        width: 245px;
+        height: 245px;
     }
-
-    .section {
-      margin-top: 45px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 400;
-      margin-bottom: 16px;
-    }
-
-    .project-box {
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 18px;
-      padding: 24px;
-      background: rgba(10,9,20,.55);
-      color: #88839b;
-      font-size: 14px;
-    }
-
-    .status {
-      margin-top: 20px;
-      padding: 18px 22px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.07);
-      background: rgba(7,7,14,.45);
-      color: #77728b;
-      font-size: 12px;
-    }
-
-    /* =========================
-       CHAT
-    ========================= */
-
-    .chat-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(2,2,7,.72);
-      backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 100;
-    }
-
-    .chat-overlay.show {
-      display: flex;
-    }
-
-    .chat-window {
-      width: min(760px, 100%);
-      height: min(720px, 92vh);
-      border-radius: 25px;
-      border: 1px solid rgba(255,255,255,.12);
-      background:
-        linear-gradient(
-          180deg,
-          rgba(24,21,43,.97),
-          rgba(8,8,17,.98)
-        );
-      box-shadow: 0 35px 100px rgba(0,0,0,.65);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .chat-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #8d82d8;
-      box-shadow: 0 0 14px #8d82d8;
-    }
-
-    .chat-title span {
-      font-size: 16px;
-    }
-
-    .close-btn {
-      border: 0;
-      background: transparent;
-      color: #9993ae;
-      font-size: 26px;
-      cursor: pointer;
-    }
-
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .message {
-      max-width: 82%;
-      padding: 14px 17px;
-      border-radius: 17px;
-      line-height: 1.7;
-      font-size: 14px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .message.ai {
-      align-self: flex-start;
-      background: rgba(55,49,83,.65);
-      border: 1px solid rgba(255,255,255,.07);
-      color: #eee;
-      border-bottom-left-radius: 5px;
-    }
-
-    .message.user {
-      align-self: flex-end;
-      background: rgba(100,82,170,.38);
-      border: 1px solid rgba(190,170,255,.12);
-      color: #fff;
-      border-bottom-right-radius: 5px;
-    }
-
-    .typing {
-      display: none;
-      align-self: flex-start;
-      color: #8f89aa;
-      font-size: 13px;
-      padding: 4px 5px;
-    }
-
-    .typing.show {
-      display: block;
-    }
-
-    .chat-input-area {
-      padding: 15px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      background: rgba(5,5,11,.55);
-    }
-
-    .chat-input-wrap {
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-    }
-
-    .chat-input {
-      flex: 1;
-      min-height: 48px;
-      max-height: 140px;
-      resize: none;
-      border-radius: 15px;
-      border: 1px solid rgba(255,255,255,.1);
-      outline: none;
-      background: rgba(20,18,34,.85);
-      color: #fff;
-      padding: 13px 15px;
-      font-size: 14px;
-      font-family: inherit;
-    }
-
-    .chat-input:focus {
-      border-color: rgba(170,150,255,.35);
-    }
-
-    .send-btn {
-      width: 48px;
-      height: 48px;
-      border: 0;
-      border-radius: 15px;
-      background: rgba(110,92,185,.55);
-      color: white;
-      cursor: pointer;
-      font-size: 19px;
-      transition: .2s;
-    }
-
-    .send-btn:hover {
-      background: rgba(130,110,210,.72);
-    }
-
-    .send-btn:disabled {
-      opacity: .4;
-      cursor: not-allowed;
-    }
-
-    .hint {
-      margin-top: 8px;
-      color: #656073;
-      font-size: 11px;
-      text-align: center;
-    }
-
-    @media (max-width: 850px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 560px) {
-      .topbar {
-        padding: 0 18px;
-      }
-
-      .container {
-        width: min(100% - 20px, 1180px);
-        padding-top: 30px;
-      }
-
-      .main-space {
-        min-height: 390px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .message {
-        max-width: 90%;
-      }
-
-      .chat-window {
-        height: 94vh;
-        border-radius: 20px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================
-       TOP
-  ========================== -->
+<!-- 紫色星光 -->
+<div id="stars"></div>
 
-  <header class="topbar">
-    <div class="logo">玄境</div>
-    <div class="top-status">你的私人数字空间</div>
-  </header>
+<!-- 紫色星雲 -->
+<div class="nebula one"></div>
+<div class="nebula two"></div>
+<div class="nebula three"></div>
 
-  <!-- =========================
-       MAIN
-  ========================== -->
+<!-- =========================
+     頂部
+========================= -->
 
-  <main class="container">
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brand-mark"></div>
+
+        <div>
+            <div class="brand-title">玄境</div>
+            <div class="brand-sub">YOUR PRIVATE SPACE</div>
+        </div>
+
+    </div>
+
+    <button class="icon-btn" id="voiceBtn" aria-label="語音">
+
+        <svg viewBox="0 0 24 24">
+            <path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+            <path d="M12 18v3"/>
+            <path d="M8 21h8"/>
+        </svg>
+
+    </button>
+
+</header>
+
+
+<main class="container">
+
+    <!-- 歡迎 -->
 
     <section class="welcome">
-      <h1>我的玄境</h1>
-      <p>这里属于你。</p>
-    </section>
 
-    <section class="main-space">
+        <div class="small">WELCOME TO YOUR SPACE</div>
 
-      <div class="avatar" id="avatar">
-        ✦
-      </div>
+        <h1>玄境</h1>
 
-      <div class="little-title">
-        小小的我
-      </div>
-
-      <div class="little-subtitle" id="aiStatus">
-        正在等待与你相遇
-      </div>
-
-      <button
-        class="primary-btn"
-        id="openChatBtn"
-      >
-        和我聊聊
-      </button>
+        <p>
+            這裡不是世界給你的答案。<br>
+            這裡，是屬於你的空間。
+        </p>
 
     </section>
 
-    <!-- =========================
-         CARDS
-    ========================== -->
 
-    <section class="cards">
+    <!-- 中央核心 -->
 
-      <div class="card" id="chatCard">
-        <div class="card-icon">💬</div>
-        <h3>与玄境交流</h3>
-        <p>和你的 AI 说说话，想事情，问问题。</p>
-      </div>
+    <section class="core">
 
-      <div class="card">
-        <div class="card-icon">◈</div>
-        <h3>我的事情</h3>
-        <p>查看正在进行的事情、目标和任务。</p>
-      </div>
+        <div class="orbit"></div>
 
-      <div class="card">
-        <div class="card-icon">✧</div>
-        <h3>玄忆</h3>
-        <p>属于你的记忆与长期信息。</p>
-      </div>
+        <div class="core-glow"></div>
 
-      <div class="card">
-        <div class="card-icon">🌌</div>
-        <h3>我的世界</h3>
-        <p>探索属于你的数字世界。</p>
-      </div>
+        <div class="core-center">
+
+            <div class="little">小小的我</div>
+
+            <strong>玄境</strong>
+
+            <span>你的私人世界</span>
+
+        </div>
 
     </section>
 
-    <!-- =========================
-         PROJECT
-    ========================== -->
 
-    <section class="section">
-      <div class="section-title">
-        最近的事情
-      </div>
+    <!-- AI -->
 
-      <div class="project-box">
-        目前还没有建立项目。
-        <br />
-        <br />
-        以后这里会成为你的「人生操作台」。
-      </div>
-    </section>
+    <div class="ai-entry" onclick="openPage('chat.html')">
 
-    <div class="status" id="systemStatus">
-      玄境 AI：正在连接……
-    </div>
+        <div class="ai-left">
 
-  </main>
+            <div class="ai-symbol">
 
-  <!-- =========================
-       CHAT
-  ========================== -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3a8 8 0 0 0-8 8v3a3 3 0 0 0 3 3h1"/>
+                    <path d="M12 3a8 8 0 0 1 8 8v3a3 3 0 0 1-3 3h-1"/>
+                    <path d="M8 14v2a4 4 0 0 0 8 0v-2"/>
+                    <path d="M10 21h4"/>
+                </svg>
 
-  <div class="chat-overlay" id="chatOverlay">
+            </div>
 
-    <div class="chat-window">
+            <div class="ai-text">
 
-      <div class="chat-header">
+                <strong>與玄境 AI 交流</strong>
 
-        <div class="chat-title">
-          <div class="chat-dot"></div>
-          <span>玄境 AI</span>
-        </div>
+                <span>
+                    說出你的事情、想法、問題，讓玄境陪你一起想。
+                </span>
 
-        <button
-          class="close-btn"
-          id="closeChatBtn"
-          aria-label="关闭"
-        >
-          ×
-        </button>
-
-      </div>
-
-      <div
-        class="messages"
-        id="messages"
-      >
-
-        <div class="message ai">
-          你好，我是玄境里的 AI。
-          你可以直接告诉我你现在想做什么。
-        </div>
-
-        <div
-          class="typing"
-          id="typing"
-        >
-          玄境正在思考……
-        </div>
-
-      </div>
-
-      <div class="chat-input-area">
-
-        <div class="chat-input-wrap">
-
-          <textarea
-            id="chatInput"
-            class="chat-input"
-            placeholder="告诉玄境你在想什么……"
-            rows="1"
-          ></textarea>
-
-          <button
-            id="sendBtn"
-            class="send-btn"
-            title="发送"
-          >
-            ↑
-          </button>
+            </div>
 
         </div>
 
-        <div class="hint">
-          Enter 发送 · Shift + Enter 换行
-        </div>
-
-      </div>
+        <div class="arrow">›</div>
 
     </div>
 
-  </div>
+
+    <!-- 功能 -->
+
+    <div class="section-title">
+
+        <h2>你的玄境</h2>
+
+        <p>從這裡進入你的不同空間</p>
+
+    </div>
 
 
-  <script>
-    /*
-     * =========================================================
-     * 玄境 AI
-     * Supabase Edge Function
-     * ai-chat
-     * =========================================================
-     */
+    <section class="grid">
 
-    // ---------------------------------------------------------
-    // ① 你的 Supabase 项目地址
-    // ---------------------------------------------------------
+        <!-- Chat -->
 
-    const SUPABASE_URL =
-      "https://zuypaeagxjezlqdppvnm.supabase.co";
+        <div class="card" onclick="openPage('chat.html')">
 
+            <div class="card-icon">
 
-    // ---------------------------------------------------------
-    // ② Supabase 前端公开 Key
-    //
-    // 注意：
-    // 这里放的是 anon / publishable key。
-    //
-    // 绝对不要放：
-    // AIVAULT_API_KEY
-    // GEMINI_API_KEY
-    // GROQ_API_KEY
-    // ---------------------------------------------------------
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 5h14v10H9l-4 4V5Z"/>
+                    <path d="M8 9h8"/>
+                    <path d="M8 12h5"/>
+                </svg>
 
-    const SUPABASE_ANON_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp1eXBhZWFneGplemxxZHBwdm5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0OTM0ODcsImV4cCI6MjEwMzA2OTQ4N30.yWsm8xlOOCdSBQqleH147U1JTv3kX7vCIPJuqR-or3Y";
+            </div>
+
+            <h3>交流</h3>
+
+            <p>
+                和玄境 AI 說話、思考、整理你的想法。
+            </p>
+
+        </div>
 
 
-    // ---------------------------------------------------------
-    // ③ 玄境 AI Function
-    // ---------------------------------------------------------
+        <!-- Life -->
 
-    const AI_FUNCTION_URL =
-      SUPABASE_URL + "/functions/v1/ai-chat";
+        <div class="card" onclick="openPage('life.html')">
 
+            <div class="card-icon">
 
-    // ---------------------------------------------------------
-    // DOM
-    // ---------------------------------------------------------
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6h16"/>
+                    <path d="M4 12h16"/>
+                    <path d="M4 18h10"/>
+                    <circle cx="18" cy="18" r="2"/>
+                </svg>
 
-    const openChatBtn =
-      document.getElementById("openChatBtn");
+            </div>
 
-    const chatCard =
-      document.getElementById("chatCard");
+            <h3>我的事情</h3>
 
-    const closeChatBtn =
-      document.getElementById("closeChatBtn");
+            <p>
+                整理生活、工作、計畫與正在面對的事情。
+            </p>
 
-    const chatOverlay =
-      document.getElementById("chatOverlay");
-
-    const chatInput =
-      document.getElementById("chatInput");
-
-    const sendBtn =
-      document.getElementById("sendBtn");
-
-    const messages =
-      document.getElementById("messages");
-
-    const typing =
-      document.getElementById("typing");
-
-    const avatar =
-      document.getElementById("avatar");
-
-    const aiStatus =
-      document.getElementById("aiStatus");
-
-    const systemStatus =
-      document.getElementById("systemStatus");
+        </div>
 
 
-    // ---------------------------------------------------------
-    // 对话历史
-    // ---------------------------------------------------------
+        <!-- Memory -->
 
-    const conversationHistory = [];
+        <div class="card" onclick="openPage('memory.html')">
 
+            <div class="card-icon">
 
-    // ---------------------------------------------------------
-    // 打开聊天
-    // ---------------------------------------------------------
+                <svg viewBox="0 0 24 24">
+                    <path d="M5 5h14v14H5z"/>
+                    <path d="M8 9h8"/>
+                    <path d="M8 12h6"/>
+                    <path d="M8 15h4"/>
+                </svg>
 
-    function openChat() {
-      chatOverlay.classList.add("show");
+            </div>
 
-      setTimeout(() => {
-        chatInput.focus();
-      }, 100);
-    }
+            <h3>玄憶</h3>
 
+            <p>
+                由你決定保存的事情，成為屬於你的記憶。
+            </p>
 
-    // ---------------------------------------------------------
-    // 关闭聊天
-    // ---------------------------------------------------------
-
-    function closeChat() {
-      chatOverlay.classList.remove("show");
-    }
+        </div>
 
 
-    openChatBtn.addEventListener(
-      "click",
-      openChat
+        <!-- World -->
+
+        <div class="card" onclick="openPage('world.html')">
+
+            <div class="card-icon">
+
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M4 12h16"/>
+                    <path d="M12 4c2 2.2 3 5 3 8s-1 5.8-3 8"/>
+                    <path d="M12 4c-2 2.2-3 5-3 8s1 5.8 3 8"/>
+                </svg>
+
+            </div>
+
+            <h3>我的世界</h3>
+
+            <p>
+                創造屬於你的世界、場景與想像。
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 底部 -->
+
+    <footer class="bottom">
+
+        <p>
+            AI 是內核 · 玄境是空間 · 小小的我是交互載體 · 世界是表達方式
+        </p>
+
+        <div class="settings-link" onclick="openPage('settings.html')">
+
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.2-2-3.4-2.2 1a8 8 0 0 0-2-1.2L14.5 3h-4l-.3 2.2a8 8 0 0 0-2 1.2L6 6.2 4 9.6l2 1.2A7 7 0 0 0 6 12c0 .4 0 .8.1 1.2l-2 1.2 2 3.4 2.2-1a8 8 0 0 0 2 1.2L10.5 21h4l.3-2.2a8 8 0 0 0 2-1.2l2.2 1 2-3.4-2-1.2c.1-.4.1-.8.1-1.2Z"/>
+            </svg>
+
+            玄境設置
+
+        </div>
+
+    </footer>
+
+</main>
+
+
+<script>
+
+/* =========================
+   產生紫色星光
+========================= */
+
+const stars = document.getElementById("stars");
+
+const starCount = window.innerWidth < 600 ? 75 : 120;
+
+for (let i = 0; i < starCount; i++) {
+
+    const star = document.createElement("div");
+
+    star.className =
+        Math.random() > 0.92
+            ? "star big"
+            : "star";
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    star.style.setProperty(
+        "--duration",
+        (2.5 + Math.random() * 5) + "s"
     );
 
-    chatCard.addEventListener(
-      "click",
-      openChat
+    star.style.setProperty(
+        "--delay",
+        (-Math.random() * 5) + "s"
     );
 
-    closeChatBtn.addEventListener(
-      "click",
-      closeChat
-    );
+    stars.appendChild(star);
+}
 
 
-    // 点击黑色背景关闭
-    chatOverlay.addEventListener(
-      "click",
-      (event) => {
+/* =========================
+   頁面跳轉
+========================= */
 
-        if (event.target === chatOverlay) {
-          closeChat();
-        }
-
-      }
-    );
+function openPage(page) {
+    window.location.href = page;
+}
 
 
-    // ---------------------------------------------------------
-    // 添加消息
-    // ---------------------------------------------------------
+/* =========================
+   語音
+========================= */
 
-    function addMessage(
-      content,
-      role
-    ) {
+const voiceBtn = document.getElementById("voiceBtn");
 
-      const message =
-        document.createElement("div");
+let recognition = null;
 
-      message.className =
-        "message " + role;
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-      message.textContent =
-        content;
+if (SpeechRecognition) {
 
-      messages.insertBefore(
-        message,
-        typing
-      );
+    recognition = new SpeechRecognition();
 
-      messages.scrollTop =
-        messages.scrollHeight;
-    }
+    recognition.lang = "zh-TW";
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
+    recognition.onstart = function () {
 
-    // ---------------------------------------------------------
-    // AI 正在思考
-    // ---------------------------------------------------------
+        voiceBtn.style.borderColor =
+            "rgba(202,165,255,.75)";
 
-    function setThinking(
-      thinking
-    ) {
+        voiceBtn.style.boxShadow =
+            "0 0 25px rgba(126,65,255,.45)";
 
-      if (thinking) {
+    };
 
-        typing.classList.add("show");
+    recognition.onend = function () {
 
-        avatar.classList.add("active");
+        voiceBtn.style.borderColor =
+            "rgba(194,158,255,.22)";
 
-        aiStatus.textContent =
-          "正在思考……";
+        voiceBtn.style.boxShadow = "none";
 
-      } else {
+    };
 
-        typing.classList.remove("show");
+    recognition.onresult = function (event) {
 
-        avatar.classList.remove("active");
+        const text =
+            event.results[0][0].transcript;
 
-        aiStatus.textContent =
-          "我在这里";
+        if (!text) return;
 
-      }
-
-      messages.scrollTop =
-        messages.scrollHeight;
-    }
-
-
-    // ---------------------------------------------------------
-    // 调用玄境 ai-chat
-    // ---------------------------------------------------------
-
-    async function callAI(
-      userMessage
-    ) {
-
-      const response =
-        await fetch(
-          AI_FUNCTION_URL,
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              "apikey":
-                SUPABASE_ANON_KEY,
-
-              "Authorization":
-                "Bearer " +
-                SUPABASE_ANON_KEY
-            },
-
-            body: JSON.stringify({
-
-              message:
-                userMessage,
-
-              messages:
-                conversationHistory
-
-            })
-          }
+        sessionStorage.setItem(
+            "xuanjing_pending_message",
+            text
         );
 
+        openPage("chat.html");
 
-      const data =
-        await response.json();
+    };
 
+}
 
-      if (!response.ok) {
+voiceBtn.addEventListener("click", function () {
 
-        throw new Error(
-          data?.error ||
-          data?.details ||
-          "AI 请求失败"
-        );
+    if (!recognition) {
 
-      }
+        alert("目前瀏覽器不支援語音輸入。");
 
-
-      if (
-        data?.success === false
-      ) {
-
-        throw new Error(
-          data?.error ||
-          "AI 服务返回失败"
-        );
-
-      }
-
-
-      return (
-        data?.answer ||
-        data?.data?.content ||
-        data?.content ||
-        "AI 没有返回内容。"
-      );
-
-    }
-
-
-    // ---------------------------------------------------------
-    // 发送消息
-    // ---------------------------------------------------------
-
-    async function sendMessage() {
-
-      const text =
-        chatInput.value.trim();
-
-
-      if (!text) {
         return;
-      }
-
-
-      // 防止重复发送
-      sendBtn.disabled =
-        true;
-
-      chatInput.disabled =
-        true;
-
-
-      // 显示用户消息
-      addMessage(
-        text,
-        "user"
-      );
-
-
-      // 清空输入框
-      chatInput.value = "";
-
-
-      // 加入历史
-      conversationHistory.push({
-        role: "user",
-        content: text
-      });
-
-
-      // AI 思考
-      setThinking(true);
-
-
-      try {
-
-        const answer =
-          await callAI(text);
-
-
-        addMessage(
-          answer,
-          "ai"
-        );
-
-
-        // 加入 AI 历史
-        conversationHistory.push({
-          role: "assistant",
-          content: answer
-        });
-
-
-        systemStatus.textContent =
-          "玄境 AI：连接正常";
-
-
-      } catch (error) {
-
-        console.error(
-          "玄境 AI Error:",
-          error
-        );
-
-
-        addMessage(
-          "暂时无法连接玄境 AI。\n\n" +
-          "错误信息：" +
-          error.message,
-          "ai"
-        );
-
-
-        systemStatus.textContent =
-          "玄境 AI：连接失败";
-
-
-      } finally {
-
-        setThinking(false);
-
-        sendBtn.disabled =
-          false;
-
-        chatInput.disabled =
-          false;
-
-        chatInput.focus();
-
-      }
-
     }
 
+    try {
+        recognition.start();
+    } catch (e) {}
 
-    // ---------------------------------------------------------
-    // 点击发送
-    // ---------------------------------------------------------
-
-    sendBtn.addEventListener(
-      "click",
-      sendMessage
-    );
+});
 
 
-    // ---------------------------------------------------------
-    // Enter 发送
-    // Shift + Enter 换行
-    // ---------------------------------------------------------
+/* =========================
+   只禁止左右橫向滑動
+   不禁止上下滑動
+========================= */
 
-    chatInput.addEventListener(
-      "keydown",
-      (event) => {
+let touchStartX = 0;
+let touchStartY = 0;
 
-        if (
-          event.key === "Enter" &&
-          !event.shiftKey
-        ) {
+document.addEventListener(
+    "touchstart",
+    function (event) {
 
-          event.preventDefault();
+        if (!event.touches.length) return;
 
-          sendMessage();
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
 
+    },
+    { passive: true }
+);
+
+document.addEventListener(
+    "touchmove",
+    function (event) {
+
+        if (!event.touches.length) return;
+
+        const currentX =
+            event.touches[0].clientX;
+
+        const currentY =
+            event.touches[0].clientY;
+
+        const dx =
+            currentX - touchStartX;
+
+        const dy =
+            currentY - touchStartY;
+
+        /*
+         * 只有明顯左右移動時阻止。
+         * 上下移動完全保留。
+         */
+
+        if (Math.abs(dx) > Math.abs(dy) &&
+            Math.abs(dx) > 8) {
+
+            event.preventDefault();
         }
 
-      }
-    );
+    },
+    { passive: false }
+);
 
-
-    // ---------------------------------------------------------
-    // 自动调整输入框高度
-    // ---------------------------------------------------------
-
-    chatInput.addEventListener(
-      "input",
-      () => {
-
-        chatInput.style.height =
-          "auto";
-
-        chatInput.style.height =
-          Math.min(
-            chatInput.scrollHeight,
-            140
-          ) + "px";
-
-      }
-    );
-
-
-    // ---------------------------------------------------------
-    // 初始状态
-    // ---------------------------------------------------------
-
-    if (
-      SUPABASE_URL.includes("你的玄境项目") ||
-      SUPABASE_ANON_KEY.includes("你的-Supabase")
-    ) {
-
-      systemStatus.textContent =
-        "玄境 AI：请先填写 Supabase 配置";
-
-    } else {
-
-      systemStatus.textContent =
-        "玄境 AI：已准备";
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
