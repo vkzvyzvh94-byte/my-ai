@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玄憶｜玄境</title>
+<style>
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+body {
+  background:
+    radial-gradient(circle at 50% 15%, rgba(105, 76, 180, .16), transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(61, 105, 180, .08), transparent 30%),
+    #070711;
+  color: #f4f1ff;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "PingFang TC",
+    "Noto Sans TC",
+    sans-serif;
+}
+/* =========================
+   頂部
+========================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 68px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  background: rgba(7, 7, 17, .88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.home-btn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.035);
+  color: #ddd6ff;
+  cursor: pointer;
+}
+.home-btn svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.top-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+.top-title strong {
+  display: block;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+.top-title span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255,255,255,.43);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+/* =========================
+   主體
+========================= */
+.container {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  padding: 34px 18px 100px;
+}
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.hero-orb {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%,
+      rgba(255,255,255,.8),
+      rgba(173,145,255,.35) 15%,
+      rgba(91,66,180,.16) 42%,
+      transparent 70%);
+  box-shadow:
+    0 0 40px rgba(134,105,255,.18),
+    inset 0 0 25px rgba(255,255,255,.05);
+}
+.hero h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 6px;
+}
+.hero p {
+  margin: 12px 0 0;
+  color: rgba(255,255,255,.48);
+  font-size: 13px;
+  line-height: 1.8;
+}
+/* =========================
+   搜尋
+========================= */
+.search-box {
+  position: relative;
+  margin-bottom: 18px;
+}
+.search-box input {
+  width: 100%;
+  height: 52px;
+  padding: 0 18px 0 48px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  outline: none;
+  background: rgba(255,255,255,.035);
+  color: white;
+  font-size: 14px;
+}
+.search-box input::placeholder {
+  color: rgba(255,255,255,.32);
+}
+.search-icon {
+  position: absolute;
+  left: 17px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: rgba(255,255,255,.5);
+  stroke-width: 1.6;
+}
+/* =========================
+   篩選
+========================= */
+.filters {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar {
+  display: none;
+}
+.filter-btn {
+  flex: 0 0 auto;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.58);
+  font-size: 12px;
+  cursor: pointer;
+}
+.filter-btn.active {
+  background: rgba(145,115,255,.16);
+  border-color: rgba(160,135,255,.32);
+  color: #eee9ff;
+}
+/* =========================
+   狀態
+========================= */
+.status {
+  min-height: 22px;
+  margin-bottom: 12px;
+  color: rgba(255,255,255,.38);
+  font-size: 12px;
+}
+/* =========================
+   記憶卡片
+========================= */
+.memory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.memory-card {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.07);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.018)
+    );
+  box-shadow: 0 12px 40px rgba(0,0,0,.18);
+}
+.memory-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.memory-date {
+  color: rgba(255,255,255,.42);
+  font-size: 11px;
+}
+.memory-type {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(145,115,255,.11);
+  color: #cfc4ff;
+  font-size: 10px;
+}
+.memory-content {
+  margin-top: 13px;
+  color: rgba(255,255,255,.88);
+  font-size: 14px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.memory-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+.meta-item {
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.035);
+  color: rgba(255,255,255,.38);
+  font-size: 10px;
+}
+.memory-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+.action-btn {
+  flex: 1;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.025);
+  color: rgba(255,255,255,.62);
+  font-size: 11px;
+  cursor: pointer;
+}
+.action-btn.delete {
+  color: rgba(255,150,150,.72);
+}
+.action-btn:hover {
+  background: rgba(255,255,255,.06);
+}
+/* =========================
+   空狀態
+========================= */
+.empty {
+  padding: 55px 20px;
+  text-align: center;
+  border-radius: 20px;
+  border: 1px dashed rgba(255,255,255,.08);
+  color: rgba(255,255,255,.35);
+}
+.empty strong {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255,255,255,.62);
+  font-size: 14px;
+}
+.empty span {
+  font-size: 12px;
+  line-height: 1.7;
+}
+/* =========================
+   編輯視窗
+========================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(12px);
+}
+.modal.show {
+  display: flex;
+}
+.modal-card {
+  width: min(600px, 100%);
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.09);
+  background: #10101d;
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+}
+.modal-title {
+  margin-bottom: 17px;
+  font-size: 17px;
+  letter-spacing: 2px;
+}
+.modal textarea {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  outline: none;
+  background: rgba(255,255,255,.035);
+  color: white;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.modal-buttons {
+  display: flex;
+  gap: 9px;
+  margin-top: 14px;
+}
+.modal-buttons button {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.04);
+  color: white;
+  cursor: pointer;
+}
+.modal-buttons .save {
+  background: rgba(139,110,255,.2);
+  border-color: rgba(139,110,255,.3);
+}
+/* =========================
+   手機
+========================= */
+@media (max-width: 600px) {
+  .container {
+    padding-top: 27px;
+  }
+  .hero h1 {
+    font-size: 27px;
+  }
+  .memory-card {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <button class="home-btn" id="homeBtn" aria-label="回到 Home">
+    <svg viewBox="0 0 24 24">
+      <path d="M3 10.5 12 3l9 7.5"></path>
+      <path d="M5.5 9.5V21h13V9.5"></path>
+      <path d="M9.5 21v-6h5v6"></path>
+    </svg>
+  </button>
+  <div class="top-title">
+    <strong>玄憶</strong>
+    <span>MEMORY</span>
+  </div>
+  <div style="width:42px;"></div>
+</header>
+<main class="container">
+  <section class="hero">
+    <div class="hero-orb"></div>
+    <h1>玄憶</h1>
+    <p>
+      這裡保存的是你允許留下的記錄。<br>
+      玄境不替你決定什麼重要，只在你需要時幫你找回。
+    </p>
+  </section>
+  <div class="search-box">
+    <svg class="search-icon" viewBox="0 0 24 24">
+      <circle cx="10.8" cy="10.8" r="6.8"></circle>
+      <path d="m16 16 5 5"></path>
+    </svg>
+    <input
+      id="searchInput"
+      type="search"
+      placeholder="搜尋你的記憶……"
+      autocomplete="off"
+    >
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">
+      全部
+    </button>
+    <button class="filter-btn" data-filter="preference">
+      偏好
+    </button>
+    <button class="filter-btn" data-filter="event">
+      事情
+    </button>
+    <button class="filter-btn" data-filter="person">
+      人
+    </button>
+    <button class="filter-btn" data-filter="project">
+      專案
+    </button>
+    <button class="filter-btn" data-filter="other">
+      其他
+    </button>
+  </div>
+  <div id="status" class="status">
+    正在讀取玄憶……
+  </div>
+  <section id="memoryList" class="memory-list"></section>
+</main>
+<!-- 編輯 -->
+<div class="modal" id="editModal">
+  <div class="modal-card">
+    <div class="modal-title">
+      編輯這段記憶
+    </div>
+    <textarea id="editContent"></textarea>
+    <div class="modal-buttons">
+      <button id="cancelEdit">
+        取消
+      </button>
+      <button class="save" id="saveEdit">
+        儲存
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+/* =========================================================
+   玄境 Supabase
+========================================================= */
+const SUPABASE_URL =
+  "https://zuypaeagxjezlqdppvnm.supabase.co";
+/*
+  注意：
+  這裡不能把 Supabase Service Role Key 放進前端。
+  正式版應該使用：
+  Supabase Auth → 使用者 Session → RLS
+  因此這個頁面目前會嘗試取得瀏覽器裡的
+  Supabase Auth Session。
+  如果目前尚未登入，會顯示「尚未登入」，
+  不會讀取所有人的資料。
+*/
+let memories = [];
+let currentFilter = "all";
+let currentSearch = "";
+let editingId = null;
+/* =========================================================
+   Home
+========================================================= */
+document
+  .getElementById("homeBtn")
+  .addEventListener("click", () => {
+    window.location.href = "home.html";
+  });
+/* =========================================================
+   取得目前 Supabase Session
+========================================================= */
+async function getSession() {
+  /*
+    目前先嘗試從 Supabase Auth 的 localStorage
+    找出登入 Session。
+    因為目前專案尚未把 supabase-js 全站統一接入，
+    所以這裡不假設使用者一定已登入。
+  */
+  try {
+    const keys = Object.keys(localStorage);
+    const supabaseKey = keys.find(key =>
+      key.startsWith("sb-") &&
+      key.includes("-auth-token")
+    );
+    if (!supabaseKey) {
+      return null;
+    }
+    const raw = localStorage.getItem(supabaseKey);
+    if (!raw) {
+      return null;
+    }
+    const session = JSON.parse(raw);
+    return session;
+  } catch (error) {
+    console.error("Session 讀取失敗:", error);
+    return null;
+  }
+}
+/* =========================================================
+   載入記憶
+========================================================= */
+async function loadMemories() {
+  const status = document.getElementById("status");
+  status.textContent = "正在讀取玄憶……";
+  try {
+    const session = await getSession();
+    /*
+      尚未建立登入流程時，不冒險讀取資料。
+    */
+    if (!session || !session.access_token || !session.user) {
+      memories = [];
+      status.textContent =
+        "目前尚未連接登入使用者。請先完成 Supabase Auth。";
+      renderMemories();
+      return;
+    }
+    const userId = session.user.id;
+    const url =
+      SUPABASE_URL +
+      "/rest/v1/memories" +
+      "?select=*" +
+      "&user_id=eq." +
+      encodeURIComponent(userId) +
+      "&order=created_at.desc";
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "apikey": session.access_token,
+        "Authorization":
+          "Bearer " + session.access_token,
+        "Content-Type":
+          "application/json"
+      }
+    });
+    if (!response.ok) {
+      const errorText =
+        await response.text();
+      throw new Error(errorText);
+    }
+    memories = await response.json();
+    status.textContent =
+      `目前共有 ${memories.length} 筆記憶`;
+    renderMemories();
+  } catch (error) {
+    console.error(error);
+    memories = [];
+    status.textContent =
+      "玄憶暫時無法讀取資料。";
+    renderMemories();
+  }
+}
+/* =========================================================
+   篩選
+========================================================= */
+document
+  .querySelectorAll(".filter-btn")
+  .forEach(button => {
+    button.addEventListener("click", () => {
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+      button.classList.add("active");
+      currentFilter =
+        button.dataset.filter;
+      renderMemories();
+    });
+  });
+/* =========================================================
+   搜尋
+========================================================= */
+document
+  .getElementById("searchInput")
+  .addEventListener("input", event => {
+    currentSearch =
+      event.target.value
+        .trim()
+        .toLowerCase();
+    renderMemories();
+  });
+/* =========================================================
+   格式化日期
+========================================================= */
+function formatDate(value) {
+  if (!value) return "未知時間";
+  const date =
+    new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+  return date.toLocaleString(
+    "zh-TW",
+    {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+}
+/* =========================================================
+   顯示類型
+========================================================= */
+function typeName(type) {
+  const map = {
+    preference: "偏好",
+    event: "事情",
+    person: "人物",
+    project: "專案",
+    place: "地點",
+    idea: "想法",
+    other: "其他"
+  };
+  return map[type] || type || "其他";
+}
+/* =========================================================
+   顯示記憶
+========================================================= */
+function renderMemories() {
+  const list =
+    document.getElementById("memoryList");
+  let filtered =
+    [...memories];
+  /* 類型 */
+  if (currentFilter !== "all") {
+    filtered =
+      filtered.filter(memory =>
+        memory.memory_type === currentFilter
+      );
+  }
+  /* 搜尋 */
+  if (currentSearch) {
+    filtered =
+      filtered.filter(memory => {
+        const content =
+          String(memory.content || "")
+            .toLowerCase();
+        const type =
+          String(memory.memory_type || "")
+            .toLowerCase();
+        const source =
+          String(memory.source || "")
+            .toLowerCase();
+        return (
+          content.includes(currentSearch) ||
+          type.includes(currentSearch) ||
+          source.includes(currentSearch)
+        );
+      });
+  }
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <strong>這裡目前沒有找到相關記憶</strong>
+        <span>
+          玄境不會替你編造記憶。<br>
+          當資料真正存在時，我會幫你把它找回來。
+        </span>
+      </div>
+    `;
+    return;
+  }
+  list.innerHTML =
+    filtered.map(memory => {
+      return `
+        <article
+          class="memory-card"
+          data-id="${escapeHtml(memory.id)}"
+        >
+          <div class="memory-head">
+            <div class="memory-date">
+              ${formatDate(memory.created_at)}
+            </div>
+            <div class="memory-type">
+              ${escapeHtml(
+                typeName(memory.memory_type)
+              )}
+            </div>
+          </div>
+          <div class="memory-content">
+            ${escapeHtml(memory.content)}
+          </div>
+          <div class="memory-meta">
+            <div class="meta-item">
+              來源：${escapeHtml(
+                memory.source || "未知"
+              )}
+            </div>
+            <div class="meta-item">
+              重要程度：${Number(
+                memory.importance || 0
+              )}
+            </div>
+            <div class="meta-item">
+              ${
+                memory.confirmed
+                  ? "已確認"
+                  : "未確認"
+              }
+            </div>
+            ${
+              memory.expires_at
+                ? `
+                  <div class="meta-item">
+                    到期：${formatDate(
+                      memory.expires_at
+                    )}
+                  </div>
+                `
+                : ""
+            }
+          </div>
+          <div class="memory-actions">
+            <button
+              class="action-btn"
+              onclick="openEdit('${escapeJs(memory.id)}')"
+            >
+              編輯
+            </button>
+            <button
+              class="action-btn delete"
+              onclick="deleteMemory('${escapeJs(memory.id)}')"
+            >
+              刪除
+            </button>
+          </div>
+        </article>
+      `;
+    }).join("");
+}
+/* =========================================================
+   編輯
+========================================================= */
+function openEdit(id) {
+  const memory =
+    memories.find(item =>
+      item.id === id
+    );
+  if (!memory) return;
+  editingId = id;
+  document
+    .getElementById("editContent")
+    .value =
+      memory.content || "";
+  document
+    .getElementById("editModal")
+    .classList.add("show");
+}
+document
+  .getElementById("cancelEdit")
+  .addEventListener("click", () => {
+    editingId = null;
+    document
+      .getElementById("editModal")
+      .classList.remove("show");
+  });
+/* =========================================================
+   儲存編輯
+========================================================= */
+document
+  .getElementById("saveEdit")
+  .addEventListener("click", async () => {
+    if (!editingId) return;
+    const content =
+      document
+        .getElementById("editContent")
+        .value
+        .trim();
+    if (!content) {
+      alert("記憶內容不能為空。");
+      return;
+    }
+    try {
+      const session =
+        await getSession();
+      if (!session || !session.access_token) {
+        alert(
+          "目前尚未登入，無法修改資料。"
+        );
+        return;
+      }
+      const response =
+        await fetch(
+          SUPABASE_URL +
+          "/rest/v1/memories?id=eq." +
+          encodeURIComponent(editingId),
+          {
+            method: "PATCH",
+            headers: {
+              "apikey":
+                session.access_token,
+              "Authorization":
+                "Bearer " +
+                session.access_token,
+              "Content-Type":
+                "application/json",
+              "Prefer":
+                "return=minimal"
+            },
+            body: JSON.stringify({
+              content: content,
+              updated_at:
+                new Date().toISOString()
+            })
+          }
+        );
+      if (!response.ok) {
+        throw new Error(
+          await response.text()
+        );
+      }
+      document
+        .getElementById("editModal")
+        .classList.remove("show");
+      editingId = null;
+      await loadMemories();
+    } catch (error) {
+      console.error(error);
+      alert(
+        "修改失敗，請稍後再試。"
+      );
+    }
+  });
+/* =========================================================
+   刪除
+========================================================= */
+async function deleteMemory(id) {
+  const memory =
+    memories.find(item =>
+      item.id === id
+    );
+  if (!memory) return;
+  const ok =
+    confirm(
+      "確定要刪除這段記憶嗎？\n\n刪除後玄境將不再使用這筆資料。"
+    );
+  if (!ok) return;
+  try {
+    const session =
+      await getSession();
+    if (!session || !session.access_token) {
+      alert(
+        "目前尚未登入，無法刪除資料。"
+      );
+      return;
+    }
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/memories?id=eq." +
+        encodeURIComponent(id),
+        {
+          method: "DELETE",
+          headers: {
+            "apikey":
+              session.access_token,
+            "Authorization":
+              "Bearer " +
+              session.access_token,
+            "Content-Type":
+              "application/json"
+          }
+        }
+      );
+    if (!response.ok) {
+      throw new Error(
+        await response.text()
+      );
+    }
+    await loadMemories();
+  } catch (error) {
+    console.error(error);
+    alert(
+      "刪除失敗，請稍後再試。"
+    );
+  }
+}
+/* =========================================================
+   防 XSS
+========================================================= */
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+function escapeJs(value) {
+  return String(value ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
+}
+/* =========================================================
+   防止手機整頁橫向拖動
+========================================================= */
+let startX = 0;
+document.addEventListener(
+  "touchstart",
+  event => {
+    if (event.touches.length === 1) {
+      startX =
+        event.touches[0].clientX;
+    }
+  },
+  { passive: true }
+);
+document.addEventListener(
+  "touchmove",
+  event => {
+    if (event.touches.length !== 1) {
+      return;
+    }
+    const currentX =
+      event.touches[0].clientX;
+    const diff =
+      currentX - startX;
+    /*
+      阻止整個頁面左右拖動。
+      但搜尋/篩選等真正需要橫向滑動的區域仍可使用。
+    */
+    if (
+      Math.abs(diff) > 8 &&
+      !event.target.closest(".filters")
+    ) {
+      event.preventDefault();
+    }
+  },
+  { passive: false }
+);
+/* =========================================================
+   啟動
+========================================================= */
+loadMemories();
+</script>
+</body>
+</html>
