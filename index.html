@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>玄境 AI · 人生智慧館</title>
-  <meta name="description" content="東方智慧 × AI，探索人生、命理、風水、決策與自我。">
+  <title>玄境 AI</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -12,356 +12,325 @@
       padding: 0;
     }
 
-    html, body {
-      width: 100%;
-      min-height: 100%;
-    }
-
+    html,
     body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       font-family:
         -apple-system,
         BlinkMacSystemFont,
-        "Noto Serif TC",
-        "PingFang TC",
-        "Microsoft JhengHei",
-        serif;
-      background:
-        radial-gradient(circle at 50% 0%, #302315 0%, #120f0b 38%, #070706 100%);
-      color: #f3ead7;
-      min-height: 100vh;
+        "Segoe UI",
+        "PingFang SC",
+        "Microsoft YaHei",
+        sans-serif;
+      background: #05030a;
+      color: white;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      min-height: 100vh;
-      overflow: hidden;
-    }
-
-    /* ===== 頂部 ===== */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6%;
-      background: rgba(8, 8, 7, 0.82);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(212, 169, 85, 0.18);
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 21px;
-      letter-spacing: 3px;
-      font-weight: 700;
-    }
-
-    .logo-symbol {
-      width: 38px;
-      height: 38px;
-      border: 1px solid #b9924c;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #d9b66d;
-      font-size: 21px;
-      box-shadow: 0 0 25px rgba(201, 159, 73, 0.15);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      color: #bdb3a0;
-      font-size: 14px;
-    }
-
-    nav a:hover {
-      color: #e0bc73;
-    }
-
-    .login-btn {
-      border: 1px solid rgba(216, 179, 99, .5);
-      padding: 9px 18px;
-      border-radius: 20px;
-      color: #d9b66d;
-    }
-
-    /* ===== Hero ===== */
-
-    .hero {
-      position: relative;
-      min-height: 690px;
+    body {
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 80px 20px;
     }
 
-    .orb {
-      position: absolute;
-      width: 580px;
-      height: 580px;
-      border-radius: 50%;
-      border: 1px solid rgba(211, 169, 87, .15);
-      box-shadow:
-        0 0 100px rgba(175, 130, 48, .08),
-        inset 0 0 100px rgba(175, 130, 48, .05);
-    }
-
-    .orb::before {
-      content: "";
-      position: absolute;
-      inset: 50px;
-      border-radius: 50%;
-      border: 1px solid rgba(211, 169, 87, .1);
-    }
-
-    .hero-content {
+    .universe {
       position: relative;
-      z-index: 2;
-      max-width: 850px;
-    }
-
-    .eyebrow {
-      color: #c8a45d;
-      letter-spacing: 6px;
-      font-size: 13px;
-      margin-bottom: 25px;
-    }
-
-    h1 {
-      font-size: clamp(45px, 7vw, 82px);
-      line-height: 1.15;
-      letter-spacing: 8px;
-      font-weight: 500;
-      background: linear-gradient(180deg, #f4e4bd, #bb8c3e);
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 26px;
-    }
-
-    .hero-subtitle {
-      color: #aaa08e;
-      font-size: 17px;
-      line-height: 2;
-      letter-spacing: 2px;
-      margin-bottom: 42px;
-    }
-
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      padding: 14px 30px;
-      border-radius: 30px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: .25s;
-    }
-
-    .primary-btn {
-      border: 1px solid #c59a4b;
-      background: linear-gradient(135deg, #b8893e, #70501f);
-      color: #fff8e8;
-      box-shadow: 0 10px 35px rgba(155, 108, 32, .2);
-    }
-
-    .secondary-btn {
-      border: 1px solid rgba(211, 169, 87, .35);
-      color: #d5c5a6;
-      background: rgba(255,255,255,.025);
-    }
-
-    .primary-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-3px);
-    }
-
-    /* ===== Section ===== */
-
-    section {
-      width: min(1200px, 90%);
-      margin: auto;
-      padding: 70px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 45px;
-    }
-
-    .section-title span {
-      display: block;
-      color: #b99049;
-      letter-spacing: 4px;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    .section-title h2 {
-      font-size: 31px;
-      font-weight: 500;
-      letter-spacing: 4px;
-    }
-
-    /* ===== Cards ===== */
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .card {
-      position: relative;
-      min-height: 210px;
-      padding: 30px;
-      border: 1px solid rgba(205, 163, 84, .17);
-      border-radius: 18px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.045),
-          rgba(255,255,255,.012)
-        );
-      transition: .3s;
+      width: 100vw;
+      height: 100vh;
       overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 50%, #241638 0%, #0c0714 35%, #030208 75%);
     }
 
-    .card::after {
-      content: "";
+    /* 星空 */
+    .stars,
+    .stars::before,
+    .stars::after {
       position: absolute;
-      width: 120px;
-      height: 120px;
-      right: -50px;
-      bottom: -50px;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+
+    .stars {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px);
+      background-size: 90px 90px;
+      opacity: .35;
+      animation: starsMove 18s linear infinite;
+    }
+
+    .stars::before {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px);
+      background-size: 137px 137px;
+      opacity: .35;
+    }
+
+    .stars::after {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.6) 1px, transparent 1px);
+      background-size: 211px 211px;
+      opacity: .3;
+    }
+
+    @keyframes starsMove {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.15);
+      }
+    }
+
+    /* 中央玄境入口 */
+    .portal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(62vw, 430px);
+      height: min(62vw, 430px);
+      transform: translate(-50%, -50%);
       border-radius: 50%;
-      border: 1px solid rgba(205, 163, 84, .12);
-    }
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(214, 172, 92, .45);
-      background: rgba(194, 147, 66, .06);
-    }
-
-    .icon {
-      font-size: 34px;
-      margin-bottom: 20px;
-    }
-
-    .card h3 {
-      font-size: 20px;
-      font-weight: 500;
-      margin-bottom: 10px;
-      color: #ead6ad;
-    }
-
-    .card p {
-      color: #968e80;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    /* ===== Daily Fortune ===== */
-
-    .fortune {
-      position: relative;
-      padding: 70px 30px;
-      text-align: center;
-      border-radius: 25px;
-      border: 1px solid rgba(205, 163, 84, .25);
       background:
         radial-gradient(
           circle at center,
-          rgba(161, 119, 47, .13),
-          transparent 60%
+          #030207 0%,
+          #10091b 25%,
+          #211032 45%,
+          #08040f 70%,
+          transparent 72%
         );
+
+      box-shadow:
+        0 0 35px rgba(166, 101, 255, .25),
+        0 0 100px rgba(101, 61, 190, .25),
+        inset 0 0 50px rgba(255,255,255,.04);
+
+      animation: breathe 4s ease-in-out infinite;
+      cursor: pointer;
     }
 
-    .fortune-symbol {
-      font-size: 65px;
-      margin-bottom: 18px;
+    .portal::before,
+    .portal::after {
+      content: "";
+      position: absolute;
+      inset: 4%;
+      border-radius: 50%;
+      border: 1px solid rgba(205, 158, 255, .35);
     }
 
-    .fortune h2 {
-      font-weight: 500;
-      letter-spacing: 5px;
-      color: #dfbd77;
-      margin-bottom: 14px;
+    .portal::before {
+      animation: rotate 16s linear infinite;
+      border-left-color: transparent;
+      border-bottom-color: rgba(255,255,255,.55);
     }
 
-    .fortune p {
-      color: #a9a092;
-      line-height: 2;
-      max-width: 650px;
-      margin: auto;
+    .portal::after {
+      inset: 11%;
+      animation: rotateReverse 11s linear infinite;
+      border-right-color: transparent;
+      border-top-color: rgba(170, 111, 255, .6);
     }
 
-    .fortune-btn {
-      display: inline-block;
-      margin-top: 28px;
-      padding: 13px 32px;
-      border-radius: 25px;
-      border: 1px solid #b99049;
-      color: #e0bd75;
+    @keyframes breathe {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.035);
+      }
     }
 
-    /* ===== Footer ===== */
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
 
-    footer {
-      margin-top: 80px;
-      padding: 40px 20px;
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes rotateReverse {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    /* 中央文字 */
+    .center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
-      border-top: 1px solid rgba(205,163,84,.12);
-      color: #716b60;
-      font-size: 13px;
-      line-height: 2;
+      width: 80%;
+      z-index: 2;
+      pointer-events: none;
     }
 
-    /* ===== Mobile ===== */
+    .title {
+      font-size: clamp(42px, 9vw, 76px);
+      font-weight: 300;
+      letter-spacing: .22em;
+      margin-left: .22em;
 
-    @media (max-width: 800px) {
-      nav {
-        display: none;
+      background: linear-gradient(
+        120deg,
+        #ffffff,
+        #d9baff,
+        #ffffff
+      );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      text-shadow: 0 0 35px rgba(213, 174, 255, .35);
+    }
+
+    .subtitle {
+      margin-top: 18px;
+      font-size: 14px;
+      letter-spacing: .35em;
+      margin-left: .35em;
+      color: rgba(255,255,255,.62);
+    }
+
+    .enter {
+      margin-top: 42px;
+      padding: 13px 30px;
+
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 40px;
+
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.9);
+
+      font-size: 14px;
+      letter-spacing: .18em;
+
+      backdrop-filter: blur(10px);
+
+      transition:
+        transform .3s ease,
+        background .3s ease,
+        border-color .3s ease;
+    }
+
+    .portal:hover .enter {
+      transform: scale(1.06);
+      background: rgba(255,255,255,.09);
+      border-color: rgba(220,190,255,.7);
+    }
+
+    /* 进入后的页面 */
+    .home {
+      position: absolute;
+      inset: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(circle at 50% 45%, #29183a, #08050d 65%);
+
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.15);
+
+      transition:
+        opacity 1.2s ease,
+        transform 1.2s ease,
+        visibility 1.2s;
+    }
+
+    .home.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .home h1 {
+      font-size: clamp(32px, 7vw, 64px);
+      font-weight: 300;
+      letter-spacing: .15em;
+    }
+
+    .home p {
+      margin-top: 20px;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .12em;
+    }
+
+    .back {
+      position: absolute;
+      bottom: 35px;
+
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.7);
+
+      padding: 10px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    /* 小小的我 */
+    .little-me {
+      margin-top: 45px;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(circle at 35% 30%, #ffffff, #c9a8ff 35%, #6941a5 70%);
+
+      box-shadow:
+        0 0 35px rgba(188, 140, 255, .45);
+
+      font-size: 38px;
+
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
       }
 
-      .hero {
-        min-height: 600px;
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .portal {
+        width: 78vw;
+        height: 78vw;
       }
 
-      .orb {
-        width: 360px;
-        height: 360px;
+      .subtitle {
+        font-size: 11px;
       }
 
-      .cards {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        width: 88%;
-      }
-
-      h1 {
-        letter-spacing: 4px;
+      .enter {
+        margin-top: 32px;
       }
     }
   </style>
@@ -369,200 +338,76 @@
 
 <body>
 
-<div class="page">
+  <main class="universe">
 
-  <header>
-    <a href="index.html" class="logo">
-      <div class="logo-symbol">☯</div>
-      玄境 AI
-    </a>
+    <div class="stars"></div>
 
-    <nav>
-      <a href="#wisdom">智慧</a>
-      <a href="#fortune">靈籤</a>
-      <a href="#ai">AI 問事</a>
-      <a href="#about">關於</a>
-      <a href="#" class="login-btn">登入</a>
-    </nav>
-  </header>
+    <!-- 玄境入口 -->
+    <section class="portal" id="portal">
 
-  <main>
+      <div class="center">
+        <div class="title">玄境</div>
 
-    <section class="hero">
-
-      <div class="orb"></div>
-
-      <div class="hero-content">
-
-        <div class="eyebrow">
-          EASTERN WISDOM · AI · LIFE
+        <div class="subtitle">
+          一个属于你的数字空间
         </div>
 
-        <h1>玄境</h1>
-
-        <p class="hero-subtitle">
-          以東方智慧觀人生<br>
-          以 AI 看見更多可能
-        </p>
-
-        <div class="hero-actions">
-          <a href="home.html" class="primary-btn">
-            進入智慧館
-          </a>
-
-          <a href="#fortune" class="secondary-btn">
-            今日求一籤
-          </a>
+        <div class="enter">
+          进入玄境
         </div>
-
       </div>
 
     </section>
 
+    <!-- 进入后的个人空间 -->
+    <section class="home" id="home">
 
-    <section id="wisdom">
+      <h1>欢迎来到你的玄境</h1>
 
-      <div class="section-title">
-        <span>EXPLORE</span>
-        <h2>探索人生智慧</h2>
+      <p>
+        这里不是一个游戏，而是属于你的空间。
+      </p>
+
+      <div class="little-me">
+        ✦
       </div>
 
-      <div class="cards">
-
-        <a href="home.html" class="card">
-          <div class="icon">🔮</div>
-          <h3>AI 問事</h3>
-          <p>
-            將你的問題交給 AI，
-            從傳統智慧、心理與決策角度一起探索。
-          </p>
-        </a>
-
-        <a href="home.html" class="card">
-          <div class="icon">🧧</div>
-          <h3>靈籤</h3>
-          <p>
-            線上求籤、抽籤、解籤，
-            用傳統文化為今天的問題尋找一個方向。
-          </p>
-        </a>
-
-        <a href="home.html" class="card">
-          <div class="icon">🃏</div>
-          <h3>AI 塔羅</h3>
-          <p>
-            透過牌陣探索感情、事業、
-            人際與人生選擇。
-          </p>
-        </a>
-
-        <a href="home.html" class="card">
-          <div class="icon">☯️</div>
-          <h3>八字命理</h3>
-          <p>
-            從出生資訊探索五行、
-            性格與傳統命理觀點。
-          </p>
-        </a>
-
-        <a href="home.html" class="card">
-          <div class="icon">🏠</div>
-          <h3>AI 風水</h3>
-          <p>
-            探索居家、空間與方位的
-            傳統風水文化。
-          </p>
-        </a>
-
-        <a href="home.html" class="card">
-          <div class="icon">🧭</div>
-          <h3>人生決策</h3>
-          <p>
-            結合決策學、心理學、
-            機率與風險思維。
-          </p>
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <section id="fortune">
-
-      <div class="fortune">
-
-        <div class="fortune-symbol">🧧</div>
-
-        <h2>今日靈籤</h2>
-
-        <p>
-          人生有時並不是沒有答案，
-          而是需要一個讓自己停下來思考的時刻。
-          <br>
-          今日，是否願意為自己求一籤？
-        </p>
-
-        <a href="home.html" class="fortune-btn">
-          開始求籤
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <section id="ai">
-
-      <div class="section-title">
-        <span>AI WISDOM</span>
-        <h2>不只算命，更看見人生</h2>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <div class="icon">🧠</div>
-          <h3>心理學</h3>
-          <p>
-            從情緒、人格、關係與行為模式，
-            更了解自己。
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="icon">🏛️</div>
-          <h3>哲學與國學</h3>
-          <p>
-            易經、儒家、道家與東西方哲學，
-            探索人生問題。
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="icon">🛡️</div>
-          <h3>安全防護</h3>
-          <p>
-            協助識別網路詐騙、
-            可疑訊息與常見風險。
-          </p>
-        </div>
-
-      </div>
+      <button class="back" id="back">
+        返回入口
+      </button>
 
     </section>
 
   </main>
 
+  <script>
+    const portal = document.getElementById("portal");
+    const home = document.getElementById("home");
+    const back = document.getElementById("back");
 
-  <footer id="about">
-    <div>玄境 AI · Eastern Wisdom × Artificial Intelligence</div>
-    <div>
-      傳統文化內容僅供文化探索與娛樂參考，不取代醫療、法律或專業意見。
-    </div>
-  </footer>
+    portal.addEventListener("click", () => {
+      portal.style.opacity = "0";
+      portal.style.transform = "translate(-50%, -50%) scale(2)";
 
-</div>
+      setTimeout(() => {
+        portal.style.display = "none";
+        home.classList.add("active");
+      }, 800);
+    });
+
+    back.addEventListener("click", () => {
+      home.classList.remove("active");
+
+      setTimeout(() => {
+        portal.style.display = "block";
+
+        setTimeout(() => {
+          portal.style.opacity = "1";
+          portal.style.transform = "translate(-50%, -50%) scale(1)";
+        }, 50);
+      }, 800);
+    });
+  </script>
 
 </body>
 </html>
