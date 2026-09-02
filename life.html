@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玄境｜我的事情</title>
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+    background:#08090d;
+    color:#f4f1ea;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+body{
+    overscroll-behavior-x:none;
+}
+button,input,textarea{
+    font:inherit;
+}
+button{
+    cursor:pointer;
+}
+.app{
+    width:100%;
+    max-width:760px;
+    min-height:100vh;
+    margin:0 auto;
+    position:relative;
+    overflow-x:hidden;
+}
+/* ===== 頂部 ===== */
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    background:rgba(8,9,13,.90);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+.home-btn,
+.voice-btn{
+    width:42px;
+    height:42px;
+    border:0;
+    background:transparent;
+    color:#e8e2d5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+}
+.home-btn:active,
+.voice-btn:active{
+    background:rgba(255,255,255,.08);
+}
+.home-btn svg,
+.voice-btn svg{
+    width:22px;
+    height:22px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+.title-area{
+    text-align:center;
+}
+.title{
+    font-size:17px;
+    letter-spacing:3px;
+}
+.subtitle{
+    margin-top:3px;
+    font-size:11px;
+    color:#85858b;
+    letter-spacing:1px;
+}
+/* ===== 主區 ===== */
+.main{
+    padding:24px 18px 100px;
+}
+.greeting{
+    margin-bottom:22px;
+}
+.greeting h1{
+    margin:0;
+    font-size:26px;
+    font-weight:500;
+    letter-spacing:1px;
+}
+.greeting p{
+    margin:9px 0 0;
+    color:#92929a;
+    font-size:14px;
+    line-height:1.7;
+}
+/* ===== AI 協助區 ===== */
+.ai-card{
+    position:relative;
+    border:1px solid rgba(206,181,126,.20);
+    background:
+        radial-gradient(circle at 80% 10%,rgba(183,150,88,.10),transparent 35%),
+        linear-gradient(145deg,#111217,#0c0d12);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.ai-head{
+    padding:20px 20px 14px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+.ai-orb{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(218,190,129,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+.ai-orb svg{
+    width:21px;
+    height:21px;
+    fill:none;
+    stroke:#d6bb83;
+    stroke-width:1.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+.ai-name{
+    font-size:15px;
+    letter-spacing:2px;
+}
+.ai-status{
+    margin-top:4px;
+    color:#8e8e96;
+    font-size:12px;
+}
+.ai-status span{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#8fb49b;
+    margin-right:6px;
+}
+.ai-message{
+    padding:4px 20px 18px;
+    color:#d5d2cc;
+    font-size:14px;
+    line-height:1.8;
+}
+/* ===== 輸入 ===== */
+.input-wrap{
+    margin:0 16px 16px;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(0,0,0,.20);
+    border-radius:18px;
+    overflow:hidden;
+}
+textarea{
+    width:100%;
+    min-height:105px;
+    resize:none;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#f4f1ea;
+    padding:15px;
+    line-height:1.7;
+    font-size:14px;
+}
+textarea::placeholder{
+    color:#686a72;
+}
+.input-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 10px 10px 14px;
+}
+.input-hint{
+    color:#65666e;
+    font-size:11px;
+}
+.send-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(211,181,119,.38);
+    background:rgba(211,181,119,.08);
+    color:#d7bd87;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.send-btn svg{
+    width:19px;
+    height:19px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+/* ===== AI 對話結果 ===== */
+.analysis{
+    display:none;
+    padding:0 16px 18px;
+}
+.analysis.show{
+    display:block;
+}
+.ai-bubble{
+    padding:16px;
+    border-radius:17px;
+    background:#15161c;
+    border:1px solid rgba(255,255,255,.07);
+    color:#d9d6cf;
+    font-size:14px;
+    line-height:1.8;
+    white-space:pre-wrap;
+}
+.ai-thinking{
+    color:#888991;
+    font-size:13px;
+    padding:12px 2px;
+}
+/* ===== 方案 ===== */
+.options{
+    display:none;
+    margin-top:18px;
+}
+.options.show{
+    display:block;
+}
+.section-title{
+    font-size:14px;
+    letter-spacing:1.5px;
+    margin-bottom:11px;
+    color:#d8d3c7;
+}
+.option{
+    width:100%;
+    text-align:left;
+    border:1px solid rgba(255,255,255,.08);
+    background:#111218;
+    color:#eeeae1;
+    border-radius:17px;
+    padding:16px;
+    margin-bottom:10px;
+    transition:.2s;
+}
+.option:active{
+    transform:scale(.985);
+    border-color:rgba(214,187,130,.42);
+}
+.option-title{
+    font-size:14px;
+    margin-bottom:7px;
+}
+.option-desc{
+    color:#8e8f97;
+    font-size:12px;
+    line-height:1.7;
+}
+.option-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:11px;
+}
+.tag{
+    padding:4px 8px;
+    border-radius:8px;
+    background:rgba(255,255,255,.05);
+    color:#878891;
+    font-size:10px;
+}
+/* ===== 我的事情 ===== */
+.my-things{
+    margin-top:28px;
+}
+.thing{
+    padding:16px 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+.check{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    border:1px solid #555761;
+    background:transparent;
+    flex-shrink:0;
+}
+.check.done{
+    border-color:#9b8a65;
+    background:#9b8a65;
+    position:relative;
+}
+.check.done:after{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:4px;
+    border-left:1.5px solid #111;
+    border-bottom:1.5px solid #111;
+    transform:rotate(-45deg);
+    left:7px;
+    top:7px;
+}
+.thing-text{
+    flex:1;
+    min-width:0;
+}
+.thing-title{
+    font-size:14px;
+}
+.thing-title.done{
+    color:#666870;
+    text-decoration:line-through;
+}
+.thing-time{
+    color:#666871;
+    font-size:11px;
+    margin-top:5px;
+}
+/* ===== 新增 ===== */
+.add-btn{
+    width:100%;
+    margin-top:14px;
+    padding:14px;
+    border:1px dashed rgba(255,255,255,.14);
+    border-radius:15px;
+    background:transparent;
+    color:#888992;
+    font-size:13px;
+}
+/* ===== 提醒 ===== */
+.reminder{
+    margin-top:28px;
+    border:1px solid rgba(255,255,255,.07);
+    background:#101116;
+    border-radius:20px;
+    padding:17px;
+}
+.reminder-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.reminder-title{
+    font-size:14px;
+}
+.reminder-desc{
+    margin-top:7px;
+    color:#777983;
+    font-size:12px;
+    line-height:1.6;
+}
+.switch{
+    width:42px;
+    height:24px;
+    border-radius:20px;
+    background:#292b32;
+    border:0;
+    padding:3px;
+}
+.switch span{
+    display:block;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:#777983;
+    transition:.2s;
+}
+.switch.on{
+    background:#756342;
+}
+.switch.on span{
+    transform:translateX(18px);
+    background:#e2d0a6;
+}
+/* ===== 底部提示 ===== */
+.bottom-note{
+    margin-top:35px;
+    text-align:center;
+    color:#505159;
+    font-size:11px;
+    line-height:1.7;
+}
+/* ===== 手機 ===== */
+@media(max-width:480px){
+    .main{
+        padding-left:14px;
+        padding-right:14px;
+    }
+    .topbar{
+        padding:0 12px;
+    }
+    .greeting h1{
+        font-size:24px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<!-- 頂部 -->
+<header class="topbar">
+    <!-- 線條 Home -->
+    <button class="home-btn" onclick="goHome()" aria-label="回到首頁">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 11.5 12 4l9 7.5"></path>
+            <path d="M5.5 10.5V20h13v-9.5"></path>
+            <path d="M9.5 20v-5.5h5V20"></path>
+        </svg>
+    </button>
+    <div class="title-area">
+        <div class="title">我的事情</div>
+        <div class="subtitle">人生操作台</div>
+    </div>
+    <!-- AI 語音提醒開關 -->
+    <button class="voice-btn" onclick="toggleVoice()" aria-label="語音提醒">
+        <svg viewBox="0 0 24 24">
+            <path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"></path>
+            <path d="M5 10v1a7 7 0 0 0 14 0v-1"></path>
+            <path d="M12 18v3"></path>
+            <path d="M8.5 21h7"></path>
+        </svg>
+    </button>
+</header>
+<main class="main">
+    <!-- 開場 -->
+    <section class="greeting">
+        <h1>你最近有什麼事情？</h1>
+        <p>
+            不需要先想好怎麼做。<br>
+            你可以把現在腦中的事情直接告訴我，我陪你一起理清。
+        </p>
+    </section>
+    <!-- AI 核心區 -->
+    <section class="ai-card">
+        <div class="ai-head">
+            <div class="ai-orb">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="7"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <path d="M12 2v3"></path>
+                    <path d="M12 19v3"></path>
+                    <path d="M2 12h3"></path>
+                    <path d="M19 12h3"></path>
+                </svg>
+            </div>
+            <div>
+                <div class="ai-name">玄境 AI</div>
+                <div class="ai-status">
+                    <span></span>我在這裡陪你
+                </div>
+            </div>
+        </div>
+        <div class="ai-message">
+            你可以把事情、困擾、情緒，甚至一句不知道該怎麼辦的話告訴我。
+            我會先理解你的情況，再陪你找出方向。
+        </div>
+        <div class="input-wrap">
+            <textarea
+                id="lifeInput"
+                placeholder="例如：最近工作讓我很累，我不知道該不該換工作……"
+                oninput="handleTyping()"
+            ></textarea>
+            <div class="input-bottom">
+                <div class="input-hint" id="inputHint">
+                    你說，我聽
+                </div>
+                <button class="send-btn" onclick="sendToAI()" aria-label="送出">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 12h15"></path>
+                        <path d="m13 6 6 6-6 6"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- AI 分析 -->
+        <div class="analysis" id="analysis">
+            <div class="ai-thinking" id="thinking">
+                玄境正在理解你的情況……
+            </div>
+            <div class="ai-bubble" id="aiResult"></div>
+            <!-- 方案 -->
+            <div class="options" id="options">
+                <div class="section-title">
+                    如果你願意，我可以陪你從這幾個方向開始
+                </div>
+                <button class="option" onclick="chooseOption('先處理最急迫的事情')">
+                    <div class="option-title">方案一｜先處理眼前最急的</div>
+                    <div class="option-desc">
+                        先不一次解決全部問題，只處理目前最影響你的那一件事。
+                    </div>
+                    <div class="option-meta">
+                        <span class="tag">低壓力</span>
+                        <span class="tag">立即開始</span>
+                    </div>
+                </button>
+                <button class="option" onclick="chooseOption('先分析問題的根源')">
+                    <div class="option-title">方案二｜先把問題弄清楚</div>
+                    <div class="option-desc">
+                        我陪你把事情拆開，看看真正讓你困擾的原因，再決定下一步。
+                    </div>
+                    <div class="option-meta">
+                        <span class="tag">需要思考</span>
+                        <span class="tag">適合複雜問題</span>
+                    </div>
+                </button>
+                <button class="option" onclick="chooseOption('制定一個可以慢慢執行的計畫')">
+                    <div class="option-title">方案三｜做一個慢慢完成的計畫</div>
+                    <div class="option-desc">
+                        不要求一次改變，將事情拆成今天、這週、接下來幾週可以完成的小步驟。
+                    </div>
+                    <div class="option-meta">
+                        <span class="tag">長期</span>
+                        <span class="tag">循序漸進</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- 我的事情 -->
+    <section class="my-things">
+        <div class="section-title">今天的事情</div>
+        <div id="thingList">
+            <div class="thing">
+                <button class="check" onclick="completeThing(this)"></button>
+                <div class="thing-text">
+                    <div class="thing-title">整理今天最重要的一件事</div>
+                    <div class="thing-time">還沒有完成</div>
+                </div>
+            </div>
+            <div class="thing">
+                <button class="check" onclick="completeThing(this)"></button>
+                <div class="thing-text">
+                    <div class="thing-title">給自己留一點休息時間</div>
+                    <div class="thing-time">今天</div>
+                </div>
+            </div>
+        </div>
+        <button class="add-btn" onclick="addThing()">
+            ＋ 新增一件事情
+        </button>
+    </section>
+    <!-- 語音提醒 -->
+    <section class="reminder">
+        <div class="reminder-head">
+            <div>
+                <div class="reminder-title">玄境語音提醒</div>
+                <div class="reminder-desc">
+                    開啟後，可以讓玄境在你設定的時間提醒你。
+                </div>
+            </div>
+            <button class="switch" id="reminderSwitch" onclick="toggleReminder()">
+                <span></span>
+            </button>
+        </div>
+    </section>
+    <div class="bottom-note">
+        你可以改變計畫，也可以重新選擇。<br>
+        玄境會陪你，但人生的決定始終在你手上。
+    </div>
+</main>
+</div>
+<script>
+/* ================================
+   玄境 AI
+================================ */
+const AI_FUNCTION_URL =
+"https://zuypaeagxjezlqdppvnm.supabase.co/functions/v1/ai-chat";
+let messages = [];
+let voiceEnabled = false;
+let reminderEnabled = false;
+/* ================================
+   回首頁
+================================ */
+function goHome(){
+    window.location.href = "home.html";
+}
+/* ================================
+   輸入時
+================================ */
+function handleTyping(){
+    const text =
+        document.getElementById("lifeInput").value.trim();
+    const hint =
+        document.getElementById("inputHint");
+    if(text.length > 0){
+        hint.textContent = "玄境正在聽你說";
+    }else{
+        hint.textContent = "你說，我聽";
+    }
+}
+/* ================================
+   AI 分析
+================================ */
+async function sendToAI(){
+    const input =
+        document.getElementById("lifeInput");
+    const text =
+        input.value.trim();
+    if(!text) return;
+    const analysis =
+        document.getElementById("analysis");
+    const thinking =
+        document.getElementById("thinking");
+    const result =
+        document.getElementById("aiResult");
+    const options =
+        document.getElementById("options");
+    analysis.classList.add("show");
+    thinking.style.display = "block";
+    result.textContent = "";
+    options.classList.remove("show");
+    messages.push({
+        role:"user",
+        content:text
+    });
+    input.value = "";
+    try{
+        const response =
+            await fetch(AI_FUNCTION_URL,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    message:text,
+                    messages:messages
+                })
+            });
+        if(!response.ok){
+            throw new Error("AI request failed");
+        }
+        const data =
+            await response.json();
+        const reply =
+            data.reply ||
+            data.message ||
+            data.content ||
+            "我已經聽到了，但現在還需要更多資訊才能陪你分析。";
+        messages.push({
+            role:"assistant",
+            content:reply
+        });
+        thinking.style.display = "none";
+        result.textContent = reply;
+        /*
+         * 目前先顯示方案選擇。
+         * 下一階段可以讓 AI 根據實際內容動態生成
+         * 3～6 個真正符合使用者情況的方案。
+         */
+        options.classList.add("show");
+        if(voiceEnabled){
+            speak(reply);
+        }
+    }catch(error){
+        console.error(error);
+        thinking.style.display = "none";
+        result.textContent =
+            "我現在暫時沒有連上玄境 AI。\n\n" +
+            "你可以先把事情放在這裡，等連線恢復後，我再陪你一起理清。";
+    }
+}
+/* ================================
+   選擇方案
+================================ */
+function chooseOption(option){
+    const input =
+        document.getElementById("lifeInput");
+    input.value =
+        "我想選擇「" + option + "」，請陪我把它變成可以真正執行的下一步。";
+    input.focus();
+    handleTyping();
+}
+/* ================================
+   AI 語音
+================================ */
+function toggleVoice(){
+    voiceEnabled = !voiceEnabled;
+    if(!voiceEnabled){
+        speechSynthesis.cancel();
+    }
+}
+function speak(text){
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const utterance =
+        new SpeechSynthesisUtterance(text);
+    utterance.lang = "zh-TW";
+    utterance.rate = 0.95;
+    speechSynthesis.speak(utterance);
+}
+/* ================================
+   語音提醒
+================================ */
+function toggleReminder(){
+    const button =
+        document.getElementById("reminderSwitch");
+    reminderEnabled =
+        !reminderEnabled;
+    button.classList.toggle(
+        "on",
+        reminderEnabled
+    );
+    if(reminderEnabled){
+        /*
+         * MVP：
+         * 先開啟提醒狀態。
+         * 真正的排程通知會在後端提醒系統完成後接入。
+         */
+        if("Notification" in window){
+            Notification.requestPermission()
+                .catch(()=>{});
+        }
+    }
+}
+/* ================================
+   完成事情
+================================ */
+function completeThing(button){
+    button.classList.toggle("done");
+    const title =
+        button.parentElement
+        .querySelector(".thing-title");
+    const time =
+        button.parentElement
+        .querySelector(".thing-time");
+    if(button.classList.contains("done")){
+        title.classList.add("done");
+        time.textContent = "已完成";
+    }else{
+        title.classList.remove("done");
+        time.textContent = "還沒有完成";
+    }
+}
+/* ================================
+   新增事情
+================================ */
+function addThing(){
+    const text =
+        prompt("你想新增什麼事情？");
+    if(!text || !text.trim()) return;
+    const list =
+        document.getElementById("thingList");
+    const item =
+        document.createElement("div");
+    item.className = "thing";
+    item.innerHTML = `
+        <button class="check"
+                onclick="completeThing(this)">
+        </button>
+        <div class="thing-text">
+            <div class="thing-title">
+                ${escapeHtml(text.trim())}
+            </div>
+            <div class="thing-time">
+                還沒有完成
+            </div>
+        </div>
+    `;
+    list.appendChild(item);
+}
+/* ================================
+   防止 HTML 注入
+================================ */
+function escapeHtml(text){
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+/* ================================
+   禁止左右滑動
+================================ */
+document.addEventListener(
+    "touchmove",
+    function(event){
+        /*
+         * 只阻止水平拖動，
+         * 不阻止正常上下滑動。
+         */
+        if(event.touches.length !== 1) return;
+        const touch =
+            event.touches[0];
+        if(!window._lastTouchX){
+            window._lastTouchX =
+                touch.clientX;
+            return;
+        }
+        const dx =
+            touch.clientX -
+            window._lastTouchX;
+        if(Math.abs(dx) > 12){
+            event.preventDefault();
+        }
+        window._lastTouchX =
+            touch.clientX;
+    },
+    {passive:false}
+);
+document.addEventListener(
+    "touchend",
+    function(){
+        window._lastTouchX = null;
+    }
+);
+</script>
+</body>
+</html>
