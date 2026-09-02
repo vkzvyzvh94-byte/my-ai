@@ -2,1581 +2,3390 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>與玄境交流｜玄境 AI</title>
+
+<meta
+    name="viewport"
+    content="width=device-width,
+             initial-scale=1.0,
+             maximum-scale=1.0,
+             user-scalable=no"
+>
+
+<title>玄境 AI｜交流</title>
+
 <style>
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
-html,body{
-    margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-    background:#05030b;
-    color:#f4efff;
-    font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif;
-    overflow:hidden;
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+
+    background: #05020d;
+    color: #ffffff;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "PingFang TC",
+        "Noto Sans TC",
+        sans-serif;
+
+    overflow: hidden;
 }
+
 /* =========================
-   紫色星空
+   背景
 ========================= */
-#stars{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
+
+#space {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
 }
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    border-radius:50%;
-    background:#cba5ff;
-    box-shadow:0 0 7px rgba(174,100,255,.9);
-    opacity:.4;
-    animation:twinkle var(--d) ease-in-out infinite;
+
+.nebula {
+    position: absolute;
+    width: 75vw;
+    height: 75vw;
+
+    border-radius: 50%;
+
+    filter: blur(65px);
+
+    opacity: .22;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(145,65,255,.75) 0%,
+            rgba(95,30,190,.35) 35%,
+            transparent 70%
+        );
+
+    animation: nebulaMove 18s ease-in-out infinite alternate;
 }
-@keyframes twinkle{
-    0%,100%{
-        opacity:.15;
-        transform:scale(.7);
+
+.nebula.one {
+    left: -20vw;
+    top: -10vw;
+}
+
+.nebula.two {
+    right: -25vw;
+    bottom: -15vw;
+
+    opacity: .17;
+
+    animation-delay: -7s;
+}
+
+@keyframes nebulaMove {
+
+    0% {
+        transform: translate3d(-3%, -2%, 0) scale(1);
     }
-    50%{
-        opacity:.95;
-        transform:scale(1.35);
-    }
-}
-.nebula{
-    position:fixed;
-    z-index:0;
-    pointer-events:none;
-    border-radius:50%;
-    filter:blur(75px);
-}
-.nebula.one{
-    width:420px;
-    height:420px;
-    top:-170px;
-    right:-150px;
-    background:rgba(104,42,220,.28);
-}
-.nebula.two{
-    width:500px;
-    height:500px;
-    left:-230px;
-    bottom:-260px;
-    background:rgba(90,35,190,.22);
-}
-#meteor{
-    position:fixed;
-    width:130px;
-    height:1px;
-    z-index:1;
-    pointer-events:none;
-    opacity:0;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        rgba(205,157,255,.75),
-        #fff
-    );
-    box-shadow:0 0 10px rgba(170,91,255,.9);
-    transform:rotate(-30deg);
-}
-#meteor.fly{
-    animation:meteor 1s linear forwards;
-}
-@keyframes meteor{
-    0%{
-        opacity:0;
-        transform:translate(0,0) rotate(-30deg);
-    }
-    10%{
-        opacity:1;
-    }
-    100%{
-        opacity:0;
-        transform:translate(-250px,250px) rotate(-30deg);
+
+    100% {
+        transform: translate3d(4%, 3%, 0) scale(1.15);
     }
 }
+
+.star {
+    position: absolute;
+
+    width: 2px;
+    height: 2px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.9);
+
+    box-shadow:
+        0 0 6px rgba(185,125,255,.9);
+
+    animation:
+        twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: .25;
+        transform: scale(.7);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+
+.meteor {
+    position: fixed;
+
+    width: 130px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(225,185,255,.95),
+            transparent
+        );
+
+    transform: rotate(-35deg);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 2;
+
+    animation:
+        meteor 1.5s linear forwards;
+}
+
+@keyframes meteor {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate3d(100px,-100px,0)
+            rotate(-35deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate3d(-420px,420px,0)
+            rotate(-35deg);
+    }
+}
+
 /* =========================
    主體
 ========================= */
-.app{
-    position:relative;
-    z-index:2;
-    width:100%;
-    height:100dvh;
-    display:flex;
-    flex-direction:column;
+
+.app {
+    position: relative;
+    z-index: 5;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
 }
+
 /* =========================
-   頂部
+   Top
 ========================= */
-.topbar{
-    height:64px;
-    flex:none;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 14px;
-    background:rgba(5,3,11,.78);
-    border-bottom:1px solid rgba(184,132,255,.12);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+
+.topbar {
+
+    flex: 0 0 62px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 15px;
+
+    background:
+        rgba(5,2,13,.72);
+
+    border-bottom:
+        1px solid
+        rgba(190,130,255,.12);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
 }
-.top-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
+
+.top-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    min-width: 0;
 }
-.home-btn{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    border:1px solid rgba(190,140,255,.25);
-    background:rgba(96,45,155,.12);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
+
+.home-button,
+.speaker-button {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(205,155,255,.25);
+
+    background:
+        rgba(100,50,170,.12);
+
+    color: white;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    flex: 0 0 42px;
 }
-.home-btn svg{
-    width:20px;
-    height:20px;
-    fill:none;
-    stroke:#d4b3ff;
-    stroke-width:1.5;
+
+.home-button svg,
+.speaker-button svg {
+
+    width: 21px;
+    height: 21px;
+
+    fill: none;
+
+    stroke:
+        rgba(240,220,255,.9);
+
+    stroke-width: 1.5;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
-.title-area{
-    display:flex;
-    flex-direction:column;
-}
-.title{
-    font-size:15px;
-    letter-spacing:2px;
-}
-.status{
-    margin-top:2px;
-    color:#887a97;
-    font-size:10px;
-}
-.status.online{
-    color:#aa8bd0;
-}
-.speaker-btn{
-    width:40px;
-    height:40px;
-    border:1px solid rgba(190,140,255,.2);
-    border-radius:50%;
-    background:rgba(96,45,155,.1);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-}
-.speaker-btn svg{
-    width:20px;
-    height:20px;
-    fill:none;
-    stroke:#d1b2f5;
-    stroke-width:1.5;
-}
-/* =========================
-   訊息區
-========================= */
-.messages{
-    flex:1;
-    min-height:0;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:20px 14px 140px;
-    -webkit-overflow-scrolling:touch;
-}
-.message-wrap{
-    width:100%;
-    display:flex;
-    margin-bottom:16px;
-}
-.message-wrap.user{
-    justify-content:flex-end;
-}
-.message-wrap.ai{
-    justify-content:flex-start;
-}
-.message{
-    max-width:min(82%,620px);
-    padding:12px 15px;
-    border-radius:17px;
-    font-size:15px;
-    line-height:1.75;
-    white-space:pre-wrap;
-    word-break:break-word;
-}
-.message.ai{
-    background:rgba(28,17,45,.78);
-    border:1px solid rgba(181,126,255,.13);
-    color:#eee6f7;
-    border-bottom-left-radius:5px;
-}
-.message.user{
-    background:rgba(105,53,171,.28);
-    border:1px solid rgba(190,138,255,.18);
-    color:#f5edff;
-    border-bottom-right-radius:5px;
-}
-/* =========================
-   歡迎
-========================= */
-.welcome{
-    text-align:center;
-    padding:32px 20px 28px;
-}
-.welcome-symbol{
-    width:58px;
-    height:58px;
-    margin:0 auto 14px;
-    border-radius:50%;
-    border:1px solid rgba(193,142,255,.32);
-    display:flex;
-    align-items:center;
-    justify-content:center;
+
+.speaker-button.active {
+
+    background:
+        rgba(125,65,220,.35);
+
+    border-color:
+        rgba(210,160,255,.45);
+
     box-shadow:
-        0 0 25px rgba(134,62,220,.16),
-        inset 0 0 18px rgba(134,62,220,.08);
+        0 0 18px
+        rgba(145,70,255,.18);
 }
-.welcome-symbol svg{
-    width:29px;
-    height:29px;
-    fill:none;
-    stroke:#d3adff;
-    stroke-width:1.2;
+
+.page-title {
+    min-width: 0;
 }
-.welcome h1{
-    margin:0;
-    font-size:25px;
-    font-weight:500;
-    letter-spacing:4px;
+
+.page-title-main {
+
+    font-size: 16px;
+
+    letter-spacing: 2px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
 }
-.welcome p{
-    margin:10px auto 0;
-    max-width:430px;
-    color:#9588a5;
-    font-size:13px;
-    line-height:1.8;
+
+.page-title-sub {
+
+    margin-top: 2px;
+
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+
+    color:
+        rgba(255,255,255,.4);
 }
-/* =========================
-   輸入區
-========================= */
-.input-area{
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:30;
-    padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-    background:linear-gradient(
-        to top,
-        rgba(5,3,11,1) 55%,
-        rgba(5,3,11,.88),
-        transparent
-    );
+
+.status {
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,.42);
+
+    white-space: nowrap;
 }
-.input-box{
-    width:min(760px,100%);
-    margin:0 auto;
-    min-height:52px;
-    display:flex;
-    align-items:flex-end;
-    gap:7px;
-    padding:7px;
-    border:1px solid rgba(188,137,255,.2);
-    border-radius:18px;
-    background:rgba(18,10,29,.9);
+
+.status-dot {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #9c65ff;
+
     box-shadow:
-        0 8px 35px rgba(0,0,0,.4),
-        0 0 25px rgba(111,47,191,.07);
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
+        0 0 8px
+        rgba(155,90,255,.9);
 }
-.icon-button{
-    flex:none;
-    width:38px;
-    height:38px;
-    border:0;
-    border-radius:12px;
-    background:transparent;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-}
-.icon-button:hover{
-    background:rgba(140,77,204,.12);
-}
-.icon-button svg{
-    width:21px;
-    height:21px;
-    fill:none;
-    stroke:#bda4d4;
-    stroke-width:1.5;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-.icon-button.recording{
-    background:rgba(150,65,185,.2);
-}
-.icon-button.recording svg{
-    stroke:#e2baff;
-}
-.textarea{
-    flex:1;
-    min-width:0;
-    max-height:120px;
-    min-height:38px;
-    padding:8px 4px;
-    border:0;
-    outline:0;
-    resize:none;
-    overflow-y:auto;
-    background:transparent;
-    color:#f5effb;
-    font-size:15px;
-    line-height:1.5;
-    font-family:inherit;
-}
-.textarea::placeholder{
-    color:#756b80;
-}
-.send-button{
-    flex:none;
-    width:38px;
-    height:38px;
-    border-radius:12px;
-    border:1px solid rgba(191,139,255,.25);
-    background:rgba(117,58,187,.2);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-}
-.send-button:disabled{
-    opacity:.35;
-}
-.send-button svg{
-    width:20px;
-    height:20px;
-    fill:none;
-    stroke:#d9bcff;
-    stroke-width:1.5;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
+
 /* =========================
-   + 選單
+   Messages
 ========================= */
-.plus-menu{
-    position:absolute;
-    left:12px;
-    bottom:72px;
-    z-index:40;
-    width:225px;
-    padding:8px;
-    border-radius:17px;
-    border:1px solid rgba(190,140,255,.18);
-    background:rgba(17,9,28,.96);
-    box-shadow:0 12px 40px rgba(0,0,0,.45);
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    display:none;
+
+.messages {
+
+    flex: 1;
+
+    min-height: 0;
+
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding:
+        24px 15px 18px;
+
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling:
+        touch;
 }
-.plus-menu.show{
-    display:block;
+
+.messages::-webkit-scrollbar {
+    width: 3px;
 }
-.menu-item{
-    width:100%;
-    height:46px;
-    border:0;
-    border-radius:11px;
-    background:transparent;
-    color:#d8cbe4;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:0 12px;
-    cursor:pointer;
-    text-align:left;
+
+.messages::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(170,110,255,.22);
+
+    border-radius: 10px;
 }
-.menu-item:hover{
-    background:rgba(132,70,195,.12);
-}
-.menu-item svg{
-    width:20px;
-    height:20px;
-    flex:none;
-    fill:none;
-    stroke:#b89bd0;
-    stroke-width:1.4;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-.menu-item span{
-    font-size:13px;
-}
+
 /* =========================
-   附件訊息
+   Welcome
 ========================= */
-.attachment{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    margin-top:8px;
-    padding:9px 11px;
-    border-radius:10px;
-    background:rgba(91,46,139,.12);
-    border:1px solid rgba(180,128,255,.12);
+
+.welcome {
+
+    width: 100%;
+
+    padding:
+        25px 10px 35px;
+
+    text-align: center;
 }
-.attachment svg{
-    width:19px;
-    height:19px;
-    fill:none;
-    stroke:#ba9ad4;
-    stroke-width:1.4;
+
+.welcome-symbol {
+
+    width: 66px;
+    height: 66px;
+
+    margin:
+        0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(205,155,255,.35);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(140,65,230,.32),
+            rgba(45,20,80,.32)
+        );
+
+    box-shadow:
+        0 0 35px
+        rgba(135,65,255,.2);
 }
-.attachment-name{
-    min-width:0;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    font-size:12px;
-    color:#bcaec9;
+
+.welcome-symbol svg {
+
+    width: 30px;
+    height: 30px;
+
+    fill: none;
+
+    stroke:
+        rgba(235,215,255,.9);
+
+    stroke-width: 1.35;
 }
+
+.welcome h1 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+}
+
+.welcome p {
+
+    margin:
+        10px auto 0;
+
+    max-width: 310px;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    color:
+        rgba(255,255,255,.5);
+}
+
 /* =========================
-   輸入中
+   Bubble
 ========================= */
-.typing{
-    display:flex;
-    align-items:center;
-    gap:5px;
-    padding:3px 2px;
+
+.message {
+
+    display: flex;
+
+    margin:
+        0 0 15px;
+
+    width: 100%;
 }
-.typing span{
-    width:5px;
-    height:5px;
-    border-radius:50%;
-    background:#b68be7;
-    animation:typing 1.2s infinite;
+
+.message.user {
+
+    justify-content: flex-end;
 }
-.typing span:nth-child(2){
-    animation-delay:.15s;
+
+.message.ai {
+
+    justify-content: flex-start;
 }
-.typing span:nth-child(3){
-    animation-delay:.3s;
+
+.bubble {
+
+    max-width: 82%;
+
+    padding:
+        12px 14px;
+
+    border-radius: 17px;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
 }
-@keyframes typing{
-    0%,60%,100%{
-        opacity:.25;
-        transform:translateY(0);
-    }
-    30%{
-        opacity:1;
-        transform:translateY(-3px);
-    }
+
+.message.user .bubble {
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(120,60,210,.65),
+            rgba(85,35,160,.48)
+        );
+
+    border:
+        1px solid
+        rgba(205,155,255,.22);
+
+    border-bottom-right-radius: 5px;
 }
+
+.message.ai .bubble {
+
+    background:
+        rgba(255,255,255,.055);
+
+    border:
+        1px solid
+        rgba(205,155,255,.12);
+
+    border-bottom-left-radius: 5px;
+}
+
 /* =========================
-   隱藏 input
+   Attachment message
 ========================= */
-.hidden-input{
-    display:none;
+
+.attachment-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px 12px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(120,65,190,.13);
+
+    border:
+        1px solid
+        rgba(200,150,255,.18);
 }
+
+.attachment-icon svg {
+
+    width: 22px;
+    height: 22px;
+
+    fill: none;
+
+    stroke:
+        rgba(225,200,255,.85);
+
+    stroke-width: 1.4;
+}
+
+.attachment-info {
+
+    min-width: 0;
+}
+
+.attachment-name {
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.attachment-status {
+
+    margin-top: 2px;
+
+    font-size: 10px;
+
+    color:
+        rgba(255,255,255,.4);
+}
+
 /* =========================
-   手機
+   Typing
 ========================= */
-@media(max-width:600px){
-    .message{
-        max-width:88%;
-        font-size:14px;
+
+.typing {
+
+    display: none;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin:
+        0 0 15px 5px;
+
+    color:
+        rgba(255,255,255,.42);
+
+    font-size: 11px;
+}
+
+.typing.show {
+    display: flex;
+}
+
+.typing-dot {
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(200,160,255,.8);
+
+    animation:
+        typing 1.2s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes typing {
+
+    0%,60%,100% {
+        opacity: .25;
+        transform: translateY(0);
     }
-    .welcome{
-        padding-top:22px;
-    }
-    .welcome h1{
-        font-size:23px;
-    }
-    .plus-menu{
-        width:205px;
+
+    30% {
+        opacity: 1;
+        transform: translateY(-3px);
     }
 }
+
+/* =========================
+   Bottom
+========================= */
+
+.bottom {
+
+    flex: 0 0 auto;
+
+    width: 100%;
+
+    padding:
+        8px 12px
+        calc(10px + env(safe-area-inset-bottom));
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,2,13,.45),
+            rgba(5,2,13,.94)
+        );
+
+    border-top:
+        1px solid
+        rgba(190,130,255,.1);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+}
+
+/* =========================
+   Plus menu
+========================= */
+
+.plus-menu {
+
+    display: none;
+
+    width: 100%;
+
+    padding:
+        10px 4px 12px;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 8px;
+}
+
+.plus-menu.show {
+    display: grid;
+}
+
+.tool-button {
+
+    min-width: 0;
+
+    min-height: 65px;
+
+    border-radius: 14px;
+
+    border:
+        1px solid
+        rgba(200,150,255,.13);
+
+    background:
+        rgba(255,255,255,.045);
+
+    color: rgba(255,255,255,.75);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    font-size: 10px;
+
+    cursor: pointer;
+}
+
+.tool-button:active {
+
+    background:
+        rgba(140,70,230,.18);
+
+    transform: scale(.97);
+}
+
+.tool-button svg {
+
+    width: 22px;
+    height: 22px;
+
+    fill: none;
+
+    stroke:
+        rgba(225,205,255,.8);
+
+    stroke-width: 1.35;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* =========================
+   Composer
+========================= */
+
+.composer {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 7px;
+
+    width: 100%;
+}
+
+.icon-button {
+
+    width: 43px;
+    height: 43px;
+
+    flex: 0 0 43px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border:
+        1px solid
+        rgba(205,155,255,.18);
+
+    background:
+        rgba(255,255,255,.045);
+
+    cursor: pointer;
+}
+
+.icon-button:active {
+
+    transform: scale(.94);
+
+    background:
+        rgba(130,65,220,.2);
+}
+
+.icon-button svg {
+
+    width: 21px;
+    height: 21px;
+
+    fill: none;
+
+    stroke:
+        rgba(235,215,255,.82);
+
+    stroke-width: 1.45;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.icon-button.recording {
+
+    background:
+        rgba(190,55,100,.28);
+
+    border-color:
+        rgba(255,145,180,.4);
+}
+
+.input-wrap {
+
+    flex: 1;
+
+    min-width: 0;
+
+    min-height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    border:
+        1px solid
+        rgba(205,155,255,.16);
+
+    border-radius: 22px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    padding:
+        4px 6px 4px 14px;
+}
+
+#messageInput {
+
+    width: 100%;
+
+    min-height: 33px;
+    max-height: 110px;
+
+    resize: none;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    font-family: inherit;
+}
+
+#messageInput::placeholder {
+
+    color:
+        rgba(255,255,255,.32);
+}
+
+.send-button {
+
+    width: 35px;
+    height: 35px;
+
+    flex: 0 0 35px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(145,75,230,.55);
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.send-button:active {
+
+    transform: scale(.91);
+}
+
+.send-button svg {
+
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+
+    stroke: #fff;
+
+    stroke-width: 1.5;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* =========================
+   Error
+========================= */
+
+.error-box {
+
+    display: none;
+
+    margin:
+        0 0 14px;
+
+    padding:
+        10px 12px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(150,40,70,.15);
+
+    border:
+        1px solid
+        rgba(255,120,160,.2);
+
+    color:
+        rgba(255,205,220,.82);
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+.error-box.show {
+    display: block;
+}
+
+/* =========================
+   Hidden file inputs
+========================= */
+
+.hidden-input {
+    display: none;
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 420px) {
+
+    .status {
+        display: none;
+    }
+
+    .bubble {
+        max-width: 88%;
+    }
+
+    .plus-menu {
+        grid-template-columns:
+            repeat(4, 1fr);
+    }
+
+    .tool-button {
+        min-height: 61px;
+    }
+}
+
 </style>
 </head>
+
+
 <body>
-<div id="stars"></div>
-<div class="nebula one"></div>
-<div class="nebula two"></div>
-<div id="meteor"></div>
+
+<!-- =========================
+     背景
+========================= -->
+
+<div id="space">
+
+    <div class="nebula one"></div>
+    <div class="nebula two"></div>
+
+</div>
+
+
 <div class="app">
-<!-- =====================
-     頂部
-====================== -->
-<header class="topbar">
-    <div class="top-left">
-        <button
-            class="home-btn"
-            onclick="goHome()"
-            aria-label="Home"
-        >
-            <svg viewBox="0 0 24 24">
-                <path d="M3 10.5L12 3l9 7.5"/>
-                <path d="M5.5 9.5V21h13V9.5"/>
-                <path d="M9.5 21v-6h5v6"/>
-            </svg>
-        </button>
-        <div class="title-area">
-            <div class="title">與玄境交流</div>
-            <div id="status" class="status">
-                正在連接玄境 AI…
+
+
+    <!-- =========================
+         Top
+    ========================== -->
+
+    <header class="topbar">
+
+        <div class="top-left">
+
+            <button
+                class="home-button"
+                id="homeButton"
+                type="button"
+                aria-label="Home">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M3 10.5L12 3l9 7.5"></path>
+
+                    <path d="M5.5 9.5V21h13V9.5"></path>
+
+                    <path d="M9.5 21v-6h5v6"></path>
+
+                </svg>
+
+            </button>
+
+
+            <div class="page-title">
+
+                <div class="page-title-main">
+                    與玄境 AI 交流
+                </div>
+
+                <div class="page-title-sub">
+                    YOUR PRIVATE AI SPACE
+                </div>
+
             </div>
+
         </div>
-    </div>
-    <button
-        id="speakerButton"
-        class="speaker-btn"
-        onclick="toggleSpeaker()"
-        aria-label="AI語音"
-    >
-        <svg
-            id="speakerOnIcon"
-            viewBox="0 0 24 24"
-        >
-            <path d="M4 9v6h4l5 4V5L8 9H4"/>
-            <path d="M16 9c1.5 1.5 1.5 4.5 0 6"/>
-            <path d="M18.5 6.5c3 3 3 8 0 11"/>
-        </svg>
-        <svg
-            id="speakerOffIcon"
-            viewBox="0 0 24 24"
-            style="display:none"
-        >
-            <path d="M4 9v6h4l5 4V5L8 9H4"/>
-            <path d="M17 9l4 4"/>
-            <path d="M21 9l-4 4"/>
-        </svg>
-    </button>
-</header>
-<!-- =====================
-     訊息
-====================== -->
-<main
-    id="messages"
-    class="messages"
->
-    <div id="welcome" class="welcome">
-        <div class="welcome-symbol">
-            <svg viewBox="0 0 32 32">
-                <path d="M16 4
-                         C10 8 7 12 7 17
-                         C7 23 11 27 16 28
-                         C21 27 25 23 25 17
-                         C25 12 22 8 16 4Z"/>
-                <path d="M11 18
-                         C12.5 15.5 14 14 16 11
-                         C18 14 19.5 15.5 21 18"/>
-            </svg>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            <span id="statusText">
+                AI
+            </span>
+
         </div>
-        <h1>玄境 AI</h1>
-        <p>
-            你可以直接告訴我你正在想什麼。<br>
-            我會先理解，再和你一起想辦法。
-        </p>
-    </div>
-</main>
-<!-- =====================
-     + 選單
-====================== -->
-<div
-    id="plusMenu"
-    class="plus-menu"
->
-    <button
-        class="menu-item"
-        onclick="openCamera()"
-    >
-        <svg viewBox="0 0 24 24">
-            <path d="M4 7h4l1.5-2h5L16 7h4v12H4V7Z"/>
-            <circle cx="12" cy="13" r="3.5"/>
-        </svg>
-        <span>相機</span>
-    </button>
-    <button
-        class="menu-item"
-        onclick="openPhoto()"
-    >
-        <svg viewBox="0 0 24 24">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <circle cx="8.5" cy="9" r="1.5"/>
-            <path d="M3 17l5-5 4 4 3-3 6 6"/>
-        </svg>
-        <span>照片</span>
-    </button>
-    <button
-        class="menu-item"
-        onclick="openVideo()"
-    >
-        <svg viewBox="0 0 24 24">
-            <rect x="3" y="6" width="13" height="12" rx="2"/>
-            <path d="M16 10l5-3v10l-5-3"/>
-        </svg>
-        <span>影片</span>
-    </button>
-    <button
-        class="menu-item"
-        onclick="openFile()"
-    >
-        <svg viewBox="0 0 24 24">
-            <path d="M5 3h9l5 5v13H5V3Z"/>
-            <path d="M14 3v6h5"/>
-            <path d="M8 13h8"/>
-            <path d="M8 17h6"/>
-        </svg>
-        <span>檔案</span>
-    </button>
-    <button
-        class="menu-item"
-        onclick="startDrawing()"
-    >
-        <svg viewBox="0 0 24 24">
-            <path d="M4 20l4-.8L19 8l-3-3L5 16l-1 4Z"/>
-            <path d="M14 6l3 3"/>
-            <path d="M4 20l4-.8"/>
-        </svg>
-        <span>AI 繪圖</span>
-    </button>
-    <button
-        class="menu-item"
-        onclick="startTranslation()"
-    >
-        <svg viewBox="0 0 24 24">
-            <path d="M4 5h8"/>
-            <path d="M8 5c0 5-2 8-5 10"/>
-            <path d="M5 10c1.5 2 3 3.5 5 5"/>
-            <path d="M14 19l4-9 4 9"/>
-            <path d="M15.5 16h5"/>
-        </svg>
-        <span>即時翻譯</span>
-    </button>
-</div>
-<!-- =====================
-     隱藏檔案 input
-====================== -->
-<input
-    id="cameraInput"
-    class="hidden-input"
-    type="file"
-    accept="image/*"
-    capture="environment"
->
-<input
-    id="photoInput"
-    class="hidden-input"
-    type="file"
-    accept="image/*"
-    multiple
->
-<input
-    id="videoInput"
-    class="hidden-input"
-    type="file"
-    accept="video/*"
-    multiple
->
-<input
-    id="fileInput"
-    class="hidden-input"
-    type="file"
-    multiple
->
-<!-- =====================
-     輸入
-====================== -->
-<div class="input-area">
-    <div class="input-box">
+
+
         <button
-            id="plusButton"
-            class="icon-button"
-            onclick="togglePlusMenu()"
-            aria-label="更多"
-        >
-            <svg viewBox="0 0 24 24">
-                <path d="M12 5v14"/>
-                <path d="M5 12h14"/>
+            class="speaker-button"
+            id="speakerButton"
+            type="button"
+            aria-label="AI 語音">
+
+            <!-- speaker on -->
+            <svg
+                id="speakerOnIcon"
+                viewBox="0 0 24 24">
+
+                <path d="M5 10v4h3l4 4V6l-4 4H5"></path>
+
+                <path d="M16 9.5a4 4 0 0 1 0 5"></path>
+
+                <path d="M18.5 7a7 7 0 0 1 0 10"></path>
+
             </svg>
-        </button>
-        <button
-            id="micButton"
-            class="icon-button"
-            onclick="toggleRecording()"
-            aria-label="語音"
-        >
-            <svg viewBox="0 0 24 24">
-                <rect
-                    x="9"
-                    y="3"
-                    width="6"
-                    height="12"
-                    rx="3"
-                />
-                <path d="M5 11a7 7 0 0 0 14 0"/>
-                <path d="M12 18v3"/>
-                <path d="M9 21h6"/>
+
+            <!-- speaker off -->
+            <svg
+                id="speakerOffIcon"
+                viewBox="0 0 24 24"
+                style="display:none;">
+
+                <path d="M5 10v4h3l4 4V6l-4 4H5"></path>
+
+                <path d="M17 9l4 6"></path>
+                <path d="M21 9l-4 6"></path>
+
             </svg>
+
         </button>
-        <textarea
-            id="messageInput"
-            class="textarea"
-            rows="1"
-            placeholder="輸入你想說的話……"
-            autocomplete="off"
-        ></textarea>
-        <button
-            id="sendButton"
-            class="send-button"
-            onclick="sendMessage()"
-            aria-label="發送"
+
+    </header>
+
+
+    <!-- =========================
+         Messages
+    ========================== -->
+
+    <main
+        class="messages"
+        id="messages">
+
+        <div class="welcome">
+
+            <div class="welcome-symbol">
+
+                <svg viewBox="0 0 24 24">
+
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="7">
+                    </circle>
+
+                    <path d="M9 12h6"></path>
+
+                    <path d="M12 9v6"></path>
+
+                </svg>
+
+            </div>
+
+
+            <h1>
+                玄境
+            </h1>
+
+
+            <p>
+                你可以直接告訴我正在想什麼。
+                <br>
+                想聊天、分析事情、整理想法，
+                或只是找個地方說說話，都可以。
+            </p>
+
+        </div>
+
+
+        <div
+            class="typing"
+            id="typing">
+
+            <span>玄境正在思考</span>
+
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         Bottom
+    ========================== -->
+
+    <section class="bottom">
+
+
+        <!-- Error -->
+        <div
+            class="error-box"
+            id="errorBox">
+        </div>
+
+
+        <!-- Plus Menu -->
+        <div
+            class="plus-menu"
+            id="plusMenu">
+
+
+            <!-- Camera -->
+
+            <button
+                class="tool-button"
+                id="cameraButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M4 7h4l1.5-2h5L16 7h4v12H4z"></path>
+
+                    <circle
+                        cx="12"
+                        cy="13"
+                        r="3.5">
+                    </circle>
+
+                </svg>
+
+                <span>相機</span>
+
+            </button>
+
+
+            <!-- Photo -->
+
+            <button
+                class="tool-button"
+                id="photoButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect
+                        x="4"
+                        y="5"
+                        width="16"
+                        height="14"
+                        rx="2">
+                    </rect>
+
+                    <circle
+                        cx="9"
+                        cy="10"
+                        r="1.5">
+                    </circle>
+
+                    <path d="M5 17l5-5 3 3 2-2 4 4"></path>
+
+                </svg>
+
+                <span>照片</span>
+
+            </button>
+
+
+            <!-- Video -->
+
+            <button
+                class="tool-button"
+                id="videoButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect
+                        x="3"
+                        y="7"
+                        width="13"
+                        height="10"
+                        rx="2">
+                    </rect>
+
+                    <path d="M16 10l5-3v10l-5-3"></path>
+
+                </svg>
+
+                <span>影片</span>
+
+            </button>
+
+
+            <!-- File -->
+
+            <button
+                class="tool-button"
+                id="fileButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M6 3h8l4 4v14H6z"></path>
+
+                    <path d="M14 3v5h5"></path>
+
+                    <path d="M9 13h6"></path>
+
+                    <path d="M9 17h6"></path>
+
+                </svg>
+
+                <span>檔案</span>
+
+            </button>
+
+
+            <!-- AI Draw -->
+
+            <button
+                class="tool-button"
+                id="drawButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M4 20l4.5-1 10-10-3.5-3.5-10 10z"></path>
+
+                    <path d="M13.5 6.5l3.5 3.5"></path>
+
+                    <path d="M5 4h.01"></path>
+
+                    <path d="M19 18h.01"></path>
+
+                </svg>
+
+                <span>AI 繪圖</span>
+
+            </button>
+
+
+            <!-- Translation -->
+
+            <button
+                class="tool-button"
+                id="translateButton"
+                type="button">
+
+                <svg viewBox="0 0 24 24">
+
+                    <path d="M4 5h9"></path>
+
+                    <path d="M8 3v2"></path>
+
+                    <path d="M6 5c1 4 3 6 7 8"></path>
+
+                    <path d="M11 5c-1 4-3 6-7 8"></path>
+
+                    <path d="M14 20l4-10 4 10"></path>
+
+                    <path d="M15.5 17h5"></path>
+
+                </svg>
+
+                <span>翻譯</span>
+
+            </button>
+
+
+        </div>
+
+
+        <!-- Hidden inputs -->
+
+        <input
+            class="hidden-input"
+            id="cameraInput"
+            type="file"
+            accept="image/*"
+            capture="environment"
         >
-            <svg viewBox="0 0 24 24">
-                <path d="M4 4l16 8-16 8 3-8-3-8Z"/>
-                <path d="M7 12h13"/>
-            </svg>
-        </button>
-    </div>
+
+        <input
+            class="hidden-input"
+            id="photoInput"
+            type="file"
+            accept="image/*"
+            multiple
+        >
+
+        <input
+            class="hidden-input"
+            id="videoInput"
+            type="file"
+            accept="video/*"
+            capture="environment"
+        >
+
+        <input
+            class="hidden-input"
+            id="fileInput"
+            type="file"
+            multiple
+        >
+
+
+        <!-- Composer -->
+
+        <div class="composer">
+
+
+            <!-- Plus -->
+
+            <button
+                class="icon-button"
+                id="plusButton"
+                type="button"
+                aria-label="更多功能">
+
+                <svg
+                    id="plusIcon"
+                    viewBox="0 0 24 24">
+
+                    <path d="M12 5v14"></path>
+                    <path d="M5 12h14"></path>
+
+                </svg>
+
+            </button>
+
+
+            <!-- Input -->
+
+            <div class="input-wrap">
+
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    placeholder="告訴玄境，你現在想說什麼……"
+                    autocomplete="off"
+                ></textarea>
+
+
+                <!-- Mic -->
+
+                <button
+                    class="icon-button"
+                    id="micButton"
+                    type="button"
+                    aria-label="語音輸入">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <rect
+                            x="9"
+                            y="4"
+                            width="6"
+                            height="11"
+                            rx="3">
+                        </rect>
+
+                        <path d="M6 11a6 6 0 0 0 12 0"></path>
+
+                        <path d="M12 17v3"></path>
+
+                        <path d="M9 20h6"></path>
+
+                    </svg>
+
+                </button>
+
+
+                <!-- Send -->
+
+                <button
+                    class="send-button"
+                    id="sendButton"
+                    type="button"
+                    aria-label="送出">
+
+                    <svg viewBox="0 0 24 24">
+
+                        <path d="M4 12h15"></path>
+
+                        <path d="M13 6l6 6-6 6"></path>
+
+                    </svg>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
-</div>
-<script src="config.js"></script>
+
+
 <script>
+
 /* =========================================================
-   玄境設定
+   玄境 AI Chat
+   完整獨立版本
 ========================================================= */
-const SUPABASE_URL =
-    (
-        typeof XUANJING_CONFIG !== "undefined" &&
+
+
+/* =========================================================
+   1. 基本設定
+========================================================= */
+
+const FALLBACK_SUPABASE_URL =
+    "https://zuypaeagxjezlqdppvnm.supabase.co";
+
+const FALLBACK_AI_URL =
+    FALLBACK_SUPABASE_URL +
+    "/functions/v1/ai-chat";
+
+
+let SUPABASE_URL =
+    FALLBACK_SUPABASE_URL;
+
+let AI_FUNCTION_URL =
+    FALLBACK_AI_URL;
+
+
+/* =========================================================
+   2. 嘗試讀取 config.js
+========================================================= */
+
+if (
+    typeof XUANJING_CONFIG !==
+    "undefined"
+) {
+
+    if (
         XUANJING_CONFIG.supabase &&
         XUANJING_CONFIG.supabase.url
-    )
-    ? XUANJING_CONFIG.supabase.url
-    : "https://zuypaeagxjezlqdppvnm.supabase.co";
-const AI_FUNCTION_URL =
-    (
-        typeof XUANJING_CONFIG !== "undefined" &&
+    ) {
+
+        SUPABASE_URL =
+            XUANJING_CONFIG
+                .supabase
+                .url;
+
+    }
+
+    if (
         XUANJING_CONFIG.ai &&
         XUANJING_CONFIG.ai.url
-    )
-    ? XUANJING_CONFIG.ai.url
-    : SUPABASE_URL + "/functions/v1/ai-chat";
-/* =========================================================
-   狀態
-========================================================= */
-let conversationHistory = [];
-let speakerEnabled =
-    localStorage.getItem("xuanjing_speaker") !== "off";
-let recognition = null;
-let isRecording = false;
-let isSending = false;
-/* =========================================================
-   星光
-========================================================= */
-const starsContainer =
-    document.getElementById("stars");
-for(let i = 0; i < 170; i++){
-    const star =
-        document.createElement("div");
-    star.className = "star";
-    star.style.left =
-        Math.random() * 100 + "%";
-    star.style.top =
-        Math.random() * 100 + "%";
-    const size =
-        Math.random() < .85 ? 1 : 2;
-    star.style.width =
-        size + "px";
-    star.style.height =
-        size + "px";
-    star.style.setProperty(
-        "--d",
-        (2 + Math.random() * 5) + "s"
-    );
-    star.style.animationDelay =
-        (-Math.random() * 5) + "s";
-    starsContainer.appendChild(star);
+    ) {
+
+        AI_FUNCTION_URL =
+            XUANJING_CONFIG
+                .ai
+                .url;
+
+    }
+
 }
+
+
 /* =========================================================
-   流星
+   3. DOM
 ========================================================= */
-const meteor =
-    document.getElementById("meteor");
-function createMeteor(){
-    meteor.classList.remove("fly");
-    meteor.style.left =
-        (25 + Math.random() * 80) + "%";
-    meteor.style.top =
-        (5 + Math.random() * 35) + "%";
-    void meteor.offsetWidth;
-    meteor.classList.add("fly");
-    setTimeout(
-        createMeteor,
-        9000 + Math.random() * 11000
-    );
-}
-setTimeout(createMeteor,7000);
-/* =========================================================
-   DOM
-========================================================= */
+
 const messages =
-    document.getElementById("messages");
+    document.getElementById(
+        "messages"
+    );
+
 const input =
-    document.getElementById("messageInput");
+    document.getElementById(
+        "messageInput"
+    );
+
 const sendButton =
-    document.getElementById("sendButton");
-const status =
-    document.getElementById("status");
-const plusMenu =
-    document.getElementById("plusMenu");
+    document.getElementById(
+        "sendButton"
+    );
+
 const micButton =
-    document.getElementById("micButton");
-/* =========================================================
-   Home
-========================================================= */
-function goHome(){
-    window.location.href = "home.html";
-}
-/* =========================================================
-   Speaker
-========================================================= */
-function updateSpeakerUI(){
-    document.getElementById("speakerOnIcon")
-        .style.display =
-        speakerEnabled ? "block" : "none";
-    document.getElementById("speakerOffIcon")
-        .style.display =
-        speakerEnabled ? "none" : "block";
-}
-function toggleSpeaker(){
-    speakerEnabled =
-        !speakerEnabled;
-    localStorage.setItem(
-        "xuanjing_speaker",
-        speakerEnabled ? "on" : "off"
+    document.getElementById(
+        "micButton"
     );
-    updateSpeakerUI();
-    if(!speakerEnabled){
-        if("speechSynthesis" in window){
-            window.speechSynthesis.cancel();
-        }
-    }
-}
-updateSpeakerUI();
+
+const speakerButton =
+    document.getElementById(
+        "speakerButton"
+    );
+
+const plusButton =
+    document.getElementById(
+        "plusButton"
+    );
+
+const plusMenu =
+    document.getElementById(
+        "plusMenu"
+    );
+
+const typing =
+    document.getElementById(
+        "typing"
+    );
+
+const errorBox =
+    document.getElementById(
+        "errorBox"
+    );
+
+const statusText =
+    document.getElementById(
+        "statusText"
+    );
+
+
 /* =========================================================
-   語音朗讀
+   4. 對話紀錄
 ========================================================= */
-function speakText(text){
-    if(!speakerEnabled) return;
-    if(!("speechSynthesis" in window)){
-        console.warn(
-            "此瀏覽器不支援語音朗讀"
+
+let conversationHistory = [];
+
+
+/* =========================================================
+   5. AI 語音狀態
+========================================================= */
+
+let speakerEnabled =
+    localStorage.getItem(
+        "xuanjing_ai_voice"
+    ) === "true";
+
+
+function refreshSpeakerUI() {
+
+    const onIcon =
+        document.getElementById(
+            "speakerOnIcon"
         );
-        return;
+
+    const offIcon =
+        document.getElementById(
+            "speakerOffIcon"
+        );
+
+
+    if (speakerEnabled) {
+
+        speakerButton
+            .classList
+            .add("active");
+
+        onIcon.style.display =
+            "block";
+
+        offIcon.style.display =
+            "none";
+
+    } else {
+
+        speakerButton
+            .classList
+            .remove("active");
+
+        onIcon.style.display =
+            "none";
+
+        offIcon.style.display =
+            "block";
+
     }
-    window.speechSynthesis.cancel();
-    const utterance =
-        new SpeechSynthesisUtterance(text);
-    utterance.lang =
-        detectLanguage(text);
-    utterance.rate = .95;
-    utterance.pitch = 1;
-    window.speechSynthesis.speak(
-        utterance
-    );
+
 }
-function detectLanguage(text){
-    if(/[越南語特有字母đĐăĂâÂêÊôÔơƠưƯ]/.test(text)){
-        return "vi-VN";
-    }
-    if(/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(text)){
-        return "ko-KR";
-    }
-    if(/[ぁ-んァ-ン一-龯]/.test(text) &&
-       !/[繁體中文]/.test(text)){
-        return "ja-JP";
-    }
-    if(/[A-Za-z]/.test(text) &&
-       !/[\u4e00-\u9fff]/.test(text)){
-        return "en-US";
-    }
-    return "zh-TW";
-}
+
+
+refreshSpeakerUI();
+
+
 /* =========================================================
-   加入訊息
+   6. Speaker
 ========================================================= */
+
+speakerButton.addEventListener(
+    "click",
+    function () {
+
+        speakerEnabled =
+            !speakerEnabled;
+
+        localStorage.setItem(
+            "xuanjing_ai_voice",
+            String(speakerEnabled)
+        );
+
+        refreshSpeakerUI();
+
+
+        if (!speakerEnabled) {
+
+            if (
+                "speechSynthesis"
+                in window
+            ) {
+
+                window.speechSynthesis
+                    .cancel();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   7. Home
+========================================================= */
+
+document
+    .getElementById("homeButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "home.html";
+
+        }
+    );
+
+
+/* =========================================================
+   8. Toast / Error
+========================================================= */
+
+function showError(message) {
+
+    errorBox.textContent =
+        message;
+
+    errorBox.classList.add(
+        "show"
+    );
+
+}
+
+
+function clearError() {
+
+    errorBox.textContent = "";
+
+    errorBox.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =========================================================
+   9. 新增訊息
+========================================================= */
+
 function addMessage(
     role,
-    text,
-    attachment = null
-){
-    const wrap =
-        document.createElement("div");
-    wrap.className =
-        "message-wrap " + role;
-    const bubble =
-        document.createElement("div");
-    bubble.className =
+    text
+) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
         "message " + role;
-    bubble.textContent = text;
-    if(attachment){
-        const attachmentBox =
-            document.createElement("div");
-        attachmentBox.className =
-            "attachment";
-        attachmentBox.innerHTML = `
-            <svg viewBox="0 0 24 24">
-                <path d="M6 3h9l4 4v14H6V3Z"/>
-                <path d="M15 3v5h4"/>
-            </svg>
-            <div class="attachment-name"></div>
-        `;
-        attachmentBox
-            .querySelector(".attachment-name")
-            .textContent =
-            attachment.name;
-        bubble.appendChild(
-            attachmentBox
-        );
-    }
-    wrap.appendChild(bubble);
-    messages.appendChild(wrap);
-    scrollToBottom();
-    return bubble;
-}
-/* =========================================================
-   輸入中
-========================================================= */
-function showTyping(){
-    const wrap =
-        document.createElement("div");
-    wrap.className =
-        "message-wrap ai";
-    wrap.id =
-        "typingMessage";
+
+
     const bubble =
-        document.createElement("div");
-    bubble.className =
-        "message ai";
-    bubble.innerHTML = `
-        <div class="typing">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
-    wrap.appendChild(bubble);
-    messages.appendChild(wrap);
-    scrollToBottom();
-}
-function removeTyping(){
-    const typing =
-        document.getElementById(
-            "typingMessage"
+        document.createElement(
+            "div"
         );
-    if(typing){
-        typing.remove();
-    }
-}
-/* =========================================================
-   滾動
-========================================================= */
-function scrollToBottom(){
-    requestAnimationFrame(() => {
-        messages.scrollTop =
-            messages.scrollHeight;
-    });
-}
-/* =========================================================
-   發送 AI
-========================================================= */
-async function sendMessage(){
-    if(isSending) return;
-    const text =
-        input.value.trim();
-    if(!text) return;
-    isSending = true;
-    sendButton.disabled = true;
-    /* 清空輸入 */
-    input.value = "";
-    resizeInput();
-    /* 關閉 + */
-    plusMenu.classList.remove("show");
-    /* 顯示使用者訊息 */
-    addMessage(
-        "user",
-        text
+
+    bubble.className =
+        "bubble";
+
+    bubble.textContent =
+        text;
+
+
+    wrapper.appendChild(
+        bubble
     );
-    /* 加入歷史 */
-    conversationHistory.push({
-        role:"user",
-        content:text
-    });
-    showTyping();
+
+    messages.insertBefore(
+        wrapper,
+        typing
+    );
+
+
+    scrollToBottom();
+
+
+    return bubble;
+
+}
+
+
+/* =========================================================
+   10. 附件訊息
+========================================================= */
+
+function addAttachmentMessage(
+    file
+) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+    wrapper.className =
+        "message user";
+
+
+    const bubble =
+        document.createElement(
+            "div"
+        );
+
+    bubble.className =
+        "bubble";
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "attachment-card";
+
+
+    const icon =
+        document.createElement(
+            "div"
+        );
+
+    icon.className =
+        "attachment-icon";
+
+
+    icon.innerHTML = `
+        <svg viewBox="0 0 24 24">
+            <path d="M6 3h8l4 4v14H6z"></path>
+            <path d="M14 3v5h5"></path>
+        </svg>
+    `;
+
+
+    const info =
+        document.createElement(
+            "div"
+        );
+
+    info.className =
+        "attachment-info";
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "attachment-name";
+
+    name.textContent =
+        file.name;
+
+
+    const status =
+        document.createElement(
+            "div"
+        );
+
+    status.className =
+        "attachment-status";
+
     status.textContent =
-        "玄境 AI 正在思考…";
-    try{
-        /*
-         * 真正呼叫：
-         *
-         * GitHub
-         * ↓
-         * 玄境 Supabase Edge Function
-         * ↓
-         * AIVAULT
-         * ↓
-         * Gemini / 其他模型
-         */
+        formatFileSize(
+            file.size
+        );
+
+
+    info.appendChild(name);
+    info.appendChild(status);
+
+    card.appendChild(icon);
+    card.appendChild(info);
+
+    bubble.appendChild(card);
+
+    wrapper.appendChild(bubble);
+
+    messages.insertBefore(
+        wrapper,
+        typing
+    );
+
+    scrollToBottom();
+
+}
+
+
+/* =========================================================
+   11. 檔案大小
+========================================================= */
+
+function formatFileSize(
+    bytes
+) {
+
+    if (bytes < 1024) {
+
+        return bytes + " B";
+
+    }
+
+    if (bytes < 1024 * 1024) {
+
+        return (
+            (bytes / 1024)
+            .toFixed(1)
+            +
+            " KB"
+        );
+
+    }
+
+    return (
+        (bytes / 1024 / 1024)
+        .toFixed(1)
+        +
+        " MB"
+    );
+
+}
+
+
+/* =========================================================
+   12. Scroll
+========================================================= */
+
+function scrollToBottom() {
+
+    requestAnimationFrame(
+        function () {
+
+            messages.scrollTop =
+                messages.scrollHeight;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   13. Typing
+========================================================= */
+
+function setTyping(
+    visible
+) {
+
+    typing.classList.toggle(
+        "show",
+        visible
+    );
+
+    if (visible) {
+
+        scrollToBottom();
+
+    }
+
+}
+
+
+/* =========================================================
+   14. 取得 AI 回應
+========================================================= */
+
+function extractAIText(
+    data
+) {
+
+    if (!data) {
+        return "";
+    }
+
+
+    if (
+        typeof data ===
+        "string"
+    ) {
+
+        return data;
+
+    }
+
+
+    const candidates = [
+
+        data.reply,
+
+        data.response,
+
+        data.message,
+
+        data.content,
+
+        data.text,
+
+        data.output,
+
+        data.data?.reply,
+
+        data.data?.response,
+
+        data.data?.message,
+
+        data.data?.content,
+
+        data.data?.text,
+
+        data.result?.reply,
+
+        data.result?.response,
+
+        data.result?.message,
+
+        data.result?.content
+
+    ];
+
+
+    for (
+        const item
+        of candidates
+    ) {
+
+        if (
+            typeof item ===
+            "string" &&
+            item.trim()
+        ) {
+
+            return item.trim();
+
+        }
+
+    }
+
+
+    return "";
+
+}
+
+
+/* =========================================================
+   15. 發送 AI
+========================================================= */
+
+async function sendToAI(
+    text
+) {
+
+    clearError();
+
+    setTyping(true);
+
+    statusText.textContent =
+        "思考中";
+
+
+    try {
+
         const response =
             await fetch(
                 AI_FUNCTION_URL,
                 {
-                    method:"POST",
-                    headers:{
+
+                    method:
+                        "POST",
+
+                    headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
-                    body:JSON.stringify({
-                        message:text,
-                        messages:
-                            conversationHistory
-                    })
+
+                    body:
+                        JSON.stringify({
+
+                            message:
+                                text,
+
+                            messages:
+                                conversationHistory
+
+                        })
+
                 }
             );
-        if(!response.ok){
-            const errorText =
-                await response.text();
-            throw new Error(
-                "AI API " +
-                response.status +
-                ": " +
-                errorText
-            );
+
+
+        const rawText =
+            await response.text();
+
+
+        let data = null;
+
+
+        try {
+
+            data =
+                JSON.parse(
+                    rawText
+                );
+
+        } catch {
+
+            data =
+                rawText;
+
         }
-        const data =
-            await response.json();
-        /*
-         * 相容不同 Edge Function 回傳格式
-         */
-        const answer =
-            data.reply ||
-            data.response ||
-            data.message ||
-            data.content ||
-            (
-                data.data &&
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "AI 服務回應錯誤：" +
+                response.status +
                 (
-                    data.data.reply ||
-                    data.data.response ||
-                    data.data.content
+                    rawText
+                        ? "｜" +
+                          rawText
+                            .slice(0, 300)
+                        : ""
                 )
             );
-        if(!answer){
-            throw new Error(
-                "AI 沒有返回文字"
-            );
+
         }
-        removeTyping();
+
+
+        const aiText =
+            extractAIText(
+                data
+            );
+
+
+        if (!aiText) {
+
+            throw new Error(
+                "AI 有回應，但前端無法辨識回應內容。"
+            );
+
+        }
+
+
+        conversationHistory.push({
+
+            role:
+                "user",
+
+            content:
+                text
+
+        });
+
+
+        conversationHistory.push({
+
+            role:
+                "assistant",
+
+            content:
+                aiText
+
+        });
+
+
         addMessage(
             "ai",
-            answer
+            aiText
         );
-        conversationHistory.push({
-            role:"assistant",
-            content:answer
-        });
-        status.textContent =
-            "玄境 AI 在線";
-        /* AI 自動說話 */
-        speakText(answer);
-    }catch(error){
+
+
+        statusText.textContent =
+            "AI";
+
+
+        if (
+            speakerEnabled
+        ) {
+
+            speakText(
+                aiText
+            );
+
+        }
+
+
+    } catch (error) {
+
         console.error(
-            "玄境 AI 錯誤：",
+            "玄境 AI Error:",
             error
         );
-        removeTyping();
+
+
+        statusText.textContent =
+            "連線問題";
+
+
         addMessage(
             "ai",
-            "抱歉，玄境 AI 目前沒有成功連線。\n\n請再試一次。"
+            "目前無法連接玄境 AI。\n\n" +
+            "錯誤：\n" +
+            error.message
         );
-        status.textContent =
-            "AI 連線失敗";
-    }finally{
-        isSending = false;
-        sendButton.disabled = false;
-        input.focus();
+
+
+        showError(
+            error.message
+        );
+
+
+    } finally {
+
+        setTyping(false);
+
     }
+
 }
+
+
 /* =========================================================
-   Enter 發送
+   16. 發送訊息
 ========================================================= */
-input.addEventListener(
-    "keydown",
-    function(event){
-        if(
-            event.key === "Enter" &&
-            !event.shiftKey
-        ){
-            event.preventDefault();
-            sendMessage();
-        }
+
+let sending = false;
+
+
+async function sendMessage() {
+
+    if (sending) {
+        return;
+    }
+
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+
+        return;
+
+    }
+
+
+    sending = true;
+
+    sendButton.disabled =
+        true;
+
+
+    input.value = "";
+
+    autoResize();
+
+
+    addMessage(
+        "user",
+        text
+    );
+
+
+    await sendToAI(
+        text
+    );
+
+
+    sending = false;
+
+    sendButton.disabled =
+        false;
+
+    input.focus();
+
+}
+
+
+/* =========================================================
+   17. Send Button
+========================================================= */
+
+sendButton.addEventListener(
+    "click",
+    function (event) {
+
+        event.preventDefault();
+
+        sendMessage();
+
     }
 );
+
+
 /* =========================================================
-   自動調整輸入框
+   18. Enter
 ========================================================= */
-function resizeInput(){
-    input.style.height = "auto";
+
+input.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key ===
+                "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   19. 自動高度
+========================================================= */
+
+function autoResize() {
+
+    input.style.height =
+        "auto";
+
     input.style.height =
         Math.min(
             input.scrollHeight,
-            120
+            110
         ) + "px";
+
 }
+
 input.addEventListener(
     "input",
-    resizeInput
+    autoResize
 );
+
+
 /* =========================================================
-   + 選單
+   20. Plus
 ========================================================= */
-function togglePlusMenu(){
-    plusMenu.classList.toggle(
-        "show"
-    );
-}
-document.addEventListener(
+
+plusButton.addEventListener(
     "click",
-    function(event){
-        if(
-            !plusMenu.contains(event.target) &&
-            !document
-                .getElementById("plusButton")
-                .contains(event.target)
-        ){
-            plusMenu.classList.remove(
-                "show"
-            );
-        }
+    function () {
+
+        plusMenu.classList.toggle(
+            "show"
+        );
+
+        scrollToBottom();
+
     }
 );
+
+
 /* =========================================================
-   IndexedDB
-   真正把選取的檔案保存到瀏覽器
+   21. 檔案輸入
 ========================================================= */
+
+const cameraInput =
+    document.getElementById(
+        "cameraInput"
+    );
+
+const photoInput =
+    document.getElementById(
+        "photoInput"
+    );
+
+const videoInput =
+    document.getElementById(
+        "videoInput"
+    );
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+
+document
+    .getElementById("cameraButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            cameraInput.click();
+
+        }
+    );
+
+
+document
+    .getElementById("photoButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            photoInput.click();
+
+        }
+    );
+
+
+document
+    .getElementById("videoButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            videoInput.click();
+
+        }
+    );
+
+
+document
+    .getElementById("fileButton")
+    .addEventListener(
+        "click",
+        function () {
+
+            fileInput.click();
+
+        }
+    );
+
+
+/* =========================================================
+   22. 檔案選擇後
+========================================================= */
+
+function handleFiles(
+    fileList
+) {
+
+    if (!fileList ||
+        !fileList.length) {
+
+        return;
+
+    }
+
+
+    plusMenu.classList.remove(
+        "show"
+    );
+
+
+    Array.from(fileList)
+        .forEach(
+            function (file) {
+
+                addAttachmentMessage(
+                    file
+                );
+
+                saveFileLocally(
+                    file
+                );
+
+            }
+        );
+
+}
+
+
+cameraInput.addEventListener(
+    "change",
+    function () {
+
+        handleFiles(
+            cameraInput.files
+        );
+
+        cameraInput.value = "";
+
+    }
+);
+
+
+photoInput.addEventListener(
+    "change",
+    function () {
+
+        handleFiles(
+            photoInput.files
+        );
+
+        photoInput.value = "";
+
+    }
+);
+
+
+videoInput.addEventListener(
+    "change",
+    function () {
+
+        handleFiles(
+            videoInput.files
+        );
+
+        videoInput.value = "";
+
+    }
+);
+
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        handleFiles(
+            fileInput.files
+        );
+
+        fileInput.value = "";
+
+    }
+);
+
+
+/* =========================================================
+   23. IndexedDB
+========================================================= */
+
 const DB_NAME =
     "XuanJingChatFiles";
+
 const DB_VERSION = 1;
+
 const STORE_NAME =
     "attachments";
-function openFileDB(){
+
+
+function openFileDB() {
+
     return new Promise(
-        (resolve,reject)=>{
+        function (
+            resolve,
+            reject
+        ) {
+
+            if (
+                !("indexedDB" in window)
+            ) {
+
+                reject(
+                    new Error(
+                        "此瀏覽器不支援本機檔案保存"
+                    )
+                );
+
+                return;
+
+            }
+
+
             const request =
                 indexedDB.open(
                     DB_NAME,
                     DB_VERSION
                 );
+
+
             request.onupgradeneeded =
-                function(event){
+                function (event) {
+
                     const db =
                         event.target.result;
-                    if(
+
+
+                    if (
                         !db.objectStoreNames
-                            .contains(STORE_NAME)
-                    ){
+                            .contains(
+                                STORE_NAME
+                            )
+                    ) {
+
                         db.createObjectStore(
                             STORE_NAME,
                             {
-                                keyPath:"id",
-                                autoIncrement:true
+                                keyPath:
+                                    "id",
+                                autoIncrement:
+                                    true
                             }
                         );
+
                     }
+
                 };
+
+
             request.onsuccess =
-                function(){
+                function () {
+
                     resolve(
                         request.result
                     );
+
                 };
+
+
             request.onerror =
-                function(){
+                function () {
+
                     reject(
                         request.error
                     );
+
                 };
+
         }
     );
+
 }
-async function saveFileToDevice(file){
-    try{
+
+
+async function saveFileLocally(
+    file
+) {
+
+    try {
+
         const db =
             await openFileDB();
-        return new Promise(
-            (resolve,reject)=>{
+
+
+        await new Promise(
+            function (
+                resolve,
+                reject
+            ) {
+
                 const transaction =
                     db.transaction(
                         STORE_NAME,
                         "readwrite"
                     );
+
+
                 const store =
                     transaction.objectStore(
                         STORE_NAME
                     );
-                const request =
-                    store.add({
-                        name:file.name,
-                        type:file.type,
-                        size:file.size,
-                        file:file,
-                        created_at:
-                            new Date().toISOString()
-                    });
-                request.onsuccess =
-                    () => resolve(
-                        request.result
-                    );
-                request.onerror =
-                    () => reject(
-                        request.error
-                    );
+
+
+                store.add({
+
+                    name:
+                        file.name,
+
+                    type:
+                        file.type,
+
+                    size:
+                        file.size,
+
+                    file:
+                        file,
+
+                    created_at:
+                        new Date()
+                            .toISOString()
+
+                });
+
+
+                transaction.oncomplete =
+                    function () {
+
+                        resolve();
+
+                    };
+
+
+                transaction.onerror =
+                    function () {
+
+                        reject(
+                            transaction.error
+                        );
+
+                    };
+
             }
         );
-    }catch(error){
+
+
+        db.close();
+
+
+    } catch (error) {
+
         console.error(
-            "檔案保存失敗",
+            "檔案保存失敗:",
             error
         );
-        return null;
-    }
-}
-/* =========================================================
-   檔案處理
-========================================================= */
-async function handleFiles(
-    fileList,
-    mode
-){
-    if(!fileList || !fileList.length)
-        return;
-    plusMenu.classList.remove(
-        "show"
-    );
-    for(
-        const file of Array.from(fileList)
-    ){
-        const savedId =
-            await saveFileToDevice(
-                file
-            );
-        const label =
-            savedId !== null
-                ? "已保存"
-                : "保存失敗";
-        addMessage(
-            "user",
-            label + "：" + file.name,
-            file
+
+        showError(
+            "檔案已選取，但本機保存失敗：" +
+            error.message
         );
-        /*
-         * 把檔案事件記錄到對話歷史，
-         * 讓之後可以接真正的 AI 視覺/文件分析。
-         */
-        conversationHistory.push({
-            role:"user",
-            content:
-                `[${mode}] ${file.name}`
-        });
+
     }
+
 }
+
+
 /* =========================================================
-   相機
+   24. AI 繪圖
 ========================================================= */
-function openCamera(){
-    document
-        .getElementById("cameraInput")
-        .click();
-}
+
 document
-    .getElementById("cameraInput")
+    .getElementById("drawButton")
     .addEventListener(
-        "change",
-        function(){
-            handleFiles(
-                this.files,
-                "相機照片"
+        "click",
+        function () {
+
+            plusMenu.classList.remove(
+                "show"
             );
-            this.value = "";
-        }
-    );
-/* =========================================================
-   照片
-========================================================= */
-function openPhoto(){
-    document
-        .getElementById("photoInput")
-        .click();
-}
-document
-    .getElementById("photoInput")
-    .addEventListener(
-        "change",
-        function(){
-            handleFiles(
-                this.files,
-                "照片"
-            );
-            this.value = "";
-        }
-    );
-/* =========================================================
-   影片
-========================================================= */
-function openVideo(){
-    document
-        .getElementById("videoInput")
-        .click();
-}
-document
-    .getElementById("videoInput")
-    .addEventListener(
-        "change",
-        function(){
-            handleFiles(
-                this.files,
-                "影片"
-            );
-            this.value = "";
-        }
-    );
-/* =========================================================
-   檔案
-========================================================= */
-function openFile(){
-    document
-        .getElementById("fileInput")
-        .click();
-}
-document
-    .getElementById("fileInput")
-    .addEventListener(
-        "change",
-        function(){
-            handleFiles(
-                this.files,
-                "檔案"
-            );
-            this.value = "";
-        }
-    );
-/* =========================================================
-   AI 繪圖
-========================================================= */
-function startDrawing(){
-    plusMenu.classList.remove(
-        "show"
-    );
-    input.value =
-        "我想使用 AI 繪圖，請幫我生成：";
-    input.focus();
-    resizeInput();
-}
-/* =========================================================
-   即時翻譯
-========================================================= */
-function startTranslation(){
-    plusMenu.classList.remove(
-        "show"
-    );
-    input.value =
-        "請進入即時翻譯模式。支援中文、英文、日文、韓文、越南文。";
-    input.focus();
-    resizeInput();
-}
-/* =========================================================
-   語音辨識
-========================================================= */
-function setupRecognition(){
-    const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
-    if(!SpeechRecognition){
-        return null;
-    }
-    const rec =
-        new SpeechRecognition();
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.maxAlternatives = 1;
-    /*
-     * zh-TW 可以辨識中文；
-     * 瀏覽器會根據使用者實際語言環境
-     * 進行語音辨識。
-     *
-     * 後續即時翻譯模式再依語言切換。
-     */
-    rec.lang = "zh-TW";
-    rec.onstart =
-        function(){
-            isRecording = true;
-            micButton.classList.add(
-                "recording"
-            );
-            status.textContent =
-                "正在聽你說話…";
-        };
-    rec.onresult =
-        function(event){
-            let finalText = "";
-            let interimText = "";
-            for(
-                let i = event.resultIndex;
-                i < event.results.length;
-                i++
-            ){
-                const transcript =
-                    event.results[i][0].transcript;
-                if(
-                    event.results[i].isFinal
-                ){
-                    finalText += transcript;
-                }else{
-                    interimText += transcript;
-                }
-            }
-            /*
-             * 即時把辨識結果放入輸入框
-             */
+
             input.value =
-                finalText || interimText;
-            resizeInput();
+                "我想使用 AI 繪圖，請幫我設計：";
+
+            input.focus();
+
+            autoResize();
+
+        }
+    );
+
+
+/* =========================================================
+   25. 翻譯
+========================================================= */
+
+document
+    .getElementById(
+        "translateButton"
+    )
+    .addEventListener(
+        "click",
+        function () {
+
+            plusMenu.classList.remove(
+                "show"
+            );
+
+            input.value =
+                "請幫我翻譯以下內容。可以處理中文、英文、日文、韓文、越南文等語言：";
+
+            input.focus();
+
+            autoResize();
+
+        }
+    );
+
+
+/* =========================================================
+   26. 語音輸入
+========================================================= */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+let recognition = null;
+
+let recognizing = false;
+
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        true;
+
+    recognition.maxAlternatives =
+        1;
+
+    recognition.lang =
+        "zh-TW";
+
+
+    recognition.onstart =
+        function () {
+
+            recognizing = true;
+
+            micButton
+                .classList
+                .add("recording");
+
+            statusText.textContent =
+                "聆聽中";
+
         };
-    rec.onerror =
-        function(event){
+
+
+    recognition.onresult =
+        function (event) {
+
+            let transcript =
+                "";
+
+            for (
+                let i =
+                    event.resultIndex;
+                i <
+                    event.results.length;
+                i++
+            ) {
+
+                transcript +=
+                    event.results[i][0]
+                        .transcript;
+
+            }
+
+
+            if (transcript.trim()) {
+
+                input.value =
+                    transcript;
+
+                autoResize();
+
+            }
+
+        };
+
+
+    recognition.onerror =
+        function (event) {
+
             console.error(
-                "語音辨識錯誤：",
-                event.error
+                "SpeechRecognition:",
+                event
             );
-            isRecording = false;
-            micButton.classList.remove(
-                "recording"
-            );
-            if(
+
+
+            recognizing =
+                false;
+
+            micButton
+                .classList
+                .remove(
+                    "recording"
+                );
+
+            statusText.textContent =
+                "AI";
+
+
+            let message =
+                "語音輸入無法使用";
+
+
+            if (
                 event.error ===
                 "not-allowed"
-            ){
-                status.textContent =
-                    "麥克風權限被拒絕";
-            }else{
-                status.textContent =
-                    "語音辨識暫時無法使用";
+            ) {
+
+                message =
+                    "麥克風權限被拒絕，請在瀏覽器設定中允許麥克風。";
+
+            } else if (
+                event.error ===
+                "no-speech"
+            ) {
+
+                message =
+                    "沒有偵測到聲音，請再試一次。";
+
+            } else if (
+                event.error ===
+                "network"
+            ) {
+
+                message =
+                    "語音辨識服務網路連線失敗。";
+
             }
-        };
-    rec.onend =
-        function(){
-            isRecording = false;
-            micButton.classList.remove(
-                "recording"
+
+
+            showError(
+                message
             );
-            if(
-                status.textContent ===
-                "正在聽你說話…"
-            ){
-                status.textContent =
-                    "玄境 AI 在線";
-            }
+
         };
-    return rec;
+
+
+    recognition.onend =
+        function () {
+
+            recognizing =
+                false;
+
+            micButton
+                .classList
+                .remove(
+                    "recording"
+                );
+
+            statusText.textContent =
+                "AI";
+
+        };
+
+} else {
+
+    micButton.title =
+        "目前瀏覽器不支援網頁語音辨識";
+
 }
-function toggleRecording(){
-    if(isSending) return;
-    if(!recognition){
-        recognition =
-            setupRecognition();
+
+
+micButton.addEventListener(
+    "click",
+    function () {
+
+        clearError();
+
+
+        if (!recognition) {
+
+            showError(
+                "你目前使用的瀏覽器沒有提供網頁語音辨識功能。文字聊天仍然可以使用。"
+            );
+
+            return;
+
+        }
+
+
+        if (recognizing) {
+
+            recognition.stop();
+
+            return;
+
+        }
+
+
+        try {
+
+            recognition.lang =
+                "zh-TW";
+
+            recognition.start();
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            showError(
+                "無法啟動語音輸入：" +
+                error.message
+            );
+
+        }
+
     }
-    if(!recognition){
-        alert(
-            "你的瀏覽器目前不支援語音輸入。\n\n請使用支援 Speech Recognition 的瀏覽器。"
+);
+
+
+/* =========================================================
+   27. AI 語音朗讀
+========================================================= */
+
+function detectSpeechLanguage(
+    text
+) {
+
+    /* 越南文 */
+    if (
+        /[ăâđêôơưÀ-ỹ]/i
+            .test(text)
+    ) {
+
+        return "vi-VN";
+
+    }
+
+
+    /* 韓文 */
+    if (
+        /[\uAC00-\uD7AF]/
+            .test(text)
+    ) {
+
+        return "ko-KR";
+
+    }
+
+
+    /* 日文 */
+    if (
+        /[\u3040-\u30FF]/
+            .test(text)
+    ) {
+
+        return "ja-JP";
+
+    }
+
+
+    /* 英文 */
+    if (
+        /^[\sA-Za-z0-9.,!?'"()\-:;]+$/
+            .test(text)
+    ) {
+
+        return "en-US";
+
+    }
+
+
+    return "zh-TW";
+
+}
+
+
+function speakText(
+    text
+) {
+
+    if (
+        !speakerEnabled
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        showError(
+            "目前瀏覽器不支援 AI 語音播放。"
         );
+
         return;
+
     }
-    if(isRecording){
-        recognition.stop();
-        return;
-    }
-    try{
-        recognition.start();
-    }catch(error){
-        console.error(error);
-    }
+
+
+    window.speechSynthesis.cancel();
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    utterance.lang =
+        detectSpeechLanguage(
+            text
+        );
+
+    utterance.rate =
+        .95;
+
+    utterance.pitch =
+        1;
+
+
+    utterance.onerror =
+        function (event) {
+
+            console.error(
+                "Speech synthesis:",
+                event
+            );
+
+        };
+
+
+    window.speechSynthesis.speak(
+        utterance
+    );
+
 }
+
+
 /* =========================================================
-   頁面啟動
+   28. 點擊訊息區關閉 Plus
 ========================================================= */
-status.textContent =
-    "玄境 AI 在線";
-input.focus();
+
+messages.addEventListener(
+    "click",
+    function () {
+
+        plusMenu.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
 /* =========================================================
-   防止整頁左右滑動
-   但允許上下滑動
+   29. 星空
 ========================================================= */
-let startX = 0;
-let startY = 0;
+
+function createStars() {
+
+    const space =
+        document.getElementById(
+            "space"
+        );
+
+
+    for (
+        let i = 0;
+        i < 150;
+        i++
+    ) {
+
+        const star =
+            document.createElement(
+                "div"
+            );
+
+        star.className =
+            "star";
+
+
+        star.style.left =
+            Math.random() *
+            100 +
+            "%";
+
+
+        star.style.top =
+            Math.random() *
+            100 +
+            "%";
+
+
+        const size =
+            Math.random() < .88
+                ? 1
+                : 2;
+
+
+        star.style.width =
+            size + "px";
+
+        star.style.height =
+            size + "px";
+
+
+        star.style.animationDelay =
+            Math.random() * 5 +
+            "s";
+
+
+        star.style.animationDuration =
+            2 +
+            Math.random() * 4 +
+            "s";
+
+
+        space.appendChild(
+            star
+        );
+
+    }
+
+}
+
+
+createStars();
+
+
+/* =========================================================
+   30. 流星
+========================================================= */
+
+function createMeteor() {
+
+    const meteor =
+        document.createElement(
+            "div"
+        );
+
+    meteor.className =
+        "meteor";
+
+
+    meteor.style.left =
+        70 +
+        Math.random() * 50 +
+        "%";
+
+
+    meteor.style.top =
+        Math.random() * 40 +
+        "%";
+
+
+    document.body.appendChild(
+        meteor
+    );
+
+
+    setTimeout(
+        function () {
+
+            meteor.remove();
+
+        },
+        1600
+    );
+
+}
+
+
+setInterval(
+    function () {
+
+        if (
+            Math.random() > .3
+        ) {
+
+            createMeteor();
+
+        }
+
+    },
+    6500
+);
+
+
+/* =========================================================
+   31. 防止整頁左右移動
+   保留訊息區上下滑動
+========================================================= */
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+
 document.addEventListener(
     "touchstart",
-    function(event){
-        if(
-            event.touches.length !== 1
-        ) return;
-        startX =
-            event.touches[0].clientX;
-        startY =
-            event.touches[0].clientY;
+    function (event) {
+
+        if (
+            !event.touches.length
+        ) {
+
+            return;
+
+        }
+
+
+        touchStartX =
+            event.touches[0]
+                .clientX;
+
+        touchStartY =
+            event.touches[0]
+                .clientY;
+
     },
     {
-        passive:true
+        passive: true
     }
 );
+
+
 document.addEventListener(
     "touchmove",
-    function(event){
-        if(
-            event.touches.length !== 1
-        ) return;
-        const x =
-            event.touches[0].clientX;
-        const y =
-            event.touches[0].clientY;
-        const dx =
-            x - startX;
-        const dy =
-            y - startY;
-        if(
-            Math.abs(dx) >
-            Math.abs(dy) &&
-            Math.abs(dx) > 8
-        ){
-            event.preventDefault();
+    function (event) {
+
+        if (
+            !event.touches.length
+        ) {
+
+            return;
+
         }
+
+
+        const x =
+            event.touches[0]
+                .clientX;
+
+        const y =
+            event.touches[0]
+                .clientY;
+
+
+        const dx =
+            x -
+            touchStartX;
+
+        const dy =
+            y -
+            touchStartY;
+
+
+        if (
+            Math.abs(dx) >
+            Math.abs(dy)
+        ) {
+
+            event.preventDefault();
+
+        }
+
     },
     {
-        passive:false
+        passive: false
     }
 );
+
+
+/* =========================================================
+   32. 初始化
+========================================================= */
+
+input.focus();
+
+autoResize();
+
+console.log(
+    "玄境 Chat 啟動"
+);
+
+console.log(
+    "AI URL:",
+    AI_FUNCTION_URL
+);
+
 </script>
+
+
+<!-- =====================================================
+     config.js
+     如果你有 config.js，請放在 chat.html 同一資料夾。
+     
+     本頁即使沒有 config.js，
+     也會使用內建 Supabase ai-chat URL。
+===================================================== -->
+
+<script src="config.js"></script>
+
 </body>
 </html>
