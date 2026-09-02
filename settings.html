@@ -2,754 +2,1164 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
 <title>玄境｜設定</title>
-
 <style>
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
     margin: 0;
     padding: 0;
-}
-
-html, body {
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
-}
-
-body {
-    background:
-        radial-gradient(circle at 50% 0%, rgba(100,85,155,.18), transparent 35%),
-        #08090f;
-    color: #eeeeF4;
+    background: #05030c;
+    color: #fff;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
-        "SF Pro Display",
         "PingFang TC",
-        "Microsoft JhengHei",
+        "Noto Sans TC",
         sans-serif;
 }
-
+/* =========================
+   星空背景
+========================= */
+body {
+    position: relative;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+/* 紫色星雲 */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(128, 60, 255, .24),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(180, 70, 255, .16),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(90, 40, 220, .20),
+            transparent 30%
+        );
+    filter: blur(45px);
+    animation: nebulaMove 18s ease-in-out infinite alternate;
+}
+@keyframes nebulaMove {
+    from {
+        transform: scale(1) translate3d(-2%, -1%, 0);
+    }
+    to {
+        transform: scale(1.12) translate3d(2%, 2%, 0);
+    }
+}
+/* 星光 */
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.9);
+    box-shadow:
+        0 0 5px rgba(180,120,255,.8);
+    animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle {
+    0%,100% {
+        opacity: .25;
+        transform: scale(.7);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+/* 流星 */
+.meteor {
+    position: fixed;
+    width: 120px;
+    height: 1px;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0),
+        rgba(205,150,255,.9),
+        rgba(255,255,255,0)
+    );
+    transform: rotate(-35deg);
+    opacity: 0;
+    animation: meteorMove 1.5s linear forwards;
+}
+@keyframes meteorMove {
+    0% {
+        opacity: 0;
+        transform:
+            translate3d(0,0,0)
+            rotate(-35deg);
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform:
+            translate3d(-420px,420px,0)
+            rotate(-35deg);
+    }
+}
+/* =========================
+   內容
+========================= */
+.page {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+/* =========================
+   Top Bar
+========================= */
 .topbar {
     position: sticky;
     top: 0;
-    z-index: 100;
-    height: 66px;
+    z-index: 20;
+    width: 100%;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 18px;
-    background: rgba(8,9,15,.84);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255,255,255,.07);
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,3,12,.94),
+            rgba(5,3,12,.72)
+        );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(190,130,255,.12);
 }
-
+.brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.brand-main {
+    font-size: 19px;
+    letter-spacing: 3px;
+    font-weight: 600;
+}
+.brand-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.42);
+}
+/* Home */
 .home-btn {
     width: 42px;
     height: 42px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.035);
-    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(210,160,255,.25);
+    background: rgba(110,60,180,.10);
     cursor: pointer;
 }
-
 .home-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
+    stroke: rgba(235,215,255,.9);
+    stroke-width: 1.5;
     fill: none;
-    stroke: currentColor;
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
 }
-
-.title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
+.home-btn:active {
+    transform: scale(.94);
 }
-
-.title h1 {
-    font-size: 18px;
+/* =========================
+   Header
+========================= */
+.header {
+    padding: 34px 20px 18px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 30px;
     font-weight: 500;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
 }
-
-.title p {
-    margin-top: 3px;
-    color: rgba(255,255,255,.38);
-    font-size: 11px;
+.header p {
+    margin: 9px 0 0;
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(255,255,255,.56);
 }
-
-.container {
-    width: min(760px, calc(100% - 28px));
-    margin: auto;
-    padding: 26px 0 80px;
-}
-
+/* =========================
+   Section
+========================= */
 .section {
-    margin-bottom: 28px;
+    margin: 0 16px 18px;
 }
-
 .section-title {
-    margin: 0 4px 11px;
-    color: rgba(255,255,255,.42);
+    margin: 0 0 9px 5px;
     font-size: 12px;
     letter-spacing: 2px;
+    color: rgba(214,180,255,.72);
 }
-
-.panel {
+/* =========================
+   Card
+========================= */
+.card {
+    width: 100%;
+    border: 1px solid rgba(200,150,255,.13);
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(42,22,70,.42),
+            rgba(15,9,28,.72)
+        );
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.025);
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 21px;
-    background: rgba(255,255,255,.025);
 }
-
+/* =========================
+   Profile
+========================= */
+.profile {
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(205,155,255,.35);
+    background:
+        radial-gradient(
+            circle,
+            rgba(150,80,255,.34),
+            rgba(40,18,70,.65)
+        );
+    box-shadow:
+        0 0 25px rgba(150,70,255,.18);
+}
+.avatar svg {
+    width: 27px;
+    height: 27px;
+    fill: none;
+    stroke: rgba(240,220,255,.9);
+    stroke-width: 1.4;
+}
+.profile-info {
+    min-width: 0;
+}
+.profile-name {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+.profile-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,.48);
+}
+/* =========================
+   Setting Row
+========================= */
 .setting-row {
-    min-height: 67px;
-    padding: 14px 17px;
+    min-height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    border-bottom: 1px solid rgba(255,255,255,.055);
+    padding: 13px 17px;
+    border-top: 1px solid rgba(255,255,255,.055);
 }
-
-.setting-row:last-child {
-    border-bottom: none;
-}
-
-.row-left {
+.setting-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
     min-width: 0;
 }
-
-.row-title {
-    font-size: 14px;
-    font-weight: 450;
-}
-
-.row-description {
-    margin-top: 4px;
-    color: rgba(255,255,255,.36);
-    font-size: 11px;
-    line-height: 1.5;
-}
-
-.arrow {
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    fill: none;
-    stroke: rgba(255,255,255,.35);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.toggle {
-    position: relative;
-    width: 48px;
-    height: 28px;
-    min-width: 48px;
-}
-
-.toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    inset: 0;
-    border-radius: 30px;
-    background: rgba(255,255,255,.12);
-    cursor: pointer;
-    transition: .2s;
-}
-
-.slider::before {
-    content: "";
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    left: 3px;
-    top: 3px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.78);
-    transition: .2s;
-}
-
-.toggle input:checked + .slider {
-    background: rgba(145,125,210,.48);
-}
-
-.toggle input:checked + .slider::before {
-    transform: translateX(20px);
-    background: white;
-}
-
-.value {
-    color: rgba(255,255,255,.48);
-    font-size: 12px;
-}
-
-.profile-card {
-    padding: 22px;
-}
-
-.profile-avatar {
-    width: 68px;
-    height: 68px;
-    margin-bottom: 15px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,.12);
+.setting-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,.035);
+    border-radius: 12px;
+    background: rgba(125,70,190,.12);
+    border: 1px solid rgba(205,155,255,.12);
 }
-
-.profile-avatar svg {
-    width: 31px;
-    height: 31px;
+.setting-icon svg {
+    width: 19px;
+    height: 19px;
     fill: none;
-    stroke: rgba(235,235,245,.72);
-    stroke-width: 1.35;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke: rgba(225,200,255,.78);
+    stroke-width: 1.45;
 }
-
-.profile-name {
-    font-size: 18px;
-    font-weight: 450;
+.setting-text {
+    min-width: 0;
 }
-
-.profile-sub {
-    margin-top: 5px;
-    color: rgba(255,255,255,.37);
-    font-size: 12px;
+.setting-title {
+    font-size: 14px;
+    margin-bottom: 4px;
 }
-
-.danger {
-    color: rgba(255,150,150,.82);
-}
-
-.version {
-    text-align: center;
-    color: rgba(255,255,255,.22);
+.setting-desc {
     font-size: 11px;
-    line-height: 1.7;
-    margin-top: 34px;
+    line-height: 1.5;
+    color: rgba(255,255,255,.40);
 }
-
-button {
-    font-family: inherit;
+/* =========================
+   Switch
+========================= */
+.switch {
+    position: relative;
+    width: 48px;
+    height: 27px;
+    flex: 0 0 48px;
+    margin-left: 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.08);
+    cursor: pointer;
+    transition: .25s ease;
 }
-
-/* 小彈窗 */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(0,0,0,.65);
-    backdrop-filter: blur(10px);
+.switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.72);
+    transition: .25s ease;
 }
-
-.modal-box {
-    width: min(500px,100%);
-    padding: 24px;
-    border-radius: 23px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: #101119;
+.switch.active {
+    background: rgba(130,65,220,.48);
+    border-color: rgba(205,155,255,.38);
+    box-shadow:
+        0 0 14px rgba(145,75,255,.20);
 }
-
-.modal-box h2 {
-    font-size: 18px;
-    font-weight: 450;
+.switch.active::after {
+    transform: translateX(21px);
+    background: #fff;
 }
-
-.modal-box p {
-    margin-top: 9px;
-    color: rgba(255,255,255,.43);
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-.modal-close {
+/* =========================
+   Action Button
+========================= */
+.action-row {
     width: 100%;
-    height: 45px;
-    margin-top: 20px;
-    border-radius: 13px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.06);
-    color: white;
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 18px;
+    border-top: 1px solid rgba(255,255,255,.055);
     cursor: pointer;
 }
-
-@media(max-width:600px) {
-
-    .container {
-        width: calc(100% - 20px);
-        padding-top: 19px;
+.action-row:active {
+    background: rgba(150,80,230,.08);
+}
+.action-label {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 14px;
+}
+.action-arrow {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: rgba(255,255,255,.38);
+    stroke-width: 1.4;
+}
+/* =========================
+   Privacy Box
+========================= */
+.privacy-box {
+    padding: 20px;
+}
+.privacy-title {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+.privacy-text {
+    font-size: 12px;
+    line-height: 1.9;
+    color: rgba(255,255,255,.48);
+}
+.privacy-list {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+}
+.privacy-list li {
+    position: relative;
+    padding-left: 16px;
+    margin: 8px 0;
+    font-size: 12px;
+    color: rgba(255,255,255,.55);
+}
+.privacy-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(190,130,255,.8);
+}
+/* =========================
+   Danger
+========================= */
+.danger {
+    color: rgba(255,150,170,.78);
+}
+.danger svg {
+    stroke: rgba(255,150,170,.75);
+}
+/* =========================
+   Toast
+========================= */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform:
+        translateX(-50%)
+        translateY(20px);
+    z-index: 100;
+    max-width: calc(100% - 40px);
+    padding: 11px 17px;
+    border-radius: 14px;
+    background: rgba(35,20,55,.94);
+    border: 1px solid rgba(205,155,255,.22);
+    color: rgba(255,255,255,.88);
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: .25s ease;
+    backdrop-filter: blur(14px);
+}
+.toast.show {
+    opacity: 1;
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+/* =========================
+   Footer
+========================= */
+.footer {
+    padding: 15px 20px 40px;
+    text-align: center;
+    color: rgba(255,255,255,.25);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+/* =========================
+   防止整頁左右移動
+   保留上下滑動
+========================= */
+body,
+.page {
+    touch-action: pan-y;
+    overscroll-behavior-x: none;
+}
+@media (max-width: 420px) {
+    .header h1 {
+        font-size: 27px;
     }
-
     .setting-row {
-        min-height: 64px;
-        padding: 13px 14px;
+        padding-left: 14px;
+        padding-right: 14px;
     }
-
-    .row-title {
-        font-size: 13px;
+    .setting-desc {
+        max-width: 220px;
     }
 }
 </style>
 </head>
-
 <body>
-
-<header class="topbar">
-
-    <button class="home-btn" onclick="location.href='home.html'" aria-label="回到 Home">
-        <svg viewBox="0 0 24 24">
-            <path d="M3.5 11.2 12 4l8.5 7.2"/>
-            <path d="M5.5 10.5V20h13v-9.5"/>
-            <path d="M9.5 20v-5.5h5V20"/>
-        </svg>
-    </button>
-
-    <div class="title">
-        <h1>玄境設定</h1>
-        <p>由你決定玄境如何陪伴你</p>
+<!-- 星空 -->
+<div id="stars"></div>
+<div class="page">
+    <!-- =========================
+         Top Bar
+    ========================== -->
+    <div class="topbar">
+        <div class="brand">
+            <div class="brand-main">玄境</div>
+            <div class="brand-sub">YOUR PRIVATE SPACE</div>
+        </div>
+        <button
+            class="home-btn"
+            id="homeBtn"
+            aria-label="回到 Home">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 10.5L12 3l9 7.5"></path>
+                <path d="M5.5 9.5V21h13V9.5"></path>
+                <path d="M9.5 21v-6h5v6"></path>
+            </svg>
+        </button>
     </div>
-
-    <div style="width:42px"></div>
-
-</header>
-
-
-<main class="container">
-
-    <!-- 個人 -->
-
-    <section class="section">
-
-        <div class="section-title">我的玄境</div>
-
-        <div class="panel">
-
-            <div class="profile-card">
-
-                <div class="profile-avatar">
+    <!-- =========================
+         Header
+    ========================== -->
+    <div class="header">
+        <h1>玄境設定</h1>
+        <p>
+            這裡由你決定玄境如何陪伴你。
+            <br>
+            你的資料、記憶、聲音與權限，都由你掌握。
+        </p>
+    </div>
+    <!-- =========================
+         Profile
+    ========================== -->
+    <div class="section">
+        <div class="section-title">
+            我的玄境
+        </div>
+        <div class="card">
+            <div class="profile">
+                <div class="avatar">
                     <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="8" r="3.2"/>
-                        <path d="M5.5 20c.8-4 3-6 6.5-6s5.7 2 6.5 6"/>
+                        <circle cx="12" cy="8" r="3.2"></circle>
+                        <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"></path>
                     </svg>
                 </div>
-
-                <div class="profile-name">我的玄境</div>
-
-                <div class="profile-sub">
-                    這裡只屬於你，你可以隨時改變它。
+                <div class="profile-info">
+                    <div class="profile-name">
+                        我的玄境
+                    </div>
+                    <div class="profile-desc">
+                        一個屬於你的私人數位空間
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
-    </section>
-
-
-    <!-- AI -->
-
-    <section class="section">
-
-        <div class="section-title">玄境 AI</div>
-
-        <div class="panel">
-
-            <div class="setting-row" onclick="openModal(
-                'AI 行為',
-                '玄境 AI 應該理解你的需求、分析資訊、提供選項並協助執行，而不是替你決定人生。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title">AI 行為</div>
-                    <div class="row-description">
-                        調整玄境 AI 的思考與協助方式
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <div class="row-left">
-                    <div class="row-title">AI 語音</div>
-                    <div class="row-description">
-                        AI 回覆時自動使用語音
-                    </div>
-                </div>
-
-                <label class="toggle">
-                    <input
-                        id="voiceToggle"
-                        type="checkbox"
-                        checked
-                        onchange="saveSetting('voice', this.checked)"
-                    >
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <div class="row-left">
-                    <div class="row-title">語音輸入</div>
-                    <div class="row-description">
-                        使用麥克風與玄境交流
-                    </div>
-                </div>
-
-                <label class="toggle">
-                    <input
-                        id="micToggle"
-                        type="checkbox"
-                        checked
-                        onchange="saveSetting('mic', this.checked)"
-                    >
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- 記憶 -->
-
-    <section class="section">
-
-        <div class="section-title">玄憶</div>
-
-        <div class="panel">
-
-            <div class="setting-row" onclick="openModal(
-                '我的記憶',
-                '玄憶中的資料屬於你。未來你可以查看、修改、刪除，也可以決定哪些資料允許玄境使用。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title">我的記憶</div>
-                    <div class="row-description">
-                        查看與管理已保存的內容
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-
-            <div class="setting-row">
-
-                <div class="row-left">
-                    <div class="row-title">允許 AI 使用記憶</div>
-                    <div class="row-description">
-                        AI 回答問題時，可以使用你已授權的記憶
-                    </div>
-                </div>
-
-                <label class="toggle">
-                    <input
-                        id="memoryToggle"
-                        type="checkbox"
-                        checked
-                        onchange="saveSetting('memory', this.checked)"
-                    >
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- 隱私 -->
-
-    <section class="section">
-
-        <div class="section-title">隱私與權限</div>
-
-        <div class="panel">
-
-            <div class="setting-row" onclick="openModal(
-                '資料權限',
-                '玄境應只使用你允許使用的資料。高風險操作需要你的確認。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title">資料權限</div>
-                    <div class="row-description">
-                        管理玄境可以使用哪些資料
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-
-            <div class="setting-row" onclick="openModal(
-                '隱私原則',
-                '你的資料應該屬於你。玄境不應在未經授權的情況下讀取、使用或分享你的私人資料。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title">隱私原則</div>
-                    <div class="row-description">
-                        查看玄境如何保護你的資料
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- 通知 -->
-
-    <section class="section">
-
-        <div class="section-title">通知</div>
-
-        <div class="panel">
-
-            <div class="setting-row">
-
-                <div class="row-left">
-                    <div class="row-title">提醒通知</div>
-                    <div class="row-description">
-                        接收任務、行程與重要提醒
-                    </div>
-                </div>
-
-                <label class="toggle">
-                    <input
-                        id="notificationToggle"
-                        type="checkbox"
-                        onchange="saveSetting('notification', this.checked)"
-                    >
-                    <span class="slider"></span>
-                </label>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- 危險操作 -->
-
-    <section class="section">
-
-        <div class="section-title">資料管理</div>
-
-        <div class="panel">
-
-            <div class="setting-row" onclick="openModal(
-                '匯出資料',
-                '未來可以把你的玄境資料匯出，包括記憶、對話、任務與其他屬於你的資料。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title">匯出我的資料</div>
-                    <div class="row-description">
-                        把你的資料帶走
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-
-            <div class="setting-row" onclick="openModal(
-                '刪除資料',
-                '刪除資料是一項不可逆操作。正式功能完成後，這裡會要求再次確認。'
-            )">
-
-                <div class="row-left">
-                    <div class="row-title danger">刪除資料</div>
-                    <div class="row-description">
-                        永久刪除你的玄境資料
-                    </div>
-                </div>
-
-                <svg class="arrow" viewBox="0 0 24 24">
-                    <path d="m9 5 7 7-7 7"/>
-                </svg>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <div class="version">
-        玄境 AI<br>
-        以人為本 · 以人為核心 · 服務於人
     </div>
-
-</main>
-
-
-<!-- Modal -->
-
-<div id="modal" class="modal" onclick="closeModal(event)">
-
-    <div class="modal-box" onclick="event.stopPropagation()">
-
-        <h2 id="modalTitle"></h2>
-
-        <p id="modalText"></p>
-
-        <button class="modal-close" onclick="closeModal()">
-            知道了
-        </button>
-
+    <!-- =========================
+         AI 設定
+    ========================== -->
+    <div class="section">
+        <div class="section-title">
+            AI
+        </div>
+        <div class="card">
+            <!-- AI 主動協助 -->
+            <div class="setting-row">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="7"></circle>
+                            <path d="M9 12h6"></path>
+                            <path d="M12 9v6"></path>
+                        </svg>
+                    </div>
+                    <div class="setting-text">
+                        <div class="setting-title">
+                            AI 主動協助
+                        </div>
+                        <div class="setting-desc">
+                            讓玄境在你需要時主動提出分析與建議
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="switch active"
+                    data-setting="aiAssist">
+                </div>
+            </div>
+            <!-- AI 語音 -->
+            <div class="setting-row">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect
+                                x="9"
+                                y="4"
+                                width="6"
+                                height="11"
+                                rx="3">
+                            </rect>
+                            <path d="M6 11a6 6 0 0 0 12 0"></path>
+                            <path d="M12 17v3"></path>
+                            <path d="M9 20h6"></path>
+                        </svg>
+                    </div>
+                    <div class="setting-text">
+                        <div class="setting-title">
+                            AI 語音
+                        </div>
+                        <div class="setting-desc">
+                            允許玄境使用語音回答
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="switch"
+                    data-setting="aiVoice">
+                </div>
+            </div>
+            <!-- 語音輸入 -->
+            <div class="setting-row">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect
+                                x="9"
+                                y="4"
+                                width="6"
+                                height="11"
+                                rx="3">
+                            </rect>
+                            <path d="M6 11a6 6 0 0 0 12 0"></path>
+                            <path d="M12 17v3"></path>
+                            <path d="M9 20h6"></path>
+                        </svg>
+                    </div>
+                    <div class="setting-text">
+                        <div class="setting-title">
+                            語音輸入
+                        </div>
+                        <div class="setting-desc">
+                            使用麥克風與玄境交流
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="switch active"
+                    data-setting="voiceInput">
+                </div>
+            </div>
+        </div>
     </div>
-
+    <!-- =========================
+         記憶
+    ========================== -->
+    <div class="section">
+        <div class="section-title">
+            玄憶
+        </div>
+        <div class="card">
+            <div class="setting-row">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M7 4h10v16H7z"></path>
+                            <path d="M9.5 8h5"></path>
+                            <path d="M9.5 12h5"></path>
+                            <path d="M9.5 16h3"></path>
+                        </svg>
+                    </div>
+                    <div class="setting-text">
+                        <div class="setting-title">
+                            使用玄憶
+                        </div>
+                        <div class="setting-desc">
+                            允許玄境在你授權後使用已保存的記憶
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="switch active"
+                    data-setting="memory">
+                </div>
+            </div>
+            <div
+                class="action-row"
+                id="memoryBtn">
+                <div class="action-label">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="7"></circle>
+                            <path d="M12 8v4l3 2"></path>
+                        </svg>
+                    </div>
+                    管理我的記憶
+                </div>
+                <svg
+                    class="action-arrow"
+                    viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+         通知
+    ========================== -->
+    <div class="section">
+        <div class="section-title">
+            提醒
+        </div>
+        <div class="card">
+            <div class="setting-row">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8"></path>
+                            <path d="M10 21h4"></path>
+                        </svg>
+                    </div>
+                    <div class="setting-text">
+                        <div class="setting-title">
+                            玄境提醒
+                        </div>
+                        <div class="setting-desc">
+                            允許玄境提醒你重要的事情
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="switch"
+                    data-setting="notification">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+         隱私
+    ========================== -->
+    <div class="section">
+        <div class="section-title">
+            隱私與資料
+        </div>
+        <div class="card">
+            <div class="privacy-box">
+                <div class="privacy-title">
+                    你的資料，由你決定
+                </div>
+                <div class="privacy-text">
+                    玄境的核心不是替你控制人生，而是把選擇權交還給你。
+                </div>
+                <ul class="privacy-list">
+                    <li>
+                        什麼資料要保存，由你決定。
+                    </li>
+                    <li>
+                        已保存的內容可以管理或刪除。
+                    </li>
+                    <li>
+                        重要權限需要經過你的同意。
+                    </li>
+                    <li>
+                        AI 不應把自己的判斷當成你的決定。
+                    </li>
+                </ul>
+            </div>
+            <!-- 權限 -->
+            <div
+                class="action-row"
+                id="permissionBtn">
+                <div class="action-label">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect
+                                x="5"
+                                y="10"
+                                width="14"
+                                height="10"
+                                rx="2">
+                            </rect>
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                        </svg>
+                    </div>
+                    資料與權限
+                </div>
+                <svg
+                    class="action-arrow"
+                    viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            <!-- 匯出 -->
+            <div
+                class="action-row"
+                id="exportBtn">
+                <div class="action-label">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 4v11"></path>
+                            <path d="M8 11l4 4 4-4"></path>
+                            <path d="M5 19h14"></path>
+                        </svg>
+                    </div>
+                    匯出我的資料
+                </div>
+                <svg
+                    class="action-arrow"
+                    viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+            <!-- 刪除 -->
+            <div
+                class="action-row danger"
+                id="deleteBtn">
+                <div class="action-label">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M5 7h14"></path>
+                            <path d="M9 7V4h6v3"></path>
+                            <path d="M7 7l1 13h8l1-13"></path>
+                            <path d="M10 11v5"></path>
+                            <path d="M14 11v5"></path>
+                        </svg>
+                    </div>
+                    管理／刪除資料
+                </div>
+                <svg
+                    class="action-arrow"
+                    viewBox="0 0 24 24">
+                    <path d="M9 5l7 7-7 7"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- =========================
+         Footer
+    ========================== -->
+    <div class="footer">
+        玄境 AI · 以人為本，以人為核心
+    </div>
 </div>
-
-
+<!-- Toast -->
+<div
+    id="toast"
+    class="toast">
+</div>
 <script>
-
+/* =====================================================
+   玄境 Setting
+   只處理設定頁本身
+===================================================== */
 /* =========================
-   設定保存
+   星空
 ========================= */
-
-function saveSetting(name, value) {
-
+const stars = document.getElementById("stars");
+for (let i = 0; i < 150; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.style.left =
+        Math.random() * 100 + "%";
+    star.style.top =
+        Math.random() * 100 + "%";
+    const size =
+        Math.random() < .85
+            ? 1
+            : 2.5;
+    star.style.width =
+        size + "px";
+    star.style.height =
+        size + "px";
+    star.style.animationDelay =
+        (Math.random() * 5) + "s";
+    star.style.animationDuration =
+        (2 + Math.random() * 4) + "s";
+    stars.appendChild(star);
+}
+/* =========================
+   流星
+========================= */
+function createMeteor() {
+    const meteor =
+        document.createElement("div");
+    meteor.className = "meteor";
+    meteor.style.left =
+        (20 + Math.random() * 100) + "%";
+    meteor.style.top =
+        (-10 + Math.random() * 50) + "%";
+    document.body.appendChild(meteor);
+    setTimeout(() => {
+        meteor.remove();
+    }, 1600);
+}
+/* 偶爾出現 */
+setInterval(() => {
+    if (Math.random() > .35) {
+        createMeteor();
+    }
+}, 7000);
+/* =========================
+   Toast
+========================= */
+const toast =
+    document.getElementById("toast");
+let toastTimer = null;
+function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer =
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2200);
+}
+/* =========================
+   Home
+========================= */
+document
+    .getElementById("homeBtn")
+    .addEventListener("click", () => {
+        window.location.href = "home.html";
+    });
+/* =========================
+   設定資料
+========================= */
+const defaultSettings = {
+    aiAssist: true,
+    aiVoice: false,
+    voiceInput: true,
+    memory: true,
+    notification: false
+};
+let settings = {
+    ...defaultSettings,
+    ...JSON.parse(
+        localStorage.getItem(
+            "xuanjing_settings"
+        ) || "{}"
+    )
+};
+/* =========================
+   儲存
+========================= */
+function saveSettings() {
     localStorage.setItem(
-        "xuanjing_setting_" + name,
-        value ? "true" : "false"
+        "xuanjing_settings",
+        JSON.stringify(settings)
     );
 }
-
-
 /* =========================
-   載入設定
+   更新 Switch
 ========================= */
-
-function loadSettings() {
-
-    const voice =
-        localStorage.getItem("xuanjing_setting_voice");
-
-    const mic =
-        localStorage.getItem("xuanjing_setting_mic");
-
-    const memory =
-        localStorage.getItem("xuanjing_setting_memory");
-
-    const notification =
-        localStorage.getItem("xuanjing_setting_notification");
-
-
-    if (voice !== null) {
-        document.getElementById("voiceToggle").checked =
-            voice === "true";
-    }
-
-    if (mic !== null) {
-        document.getElementById("micToggle").checked =
-            mic === "true";
-    }
-
-    if (memory !== null) {
-        document.getElementById("memoryToggle").checked =
-            memory === "true";
-    }
-
-    if (notification !== null) {
-        document.getElementById("notificationToggle").checked =
-            notification === "true";
-    }
+function refreshSwitches() {
+    document
+        .querySelectorAll(".switch")
+        .forEach(sw => {
+            const key =
+                sw.dataset.setting;
+            if (!key) return;
+            if (settings[key]) {
+                sw.classList.add("active");
+            } else {
+                sw.classList.remove("active");
+            }
+        });
 }
-
-
 /* =========================
-   Modal
+   Switch 點擊
 ========================= */
-
-function openModal(title, text) {
-
-    document.getElementById("modalTitle").textContent = title;
-
-    document.getElementById("modalText").textContent = text;
-
-    document.getElementById("modal").style.display = "flex";
-}
-
-
-function closeModal(event) {
-
-    if (
-        event &&
-        event.target !== document.getElementById("modal")
-    ) {
-        return;
-    }
-
-    document.getElementById("modal").style.display = "none";
-}
-
-
+document
+    .querySelectorAll(".switch")
+    .forEach(sw => {
+        sw.addEventListener(
+            "click",
+            () => {
+                const key =
+                    sw.dataset.setting;
+                if (!key) return;
+                settings[key] =
+                    !settings[key];
+                saveSettings();
+                refreshSwitches();
+                const names = {
+                    aiAssist:
+                        "AI 主動協助",
+                    aiVoice:
+                        "AI 語音",
+                    voiceInput:
+                        "語音輸入",
+                    memory:
+                        "玄憶",
+                    notification:
+                        "玄境提醒"
+                };
+                showToast(
+                    names[key] +
+                    (settings[key]
+                        ? " 已開啟"
+                        : " 已關閉")
+                );
+            }
+        );
+    });
+/* =========================
+   管理記憶
+========================= */
+document
+    .getElementById("memoryBtn")
+    .addEventListener(
+        "click",
+        () => {
+            window.location.href =
+                "memory.html";
+        }
+    );
+/* =========================
+   資料與權限
+========================= */
+document
+    .getElementById("permissionBtn")
+    .addEventListener(
+        "click",
+        () => {
+            showToast(
+                "資料與權限管理功能正在建立中"
+            );
+        }
+    );
+/* =========================
+   匯出資料
+========================= */
+document
+    .getElementById("exportBtn")
+    .addEventListener(
+        "click",
+        () => {
+            const data = {
+                settings: settings,
+                exported_at:
+                    new Date()
+                    .toISOString(),
+                app:
+                    "玄境 AI"
+            };
+            const blob =
+                new Blob(
+                    [
+                        JSON.stringify(
+                            data,
+                            null,
+                            2
+                        )
+                    ],
+                    {
+                        type:
+                            "application/json"
+                    }
+                );
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+            const a =
+                document.createElement("a");
+            a.href = url;
+            a.download =
+                "xuanjing-settings.json";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+            showToast(
+                "設定資料已匯出"
+            );
+        }
+    );
+/* =========================
+   刪除資料
+========================= */
+document
+    .getElementById("deleteBtn")
+    .addEventListener(
+        "click",
+        () => {
+            const ok =
+                confirm(
+                    "這裡目前只會管理本機設定資料。\n\n確定要清除本機設定嗎？"
+                );
+            if (!ok) return;
+            localStorage.removeItem(
+                "xuanjing_settings"
+            );
+            settings =
+                { ...defaultSettings };
+            refreshSwitches();
+            showToast(
+                "本機設定已恢復預設"
+            );
+        }
+    );
 /* =========================
    初始化
 ========================= */
-
-loadSettings();
-
+refreshSwitches();
+/* =========================
+   僅禁止整頁左右滑動
+   上下仍然可以正常滑動
+========================= */
+let startX = 0;
+let startY = 0;
+document.addEventListener(
+    "touchstart",
+    e => {
+        if (!e.touches.length) return;
+        startX =
+            e.touches[0].clientX;
+        startY =
+            e.touches[0].clientY;
+    },
+    { passive: true }
+);
+document.addEventListener(
+    "touchmove",
+    e => {
+        if (!e.touches.length) return;
+        const x =
+            e.touches[0].clientX;
+        const y =
+            e.touches[0].clientY;
+        const dx =
+            x - startX;
+        const dy =
+            y - startY;
+        /* 只有明顯左右滑才阻止 */
+        if (
+            Math.abs(dx) >
+            Math.abs(dy)
+        ) {
+            e.preventDefault();
+        }
+    },
+    { passive: false }
+);
 </script>
-
 </body>
 </html>
