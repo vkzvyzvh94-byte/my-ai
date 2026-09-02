@@ -1,1316 +1,1750 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
 <title>玄境 AI｜交流</title>
 
+<script src="config.js"></script>
+
 <style>
+
 * {
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
 }
 
 body {
+    min-height: 100vh;
+
     background:
-        radial-gradient(circle at 50% 0%, rgba(110, 85, 180, 0.14), transparent 42%),
-        #08090d;
-    color: #f3f0e8;
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(121, 64, 255, .16),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 15% 75%,
+            rgba(88, 42, 180, .12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 45%,
+            rgba(160, 75, 255, .08),
+            transparent 28%
+        ),
+        #05030b;
+
+    color: #fff;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "PingFang TC",
         "Noto Sans TC",
-        "Microsoft JhengHei",
         sans-serif;
+
+    position: relative;
+
+    overflow-y: auto;
 }
 
-/* =========================
-   頂部
-========================= */
 
-.topbar {
+/* ==================================================
+   玄境紫色星光
+================================================== */
+
+#stars {
+
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    z-index: 50;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    inset: 0;
 
-    background: rgba(8, 9, 13, 0.86);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    overflow: hidden;
 
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+
+    z-index: 0;
 }
 
-.top-title {
-    text-align: center;
-}
 
-.top-title-main {
-    font-size: 17px;
-    letter-spacing: 3px;
-}
+.star {
 
-.top-title-sub {
-    margin-top: 4px;
-    font-size: 10px;
-    color: rgba(255,255,255,0.42);
-    letter-spacing: 2px;
-}
-
-.icon-button {
     position: absolute;
 
-    width: 42px;
-    height: 42px;
+    width: 2px;
+    height: 2px;
+
+    border-radius: 50%;
+
+    background: rgba(216, 190, 255, .85);
+
+    box-shadow:
+        0 0 5px rgba(177, 110, 255, .85),
+        0 0 12px rgba(137, 73, 255, .45);
+
+    animation:
+        starTwinkle
+        var(--duration)
+        ease-in-out
+        infinite;
+
+    animation-delay: var(--delay);
+}
+
+
+.star.big {
+
+    width: 3px;
+    height: 3px;
+
+    background: rgba(231, 214, 255, .95);
+
+    box-shadow:
+        0 0 7px rgba(226, 201, 255, 1),
+        0 0 18px rgba(151, 86, 255, .8),
+        0 0 30px rgba(108, 49, 255, .35);
+}
+
+
+@keyframes starTwinkle {
+
+    0%,
+    100% {
+
+        opacity: .15;
+
+        transform: scale(.7);
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform: scale(1.45);
+    }
+}
+
+
+/* ==================================================
+   紫色星雲
+================================================== */
+
+.nebula {
+
+    position: fixed;
+
+    width: 380px;
+    height: 380px;
+
+    border-radius: 50%;
+
+    filter: blur(75px);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: .13;
+}
+
+
+.nebula.one {
+
+    background: #713cff;
+
+    left: -150px;
+    top: 12%;
+
+    animation:
+        nebulaOne
+        18s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+.nebula.two {
+
+    background: #a34dff;
+
+    right: -160px;
+    top: 48%;
+
+    animation:
+        nebulaTwo
+        22s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+@keyframes nebulaOne {
+
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(90px, 70px);
+    }
+}
+
+
+@keyframes nebulaTwo {
+
+    from {
+        transform: translate(0, 0);
+    }
+
+    to {
+        transform: translate(-80px, -50px);
+    }
+}
+
+
+/* ==================================================
+   流星
+================================================== */
+
+.meteor {
+
+    position: fixed;
+
+    width: 2px;
+    height: 2px;
+
+    border-radius: 50%;
+
+    background: rgba(238, 222, 255, 1);
+
+    box-shadow:
+        0 0 6px rgba(224, 190, 255, 1),
+        0 0 16px rgba(153, 83, 255, .9);
+
+    pointer-events: none;
+
+    z-index: 1;
+
+    opacity: 0;
+
+    transform: rotate(-35deg);
+}
+
+
+.meteor::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: 1px;
+    top: 0;
+
+    width: 90px;
+    height: 1px;
+
+    transform-origin: right center;
+
+    background:
+        linear-gradient(
+            to left,
+            rgba(226, 198, 255, .85),
+            rgba(145, 79, 255, .35),
+            transparent
+        );
+
+    filter: blur(.4px);
+}
+
+
+.meteor.fly {
+
+    animation:
+        meteorFly
+        1.25s
+        ease-out
+        forwards;
+}
+
+
+@keyframes meteorFly {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(0, 0)
+            rotate(-35deg);
+    }
+
+    10% {
+
+        opacity: 1;
+    }
+
+    75% {
+
+        opacity: .9;
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translate(-260px, 190px)
+            rotate(-35deg);
+    }
+}
+
+
+/* ==================================================
+   頂部
+================================================== */
+
+.topbar {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 20;
+
+    height: 68px;
+
+    padding: 12px 16px;
 
     display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        rgba(5, 3, 11, .68);
+
+    backdrop-filter: blur(18px);
+
+    border-bottom:
+        1px solid rgba(183, 134, 255, .12);
+}
+
+
+.top-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.back-btn {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(198, 166, 255, .23);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color: #ddd;
+
+    display: flex;
+
     align-items: center;
     justify-content: center;
-
-    border: 0;
-    background: transparent;
-    color: rgba(255,255,255,0.82);
 
     cursor: pointer;
 }
 
-.icon-button:active {
-    opacity: 0.55;
-}
 
-.back-button {
-    left: 10px;
-}
+.back-btn svg {
 
-.speaker-button {
-    right: 10px;
-}
-
-.icon {
-    width: 22px;
-    height: 22px;
+    width: 19px;
+    height: 19px;
 
     fill: none;
+
     stroke: currentColor;
-    stroke-width: 1.6;
+
+    stroke-width: 1.5;
+
     stroke-linecap: round;
+
     stroke-linejoin: round;
 }
 
-/* =========================
-   狀態
-========================= */
 
-.status {
-    position: fixed;
-    top: 78px;
-    left: 0;
-    right: 0;
+.title-area strong {
 
-    z-index: 20;
-
-    text-align: center;
-
-    font-size: 11px;
-    color: rgba(255,255,255,0.38);
-}
-
-.status-dot {
-    display: inline-block;
-
-    width: 6px;
-    height: 6px;
-
-    margin-right: 5px;
-
-    border-radius: 50%;
-    background: #7dd8a6;
-
-    box-shadow: 0 0 10px rgba(125,216,166,0.55);
-}
-
-/* =========================
-   聊天區
-========================= */
-
-.chat-area {
-    width: 100%;
-    max-width: 820px;
-
-    margin: 0 auto;
-
-    padding:
-        112px
-        16px
-        190px;
-
-    min-height: 100vh;
-}
-
-.welcome {
-    text-align: center;
-
-    padding: 38px 18px 30px;
-}
-
-.welcome-symbol {
-    width: 58px;
-    height: 58px;
-
-    margin: 0 auto 18px;
-
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background:
-        radial-gradient(circle, rgba(140,110,220,0.16), transparent 65%);
-
-    box-shadow:
-        0 0 40px rgba(120,90,220,0.08);
-}
-
-.welcome-symbol svg {
-    width: 27px;
-    height: 27px;
-
-    fill: none;
-    stroke: rgba(255,255,255,0.72);
-    stroke-width: 1.3;
-}
-
-.welcome h1 {
-    margin: 0;
-
-    font-size: 22px;
-    font-weight: 400;
-
-    letter-spacing: 4px;
-}
-
-.welcome p {
-    margin: 12px 0 0;
-
-    font-size: 13px;
-    line-height: 1.8;
-
-    color: rgba(255,255,255,0.48);
-}
-
-/* =========================
-   訊息
-========================= */
-
-.messages {
-    width: 100%;
-}
-
-.message-row {
-    display: flex;
-
-    width: 100%;
-
-    margin-bottom: 22px;
-}
-
-.message-row.user {
-    justify-content: flex-end;
-}
-
-.message-row.ai {
-    justify-content: flex-start;
-}
-
-.message {
-    max-width: 84%;
-
-    padding: 13px 15px;
-
-    border-radius: 16px;
+    display: block;
 
     font-size: 15px;
-    line-height: 1.75;
 
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
+    font-weight: 400;
+
+    letter-spacing: 2px;
 }
 
-.message.user {
-    background: rgba(255,255,255,0.09);
-    border: 1px solid rgba(255,255,255,0.08);
-}
 
-.message.ai {
-    background: rgba(120,95,180,0.08);
-    border: 1px solid rgba(150,125,210,0.10);
-}
+.status {
 
-/* =========================
-   正在思考
-========================= */
+    margin-top: 3px;
 
-.typing {
-    display: none;
+    display: flex;
 
     align-items: center;
+
     gap: 5px;
 
-    margin: 4px 0 20px 8px;
+    color:
+        rgba(220, 208, 235, .42);
+
+    font-size: 9px;
 }
 
-.typing.show {
-    display: flex;
-}
 
-.typing span {
+.status-dot {
+
     width: 5px;
     height: 5px;
 
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.45);
+    background: #b98cff;
 
-    animation: pulse 1.2s infinite ease-in-out;
+    box-shadow:
+        0 0 8px #9d5cff;
 }
 
-.typing span:nth-child(2) {
-    animation-delay: 0.15s;
+
+.top-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
 }
 
-.typing span:nth-child(3) {
-    animation-delay: 0.3s;
+
+.icon-btn {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(198, 166, 255, .22);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color: #ddd;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
 }
 
-@keyframes pulse {
-    0%, 60%, 100% {
-        opacity: 0.25;
-        transform: translateY(0);
-    }
 
-    30% {
-        opacity: 1;
-        transform: translateY(-3px);
-    }
+.icon-btn svg {
+
+    width: 18px;
+    height: 18px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 1.5;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
 }
 
-/* =========================
+
+/* ==================================================
+   聊天區
+================================================== */
+
+.chat {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(820px, calc(100% - 24px));
+
+    margin: 0 auto;
+
+    padding:
+
+        28px
+
+        0
+
+        145px;
+}
+
+
+/* ==================================================
+   歡迎
+================================================== */
+
+.welcome {
+
+    text-align: center;
+
+    padding: 20px 0 32px;
+}
+
+
+.welcome-symbol {
+
+    width: 62px;
+    height: 62px;
+
+    margin: 0 auto 17px;
+
+    border-radius: 50%;
+
+    border:
+        1px solid rgba(204, 172, 255, .32);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(156, 91, 255, .18),
+            rgba(45, 19, 90, .08)
+        );
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 28px rgba(122, 61, 255, .20),
+        inset 0 0 20px rgba(152, 91, 255, .08);
+}
+
+
+.welcome-symbol svg {
+
+    width: 27px;
+    height: 27px;
+
+    fill: none;
+
+    stroke: #d5baff;
+
+    stroke-width: 1.4;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+}
+
+
+.welcome h1 {
+
+    font-size: 24px;
+
+    font-weight: 300;
+
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 20px rgba(165, 103, 255, .35);
+}
+
+
+.welcome p {
+
+    margin-top: 10px;
+
+    color:
+        rgba(221, 208, 237, .47);
+
+    font-size: 11px;
+
+    line-height: 1.8;
+}
+
+
+/* ==================================================
+   訊息
+================================================== */
+
+.message {
+
+    display: flex;
+
+    margin-bottom: 18px;
+}
+
+
+.message.ai {
+
+    justify-content: flex-start;
+}
+
+
+.message.user {
+
+    justify-content: flex-end;
+}
+
+
+.bubble {
+
+    max-width: 82%;
+
+    padding: 13px 15px;
+
+    border-radius: 17px;
+
+    font-size: 13px;
+
+    line-height: 1.75;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+}
+
+
+.message.ai .bubble {
+
+    border:
+        1px solid rgba(184, 143, 241, .14);
+
+    background:
+        rgba(91, 46, 151, .09);
+
+    color:
+        rgba(239, 231, 248, .88);
+
+    border-bottom-left-radius: 5px;
+}
+
+
+.message.user .bubble {
+
+    border:
+        1px solid rgba(158, 108, 224, .18);
+
+    background:
+        rgba(116, 66, 190, .15);
+
+    color:
+        rgba(246, 240, 252, .92);
+
+    border-bottom-right-radius: 5px;
+}
+
+
+/* ==================================================
    輸入區
-========================= */
+================================================== */
 
-.input-zone {
+.input-area {
+
     position: fixed;
 
     left: 0;
     right: 0;
     bottom: 0;
 
-    z-index: 40;
+    z-index: 30;
 
-    padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+    padding:
+        10px
+        12px
+        calc(10px + env(safe-area-inset-bottom));
 
     background:
         linear-gradient(
             to top,
-            rgba(8,9,13,0.98) 65%,
-            rgba(8,9,13,0.75)
+            rgba(5,3,11,.98),
+            rgba(5,3,11,.88),
+            transparent
         );
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    pointer-events: none;
 }
 
-.input-wrap {
-    width: 100%;
-    max-width: 820px;
+
+.input-box {
+
+    width: min(820px, 100%);
 
     margin: 0 auto;
 
+    min-height: 55px;
+
     border:
-        1px solid rgba(255,255,255,0.10);
+        1px solid rgba(193, 151, 255, .23);
 
     border-radius: 20px;
 
     background:
-        rgba(255,255,255,0.045);
+        rgba(19, 11, 34, .92);
+
+    backdrop-filter: blur(20px);
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 7px;
+
+    padding: 8px;
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,0.32);
+        0 -10px 35px rgba(67, 29, 135, .12);
+
+    pointer-events: auto;
 }
 
-/* =========================
-   工具列
-========================= */
 
-.toolbar {
-    display: flex;
-    align-items: center;
+/* ==================================================
+   加號
+================================================== */
 
-    height: 46px;
+.plus-btn {
 
-    padding: 0 6px;
-}
+    width: 38px;
+    height: 38px;
 
-.tool-button {
-    width: 40px;
-    height: 40px;
+    flex: 0 0 38px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: none;
 
-    border: 0;
+    border-radius: 50%;
+
     background: transparent;
 
-    color: rgba(255,255,255,0.65);
+    color: #cdb5ec;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     cursor: pointer;
 }
 
-.tool-button:active {
-    opacity: 0.45;
-}
 
-.tool-button svg {
+.plus-btn svg {
+
     width: 21px;
     height: 21px;
 
     fill: none;
+
     stroke: currentColor;
 
     stroke-width: 1.5;
+
     stroke-linecap: round;
-    stroke-linejoin: round;
 }
 
-.tool-spacer {
+
+/* ==================================================
+   輸入
+================================================== */
+
+#messageInput {
+
     flex: 1;
-}
 
-.mode-label {
-    margin-right: 8px;
+    min-width: 0;
 
-    font-size: 10px;
-    letter-spacing: 1px;
+    min-height: 38px;
 
-    color: rgba(255,255,255,0.30);
-}
-
-/* =========================
-   輸入框
-========================= */
-
-.text-input {
-    width: 100%;
-
-    min-height: 48px;
-    max-height: 140px;
-
-    padding: 5px 15px 12px;
-
-    border: 0;
-    outline: none;
+    max-height: 130px;
 
     resize: none;
 
+    border: none;
+
+    outline: none;
+
     background: transparent;
 
-    color: #f5f2ea;
+    color: white;
 
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 14px;
 
-    font-family: inherit;
+    line-height: 1.55;
+
+    padding: 8px 3px;
 }
 
-.text-input::placeholder {
-    color: rgba(255,255,255,0.28);
+
+#messageInput::placeholder {
+
+    color:
+        rgba(221, 208, 237, .34);
 }
 
-/* =========================
-   發送
-========================= */
 
-.send-row {
-    display: flex;
-    justify-content: flex-end;
+/* ==================================================
+   麥克風 / 發送
+================================================== */
 
-    padding: 0 7px 7px;
-}
+.send-btn,
+.mic-btn {
 
-.send-button {
     width: 38px;
     height: 38px;
 
-    border: 1px solid rgba(255,255,255,0.12);
+    flex: 0 0 38px;
+
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.07);
+    border:
+        1px solid rgba(194, 157, 255, .20);
 
-    color: rgba(255,255,255,0.82);
+    background:
+        rgba(255,255,255,.025);
+
+    color: #d8c4f4;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     cursor: pointer;
 }
 
-.send-button:active {
-    opacity: 0.5;
-}
 
-.send-button svg {
+.send-btn svg,
+.mic-btn svg {
+
     width: 18px;
     height: 18px;
 
     fill: none;
+
     stroke: currentColor;
 
-    stroke-width: 1.6;
+    stroke-width: 1.5;
+
     stroke-linecap: round;
+
     stroke-linejoin: round;
 }
 
-/* =========================
-   功能選單
-========================= */
+
+/* ==================================================
+   加號選單
+================================================== */
 
 .plus-menu {
-    display: none;
 
-    position: absolute;
+    position: fixed;
 
-    left: 10px;
-    bottom: 54px;
+    left: 15px;
 
-    width: 190px;
+    bottom: 78px;
+
+    z-index: 40;
+
+    width: 225px;
 
     padding: 8px;
 
     border:
-        1px solid rgba(255,255,255,0.10);
+        1px solid rgba(194, 155, 255, .20);
 
-    border-radius: 15px;
+    border-radius: 18px;
 
     background:
-        rgba(18,19,26,0.96);
+        rgba(16, 9, 29, .96);
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
 
     box-shadow:
-        0 15px 45px rgba(0,0,0,0.45);
+        0 15px 45px rgba(0,0,0,.45);
+
+    display: none;
 }
 
+
 .plus-menu.show {
+
     display: block;
 }
 
+
 .menu-item {
+
     width: 100%;
 
-    display: flex;
-    align-items: center;
-    gap: 11px;
+    min-height: 43px;
 
-    padding: 12px 10px;
-
-    border: 0;
-    border-radius: 10px;
+    border: none;
 
     background: transparent;
 
-    color: rgba(255,255,255,0.78);
+    color:
+        rgba(234, 224, 244, .78);
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 8px 10px;
+
+    cursor: pointer;
 
     text-align: left;
 
-    font-family: inherit;
-    font-size: 13px;
-
-    cursor: pointer;
+    font-size: 12px;
 }
 
-.menu-item:active {
-    background: rgba(255,255,255,0.07);
+
+.menu-item:hover {
+
+    background:
+        rgba(132, 74, 215, .10);
 }
+
 
 .menu-item svg {
+
     width: 18px;
     height: 18px;
 
-    fill: none;
-    stroke: currentColor;
+    flex: 0 0 18px;
 
-    stroke-width: 1.5;
+    fill: none;
+
+    stroke: #cdb1ee;
+
+    stroke-width: 1.4;
+
     stroke-linecap: round;
+
     stroke-linejoin: round;
 }
 
-/* =========================
-   隱藏檔案
-========================= */
 
-.hidden-file {
-    display: none;
+/* ==================================================
+   載入動畫
+================================================== */
+
+.typing {
+
+    display: inline-flex;
+
+    gap: 4px;
+
+    padding: 4px 2px;
 }
 
-/* =========================
-   語音狀態
-========================= */
 
-.voice-state {
-    display: none;
+.typing span {
 
-    position: fixed;
+    width: 5px;
+    height: 5px;
 
-    left: 50%;
-    bottom: 145px;
+    border-radius: 50%;
 
-    transform: translateX(-50%);
+    background: #b38aff;
 
-    z-index: 60;
-
-    padding: 12px 18px;
-
-    border:
-        1px solid rgba(255,255,255,0.10);
-
-    border-radius: 30px;
-
-    background: rgba(20,21,28,0.94);
-
-    color: rgba(255,255,255,0.76);
-
-    font-size: 12px;
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,0.35);
+    animation:
+        typing
+        1.1s
+        infinite
+        ease-in-out;
 }
 
-.voice-state.show {
-    display: block;
+
+.typing span:nth-child(2) {
+
+    animation-delay: .15s;
 }
 
-/* =========================
-   響應式
-========================= */
 
-@media (min-width: 700px) {
+.typing span:nth-child(3) {
 
-    .chat-area {
-        padding-left: 24px;
-        padding-right: 24px;
+    animation-delay: .3s;
+}
+
+
+@keyframes typing {
+
+    0%,
+    100% {
+        opacity: .25;
+        transform: translateY(0);
     }
 
-    .message {
-        max-width: 72%;
+    50% {
+        opacity: 1;
+        transform: translateY(-3px);
     }
 }
+
+
+/* ==================================================
+   手機
+================================================== */
+
+@media (max-width: 600px) {
+
+    .chat {
+
+        width: calc(100% - 18px);
+
+        padding-top: 20px;
+    }
+
+
+    .bubble {
+
+        max-width: 88%;
+    }
+
+
+    .plus-menu {
+
+        left: 10px;
+
+        bottom: 76px;
+
+        width: 210px;
+    }
+
+}
+
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
+<!-- ==================================================
+     紫色星光
+================================================== -->
+
+<div id="stars"></div>
+
+<div class="nebula one"></div>
+<div class="nebula two"></div>
+
+
+<!-- ==================================================
      頂部
-========================= -->
+================================================== -->
 
 <header class="topbar">
 
-    <!-- 返回 Home -->
-    <button
-        class="icon-button back-button"
-        type="button"
-        onclick="goHome()"
-        aria-label="返回玄境首頁"
-    >
-        <svg class="icon" viewBox="0 0 24 24">
-            <path d="M15 5l-7 7 7 7"></path>
-            <path d="M8 12h11"></path>
-        </svg>
-    </button>
+    <div class="top-left">
 
-    <div class="top-title">
-        <div class="top-title-main">與玄境交流</div>
-        <div class="top-title-sub">你的私人 AI 空間</div>
-    </div>
-
-    <!-- AI 語音開關 -->
-    <button
-        class="icon-button speaker-button"
-        id="speakerButton"
-        type="button"
-        onclick="toggleSpeaker()"
-        aria-label="切換 AI 語音"
-    >
-
-        <!-- 開啟 -->
-        <svg
-            id="speakerOn"
-            class="icon"
-            viewBox="0 0 24 24"
+        <button
+            class="back-btn"
+            onclick="location.href='home.html'"
+            aria-label="返回 Home"
         >
-            <path d="M4 10v4h4l5 4V6l-5 4H4"></path>
-            <path d="M16 9c1.2 1.2 1.8 2.4 1.8 3s-.6 1.8-1.8 3"></path>
-            <path d="M18.5 6.5c2 1.8 3 3.7 3 5.5s-1 3.7-3 5.5"></path>
-        </svg>
 
-        <!-- 關閉 -->
-        <svg
-            id="speakerOff"
-            class="icon"
-            viewBox="0 0 24 24"
-            style="display:none;"
-        >
-            <path d="M4 10v4h4l5 4V6l-5 4H4"></path>
-            <path d="M17 9l4 6"></path>
-            <path d="M21 9l-4 6"></path>
-        </svg>
-
-    </button>
-
-</header>
-
-<!-- 狀態 -->
-
-<div class="status">
-    <span class="status-dot"></span>
-    玄境 AI 在線
-</div>
-
-<!-- =========================
-     聊天
-========================= -->
-
-<main class="chat-area">
-
-    <section class="welcome">
-
-        <div class="welcome-symbol">
             <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="7"></circle>
-                <path d="M12 5v14"></path>
-                <path d="M5 12h14"></path>
+
+                <path d="M15 18l-6-6 6-6"/>
+
             </svg>
-        </div>
 
-        <h1>玄境</h1>
+        </button>
 
-        <p>
-            你可以直接和玄境說話、輸入文字、傳送照片或影片。<br>
-            讓玄境理解你真正想做的事。
-        </p>
 
-    </section>
+        <div class="title-area">
 
-    <section
-        class="messages"
-        id="messages"
-    ></section>
+            <strong>與玄境交流</strong>
 
-    <div
-        class="typing"
-        id="typing"
-    >
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+            <div class="status">
 
-</main>
+                <span class="status-dot"></span>
 
-<!-- =========================
-     語音狀態
-========================= -->
+                玄境 AI 在線
 
-<div
-    class="voice-state"
-    id="voiceState"
->
-    正在聆聽……
-</div>
-
-<!-- =========================
-     輸入區
-========================= -->
-
-<div class="input-zone">
-
-    <div class="input-wrap">
-
-        <!-- 功能選單 -->
-
-        <div
-            class="plus-menu"
-            id="plusMenu"
-        >
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="chooseCamera()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 7h4l2-2h4l2 2h4v12H4z"></path>
-                    <circle cx="12" cy="13" r="3.5"></circle>
-                </svg>
-
-                拍照
-            </button>
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="choosePhoto()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <rect x="4" y="4" width="16" height="16" rx="2"></rect>
-                    <circle cx="9" cy="9" r="1.5"></circle>
-                    <path d="M4 16l4-4 3 3 2-2 7 6"></path>
-                </svg>
-
-                照片
-            </button>
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="chooseVideo()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <rect x="3" y="6" width="13" height="12" rx="2"></rect>
-                    <path d="M16 10l5-3v10l-5-3"></path>
-                </svg>
-
-                影片
-            </button>
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="chooseFile()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M5 4h9l5 5v11H5z"></path>
-                    <path d="M14 4v5h5"></path>
-                </svg>
-
-                檔案
-            </button>
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="startDrawing()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 17.5V20h2.5L18 8.5 15.5 6z"></path>
-                    <path d="M14.5 7l2.5 2.5"></path>
-                </svg>
-
-                AI 繪圖
-            </button>
-
-            <button
-                class="menu-item"
-                type="button"
-                onclick="startTranslation()"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 5h8"></path>
-                    <path d="M8 5c0 5-2 8-5 10"></path>
-                    <path d="M6 10c1.5 1.8 3 3 5 4"></path>
-                    <path d="M14 16h6"></path>
-                    <path d="M17 11l-3 9"></path>
-                    <path d="M15.5 16h4"></path>
-                </svg>
-
-                即時翻譯
-            </button>
-
-        </div>
-
-        <!-- 工具列 -->
-
-        <div class="toolbar">
-
-            <!-- ＋ -->
-
-            <button
-                class="tool-button"
-                type="button"
-                onclick="togglePlusMenu()"
-                aria-label="更多功能"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 5v14"></path>
-                    <path d="M5 12h14"></path>
-                </svg>
-            </button>
-
-            <!-- 麥克風 -->
-
-            <button
-                class="tool-button"
-                id="micButton"
-                type="button"
-                onclick="toggleVoiceInput()"
-                aria-label="語音輸入"
-            >
-                <svg viewBox="0 0 24 24">
-                    <rect x="9" y="3" width="6" height="11" rx="3"></rect>
-                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0"></path>
-                    <path d="M12 17.5V21"></path>
-                    <path d="M8.5 21h7"></path>
-                </svg>
-            </button>
-
-            <div class="tool-spacer"></div>
-
-            <div
-                class="mode-label"
-                id="modeLabel"
-            >
-                文字
             </div>
 
         </div>
 
-        <!-- 文字 -->
+    </div>
+
+
+    <div class="top-actions">
+
+        <!-- AI語音 -->
+
+        <button
+            class="icon-btn"
+            id="speakerBtn"
+            aria-label="AI語音開關"
+        >
+
+            <svg id="speakerIcon" viewBox="0 0 24 24">
+
+                <path d="M5 9v6h4l5 4V5l-5 4H5Z"/>
+
+                <path d="M17 9a4 4 0 0 1 0 6"/>
+
+                <path d="M19 7a7 7 0 0 1 0 10"/>
+
+            </svg>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     聊天
+================================================== -->
+
+<main class="chat" id="chat">
+
+    <section class="welcome">
+
+        <div class="welcome-symbol">
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 3a8 8 0 0 0-8 8v3a3 3 0 0 0 3 3h1"/>
+
+                <path d="M12 3a8 8 0 0 1 8 8v3a3 3 0 0 1-3 3h-1"/>
+
+                <path d="M8 14v2a4 4 0 0 0 8 0v-2"/>
+
+                <path d="M10 21h4"/>
+
+            </svg>
+
+        </div>
+
+        <h1>玄境 AI</h1>
+
+        <p>
+            你可以說任何你現在正在想的事情。<br>
+            玄境會陪你一起理解、分析與尋找方向。
+        </p>
+
+    </section>
+
+</main>
+
+
+<!-- ==================================================
+     加號選單
+================================================== -->
+
+<div class="plus-menu" id="plusMenu">
+
+    <!-- 相機 -->
+
+    <button
+        class="menu-item"
+        onclick="chooseCamera()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M4 7h4l2-2h4l2 2h4v12H4V7Z"/>
+
+            <circle cx="12" cy="13" r="3"/>
+
+        </svg>
+
+        相機
+
+    </button>
+
+
+    <!-- 照片 -->
+
+    <button
+        class="menu-item"
+        onclick="choosePhoto()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <rect x="4" y="5" width="16" height="14" rx="2"/>
+
+            <circle cx="9" cy="10" r="1.5"/>
+
+            <path d="M5 17l4-4 3 3 2-2 5 4"/>
+
+        </svg>
+
+        照片
+
+
+    </button>
+
+
+    <!-- 影片 -->
+
+    <button
+        class="menu-item"
+        onclick="chooseVideo()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <rect x="4" y="6" width="12" height="12" rx="2"/>
+
+            <path d="M16 10l4-2v8l-4-2"/>
+
+        </svg>
+
+        影片
+
+    </button>
+
+
+    <!-- 文件 -->
+
+    <button
+        class="menu-item"
+        onclick="chooseFile()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M6 3h8l4 4v14H6V3Z"/>
+
+            <path d="M14 3v5h5"/>
+
+        </svg>
+
+        文件
+
+    </button>
+
+
+    <!-- AI繪圖 -->
+
+    <button
+        class="menu-item"
+        onclick="chooseDrawing()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M4 17l10-10 4 4L8 21H4v-4Z"/>
+
+            <path d="M13 6l2-2 4 4-2 2"/>
+
+        </svg>
+
+        AI 繪圖
+
+    </button>
+
+
+    <!-- 翻譯 -->
+
+    <button
+        class="menu-item"
+        onclick="chooseTranslate()"
+    >
+
+        <svg viewBox="0 0 24 24">
+
+            <path d="M4 5h9"/>
+
+            <path d="M8.5 3v2"/>
+
+            <path d="M6 5c.8 4 3 6 6 7"/>
+
+            <path d="M5 11c2-1 3.5-2.7 4.5-5"/>
+
+            <path d="M14 14h6"/>
+
+            <path d="M17 11l-3 8"/>
+
+            <path d="M15.5 16h4"/>
+
+        </svg>
+
+        即時翻譯
+
+    </button>
+
+</div>
+
+
+<!-- ==================================================
+     輸入
+================================================== -->
+
+<div class="input-area">
+
+    <div class="input-box">
+
+        <button
+            class="plus-btn"
+            id="plusBtn"
+            aria-label="更多功能"
+        >
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M12 5v14"/>
+
+                <path d="M5 12h14"/>
+
+            </svg>
+
+        </button>
+
 
         <textarea
             id="messageInput"
-            class="text-input"
-            placeholder="和玄境說說話……"
             rows="1"
+            placeholder="告訴玄境，你現在在想什麼..."
         ></textarea>
 
-        <!-- 發送 -->
 
-        <div class="send-row">
+        <button
+            class="mic-btn"
+            id="micBtn"
+            aria-label="語音輸入"
+        >
 
-            <button
-                class="send-button"
-                type="button"
-                onclick="sendMessage()"
-                aria-label="發送"
-            >
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 12h15"></path>
-                    <path d="M13 6l6 6-6 6"></path>
-                </svg>
-            </button>
+            <svg viewBox="0 0 24 24">
 
-        </div>
+                <path d="M12 3a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"/>
+
+                <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+
+                <path d="M12 18v3"/>
+
+                <path d="M8 21h8"/>
+
+            </svg>
+
+        </button>
+
+
+        <button
+            class="send-btn"
+            id="sendBtn"
+            aria-label="發送"
+        >
+
+            <svg viewBox="0 0 24 24">
+
+                <path d="M4 12h15"/>
+
+                <path d="M13 6l6 6-6 6"/>
+
+            </svg>
+
+        </button>
 
     </div>
 
 </div>
 
-<!-- =========================
-     隱藏輸入
-========================= -->
+
+<!-- ==================================================
+     隱藏檔案
+================================================== -->
 
 <input
-    id="cameraInput"
-    class="hidden-file"
     type="file"
+    id="cameraInput"
     accept="image/*"
     capture="environment"
-/>
+    hidden
+>
 
 <input
+    type="file"
     id="photoInput"
-    class="hidden-file"
-    type="file"
     accept="image/*"
-/>
+    hidden
+>
 
 <input
+    type="file"
     id="videoInput"
-    class="hidden-file"
-    type="file"
     accept="video/*"
-/>
+    hidden
+>
 
 <input
-    id="fileInput"
-    class="hidden-file"
     type="file"
-    accept=".pdf,.doc,.docx,.txt,.md,.csv,.xlsx,.xls,.zip"
-/>
+    id="fileInput"
+    accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
+    hidden
+>
+
 
 <script>
 
-/* =====================================================
-   玄境 AI
-===================================================== */
+/* ==================================================
+   產生星光
+================================================== */
 
-const API_URL =
-    "https://zuypaeagxjezlqdppvnm.supabase.co/functions/v1/ai-chat";
+const starsContainer =
+    document.getElementById("stars");
 
-/* =====================================================
-   狀態
-===================================================== */
+const starCount =
+    window.innerWidth < 600 ? 75 : 120;
 
-let conversationHistory = [];
+for (
+    let i = 0;
+    i < starCount;
+    i++
+) {
 
-let speakerEnabled = true;
+    const star =
+        document.createElement("div");
 
-let listening = false;
+    star.className =
+        Math.random() > .92
+            ? "star big"
+            : "star";
 
-let recognition = null;
+    star.style.left =
+        Math.random() * 100 + "%";
 
-/* =====================================================
-   返回 Home
-===================================================== */
+    star.style.top =
+        Math.random() * 100 + "%";
 
-function goHome() {
-    window.location.href = "home.html";
+    star.style.setProperty(
+        "--duration",
+        (2.5 + Math.random() * 5) + "s"
+    );
+
+    star.style.setProperty(
+        "--delay",
+        (-Math.random() * 5) + "s"
+    );
+
+    starsContainer.appendChild(star);
 }
 
-/* =====================================================
-   喇叭開關
-===================================================== */
 
-function toggleSpeaker() {
+/* ==================================================
+   偶爾流星
+================================================== */
 
-    speakerEnabled = !speakerEnabled;
+function createMeteor() {
 
-    const onIcon =
-        document.getElementById("speakerOn");
+    const meteor =
+        document.createElement("div");
 
-    const offIcon =
-        document.getElementById("speakerOff");
+    meteor.className = "meteor";
+
+    meteor.style.left =
+        (55 + Math.random() * 40) + "%";
+
+    meteor.style.top =
+        (5 + Math.random() * 45) + "%";
+
+    document.body.appendChild(meteor);
+
+    requestAnimationFrame(() => {
+
+        meteor.classList.add("fly");
+
+    });
+
+    setTimeout(() => {
+
+        meteor.remove();
+
+    }, 1500);
+}
+
+
+/*
+ * 不固定頻率。
+ * 每次約 8～20 秒隨機出現。
+ */
+
+function scheduleMeteor() {
+
+    const delay =
+        8000 + Math.random() * 12000;
+
+    setTimeout(() => {
+
+        createMeteor();
+
+        scheduleMeteor();
+
+    }, delay);
+}
+
+scheduleMeteor();
+
+
+/* ==================================================
+   API
+================================================== */
+
+const AI_FUNCTION_URL =
+    (typeof XUANJING_CONFIG !== "undefined" &&
+     XUANJING_CONFIG.ai &&
+     XUANJING_CONFIG.ai.url)
+        ? XUANJING_CONFIG.ai.url
+        : "https://zuypaeagxjezlqdppvnm.supabase.co/functions/v1/ai-chat";
+
+
+/* ==================================================
+   DOM
+================================================== */
+
+const chat =
+    document.getElementById("chat");
+
+const input =
+    document.getElementById("messageInput");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+const micBtn =
+    document.getElementById("micBtn");
+
+const plusBtn =
+    document.getElementById("plusBtn");
+
+const plusMenu =
+    document.getElementById("plusMenu");
+
+const speakerBtn =
+    document.getElementById("speakerBtn");
+
+
+/* ==================================================
+   狀態
+================================================== */
+
+let messages = [];
+
+let speakerEnabled =
+    localStorage.getItem(
+        "xuanjing_speaker"
+    ) !== "off";
+
+
+/* ==================================================
+   AI語音
+================================================== */
+
+function updateSpeakerIcon() {
 
     if (speakerEnabled) {
 
-        onIcon.style.display = "block";
-        offIcon.style.display = "none";
-
-        /*
-         * 規則：
-         * 開啟後，AI 回覆會自動語音播放。
-         */
-
-    } else {
-
-        onIcon.style.display = "none";
-        offIcon.style.display = "block";
-
-        /*
-         * 如果目前有語音正在播放，
-         * 關閉喇叭時立即停止。
-         */
-
-        if ("speechSynthesis" in window) {
-            window.speechSynthesis.cancel();
-        }
-    }
-}
-
-/* =====================================================
-   ＋選單
-===================================================== */
-
-function togglePlusMenu() {
-
-    const menu =
-        document.getElementById("plusMenu");
-
-    menu.classList.toggle("show");
-}
-
-function closePlusMenu() {
-
-    document
-        .getElementById("plusMenu")
-        .classList.remove("show");
-}
-
-/* =====================================================
-   檔案
-===================================================== */
-
-function chooseCamera() {
-
-    closePlusMenu();
-
-    document
-        .getElementById("cameraInput")
-        .click();
-}
-
-function choosePhoto() {
-
-    closePlusMenu();
-
-    document
-        .getElementById("photoInput")
-        .click();
-}
-
-function chooseVideo() {
-
-    closePlusMenu();
-
-    document
-        .getElementById("videoInput")
-        .click();
-}
-
-function chooseFile() {
-
-    closePlusMenu();
-
-    document
-        .getElementById("fileInput")
-        .click();
-}
-
-/* =====================================================
-   檔案選擇後
-===================================================== */
-
-document
-    .getElementById("cameraInput")
-    .addEventListener("change", handleFile);
-
-document
-    .getElementById("photoInput")
-    .addEventListener("change", handleFile);
-
-document
-    .getElementById("videoInput")
-    .addEventListener("change", handleFile);
-
-document
-    .getElementById("fileInput")
-    .addEventListener("change", handleFile);
-
-function handleFile(event) {
-
-    const file =
-        event.target.files &&
-        event.target.files[0];
-
-    if (!file) return;
-
-    addMessage(
-        "user",
-        "已選擇：" + file.name
-    );
-
-    /*
-     * 這裡先保留前端入口。
-     *
-     * 下一步再把照片、影片、文件
-     * 真正送到玄境後端，
-     * 讓 AI 分析內容。
-     */
-
-    event.target.value = "";
-}
-
-/* =====================================================
-   AI 繪圖
-===================================================== */
-
-function startDrawing() {
-
-    closePlusMenu();
-
-    const input =
-        document.getElementById("messageInput");
-
-    input.value =
-        "幫我生成一張圖片：";
-
-    input.focus();
-
-    document
-        .getElementById("modeLabel")
-        .textContent = "AI 繪圖";
-}
-
-/* =====================================================
-   翻譯
-===================================================== */
-
-function startTranslation() {
-
-    closePlusMenu();
-
-    const input =
-        document.getElementById("messageInput");
-
-    input.value =
-        "進入即時翻譯模式。";
-
-    input.focus();
-
-    document
-        .getElementById("modeLabel")
-        .textContent = "翻譯";
-}
-
-/* =====================================================
-   語音輸入
-===================================================== */
-
-function toggleVoiceInput() {
-
-    if (listening) {
-
-        stopVoiceInput();
+        speakerBtn.innerHTML = `
+            <svg viewBox="0 0 24 24">
+                <path d="M5 9v6h4l5 4V5l-5 4H5Z"/>
+                <path d="M17 9a4 4 0 0 1 0 6"/>
+                <path d="M19 7a7 7 0 0 1 0 10"/>
+            </svg>
+        `;
 
     } else {
 
-        startVoiceInput();
+        speakerBtn.innerHTML = `
+            <svg viewBox="0 0 24 24">
+                <path d="M5 9v6h4l5 4V5l-5 4H5Z"/>
+                <path d="M17 9l4 4"/>
+                <path d="M21 9l-4 4"/>
+            </svg>
+        `;
     }
 }
 
-function startVoiceInput() {
+updateSpeakerIcon();
 
-    /*
-     * 優先使用瀏覽器 SpeechRecognition。
-     */
 
-    const SpeechRecognition =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+speakerBtn.addEventListener(
+    "click",
+    function () {
 
-    if (!SpeechRecognition) {
+        speakerEnabled =
+            !speakerEnabled;
 
-        alert(
-            "目前瀏覽器尚未支援直接語音輸入。"
+        localStorage.setItem(
+            "xuanjing_speaker",
+            speakerEnabled
+                ? "on"
+                : "off"
         );
 
+        if (!speakerEnabled &&
+            "speechSynthesis" in window) {
+
+            speechSynthesis.cancel();
+        }
+
+        updateSpeakerIcon();
+    }
+);
+
+
+/* ==================================================
+   AI語音播放
+================================================== */
+
+function speakAI(text) {
+
+    if (!speakerEnabled) return;
+
+    if (!("speechSynthesis" in window))
         return;
-    }
 
-    recognition =
-        new SpeechRecognition();
+    speechSynthesis.cancel();
 
-    recognition.lang = "zh-TW";
+    const utterance =
+        new SpeechSynthesisUtterance(text);
 
-    recognition.continuous = false;
+    utterance.lang = "zh-TW";
 
-    recognition.interimResults = true;
+    utterance.rate = .95;
 
-    recognition.onstart = function() {
+    utterance.pitch = 1;
 
-        listening = true;
-
-        document
-            .getElementById("voiceState")
-            .classList.add("show");
-
-        document
-            .getElementById("modeLabel")
-            .textContent = "聆聽中";
-    };
-
-    recognition.onresult = function(event) {
-
-        let finalText = "";
-
-        for (
-            let i = event.resultIndex;
-            i < event.results.length;
-            i++
-        ) {
-
-            finalText +=
-                event.results[i][0].transcript;
-        }
-
-        document
-            .getElementById("messageInput")
-            .value = finalText;
-    };
-
-    recognition.onerror = function() {
-
-        stopVoiceInput();
-    };
-
-    recognition.onend = function() {
-
-        listening = false;
-
-        document
-            .getElementById("voiceState")
-            .classList.remove("show");
-
-        document
-            .getElementById("modeLabel")
-            .textContent = "文字";
-
-        /*
-         * 語音輸入完成後，
-         * 自動送出，不要求使用者再按一次發送。
-         */
-
-        const text =
-            document
-                .getElementById("messageInput")
-                .value
-                .trim();
-
-        if (text) {
-            sendMessage();
-        }
-    };
-
-    recognition.start();
+    speechSynthesis.speak(utterance);
 }
 
-function stopVoiceInput() {
 
-    if (recognition) {
+/* ==================================================
+   新增訊息
+================================================== */
 
-        try {
-            recognition.stop();
-        } catch (error) {
-            console.log(error);
-        }
-    }
+function addMessage(
+    role,
+    text
+) {
 
-    listening = false;
+    const wrapper =
+        document.createElement("div");
 
-    document
-        .getElementById("voiceState")
-        .classList.remove("show");
+    wrapper.className =
+        "message " +
+        (role === "user"
+            ? "user"
+            : "ai");
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.textContent = text;
+
+    wrapper.appendChild(bubble);
+
+    chat.appendChild(wrapper);
+
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+    });
 }
 
-/* =====================================================
-   發送訊息
-===================================================== */
+
+/* ==================================================
+   打字動畫
+================================================== */
+
+function showTyping() {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "message ai";
+
+    wrapper.id =
+        "typingMessage";
+
+    wrapper.innerHTML = `
+        <div class="bubble">
+            <div class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    `;
+
+    chat.appendChild(wrapper);
+
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+    });
+}
+
+
+function hideTyping() {
+
+    const typing =
+        document.getElementById(
+            "typingMessage"
+        );
+
+    if (typing) {
+
+        typing.remove();
+    }
+}
+
+
+/* ==================================================
+   發送AI
+================================================== */
 
 async function sendMessage() {
-
-    const input =
-        document.getElementById("messageInput");
 
     const text =
         input.value.trim();
@@ -1319,254 +1753,480 @@ async function sendMessage() {
 
     input.value = "";
 
-    autoResize();
+    input.style.height = "auto";
 
-    closePlusMenu();
+    addMessage(
+        "user",
+        text
+    );
 
-    addMessage("user", text);
-
-    conversationHistory.push({
+    messages.push({
         role: "user",
         content: text
     });
 
-    showTyping(true);
+    showTyping();
+
+    sendBtn.disabled = true;
 
     try {
 
         const response =
-            await fetch(API_URL, {
+            await fetch(
+                AI_FUNCTION_URL,
+                {
+                    method: "POST",
 
-                method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    message: text,
-                    messages: conversationHistory
-                })
-            });
+                    body: JSON.stringify({
+                        message: text,
+                        messages: messages
+                    })
+                }
+            );
 
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " + response.status
+                "AI request failed"
             );
         }
 
         const data =
             await response.json();
 
-        const answer =
+        hideTyping();
+
+        const reply =
             data.reply ||
-            data.response ||
             data.message ||
-            "玄境目前沒有取得回答。";
-
-        addMessage("ai", answer);
-
-        conversationHistory.push({
-            role: "assistant",
-            content: answer
-        });
-
-        /*
-         * 重要：
-         *
-         * speakerEnabled = true
-         * → AI 回覆後自動語音播放
-         *
-         * speakerEnabled = false
-         * → 只顯示文字
-         */
-
-        if (speakerEnabled) {
-
-            speakAnswer(answer);
-        }
-
-    } catch (error) {
-
-        console.error(error);
+            data.content ||
+            "玄境暫時沒有收到完整回應。";
 
         addMessage(
             "ai",
-            "目前無法連接玄境 AI，請稍後再試。"
+            reply
         );
+
+        messages.push({
+            role: "assistant",
+            content: reply
+        });
+
+        speakAI(reply);
+
+    } catch (error) {
+
+        hideTyping();
+
+        addMessage(
+            "ai",
+            "目前玄境 AI 暫時無法回應，請稍後再試。"
+        );
+
+        console.error(error);
 
     } finally {
 
-        showTyping(false);
+        sendBtn.disabled = false;
+
+        input.focus();
     }
 }
 
-/* =====================================================
-   顯示訊息
-===================================================== */
 
-function addMessage(role, text) {
+sendBtn.addEventListener(
+    "click",
+    sendMessage
+);
 
-    const messages =
-        document.getElementById("messages");
 
-    const row =
-        document.createElement("div");
-
-    row.className =
-        "message-row " + role;
-
-    const bubble =
-        document.createElement("div");
-
-    bubble.className =
-        "message " + role;
-
-    bubble.textContent = text;
-
-    row.appendChild(bubble);
-
-    messages.appendChild(row);
-
-    scrollToBottom();
-}
-
-/* =====================================================
-   正在思考
-===================================================== */
-
-function showTyping(show) {
-
-    document
-        .getElementById("typing")
-        .classList.toggle("show", show);
-}
-
-/* =====================================================
-   自動滾動
-===================================================== */
-
-function scrollToBottom() {
-
-    window.requestAnimationFrame(() => {
-
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth"
-        });
-
-    });
-}
-
-/* =====================================================
-   AI 語音
-===================================================== */
-
-function speakAnswer(text) {
-
-    if (!speakerEnabled) return;
-
-    if (!("speechSynthesis" in window)) {
-        return;
-    }
-
-    /*
-     * 每次新回答前停止上一段。
-     */
-
-    window.speechSynthesis.cancel();
-
-    const utterance =
-        new SpeechSynthesisUtterance(text);
-
-    utterance.lang = "zh-TW";
-
-    utterance.rate = 0.95;
-
-    utterance.pitch = 1;
-
-    /*
-     * 直接播放。
-     *
-     * 不設計播放按鈕。
-     */
-
-    window.speechSynthesis.speak(
-        utterance
-    );
-}
-
-/* =====================================================
+/* ==================================================
    Enter 發送
-===================================================== */
+================================================== */
 
-document
-    .getElementById("messageInput")
-    .addEventListener(
-        "keydown",
-        function(event) {
+input.addEventListener(
+    "keydown",
+    function(event) {
 
-            if (
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
 
-                event.preventDefault();
+            event.preventDefault();
 
-                sendMessage();
-            }
+            sendMessage();
         }
-    );
+    }
+);
 
-/* =====================================================
+
+/* ==================================================
    自動調整輸入框
-===================================================== */
+================================================== */
 
-document
-    .getElementById("messageInput")
-    .addEventListener(
-        "input",
-        autoResize
-    );
+input.addEventListener(
+    "input",
+    function() {
 
-function autoResize() {
+        this.style.height =
+            "auto";
 
-    const input =
-        document.getElementById("messageInput");
+        this.style.height =
+            Math.min(
+                this.scrollHeight,
+                130
+            ) + "px";
+    }
+);
 
-    input.style.height = "auto";
 
-    input.style.height =
-        Math.min(
-            input.scrollHeight,
-            140
-        ) + "px";
-}
+/* ==================================================
+   加號選單
+================================================== */
 
-/* =====================================================
-   點外面關閉＋選單
-===================================================== */
+plusBtn.addEventListener(
+    "click",
+    function(event) {
+
+        event.stopPropagation();
+
+        plusMenu.classList.toggle(
+            "show"
+        );
+    }
+);
+
 
 document.addEventListener(
     "click",
     function(event) {
 
-        const menu =
-            document.getElementById("plusMenu");
-
-        const plusButton =
-            event.target.closest(
-                ".tool-button"
-            );
-
         if (
-            !menu.contains(event.target) &&
-            !plusButton
+            !plusMenu.contains(event.target) &&
+            event.target !== plusBtn
         ) {
 
-            closePlusMenu();
+            plusMenu.classList.remove(
+                "show"
+            );
         }
+    }
+);
+
+
+/* ==================================================
+   檔案
+================================================== */
+
+function chooseCamera() {
+
+    document
+        .getElementById("cameraInput")
+        .click();
+
+    plusMenu.classList.remove("show");
+}
+
+
+function choosePhoto() {
+
+    document
+        .getElementById("photoInput")
+        .click();
+
+    plusMenu.classList.remove("show");
+}
+
+
+function chooseVideo() {
+
+    document
+        .getElementById("videoInput")
+        .click();
+
+    plusMenu.classList.remove("show");
+}
+
+
+function chooseFile() {
+
+    document
+        .getElementById("fileInput")
+        .click();
+
+    plusMenu.classList.remove("show");
+}
+
+
+function handleFile(
+    event,
+    label
+) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) return;
+
+    addMessage(
+        "user",
+        `${label}：${file.name}`
+    );
+
+    /*
+     * 目前先把檔案加入對話。
+     * 真正的檔案上傳、AI分析
+     * 後續接 Supabase Storage。
+     */
+}
+
+
+document
+    .getElementById("cameraInput")
+    .addEventListener(
+        "change",
+        e => handleFile(e, "相機")
+    );
+
+
+document
+    .getElementById("photoInput")
+    .addEventListener(
+        "change",
+        e => handleFile(e, "照片")
+    );
+
+
+document
+    .getElementById("videoInput")
+    .addEventListener(
+        "change",
+        e => handleFile(e, "影片")
+    );
+
+
+document
+    .getElementById("fileInput")
+    .addEventListener(
+        "change",
+        e => handleFile(e, "文件")
+    );
+
+
+/* ==================================================
+   AI繪圖
+================================================== */
+
+function chooseDrawing() {
+
+    input.value =
+        "我想使用 AI 繪圖功能，";
+
+    input.focus();
+
+    plusMenu.classList.remove("show");
+}
+
+
+/* ==================================================
+   即時翻譯
+================================================== */
+
+function chooseTranslate() {
+
+    input.value =
+        "開啟即時翻譯，我需要中文、英文、日文、韓文或越南文之間的語音翻譯。";
+
+    input.focus();
+
+    plusMenu.classList.remove("show");
+}
+
+
+/* ==================================================
+   語音輸入
+================================================== */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+
+if (SpeechRecognition) {
+
+    recognition =
+        new SpeechRecognition();
+
+    recognition.lang =
+        "zh-TW";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart =
+        function() {
+
+            micBtn.style.borderColor =
+                "rgba(203,168,255,.75)";
+
+            micBtn.style.boxShadow =
+                "0 0 22px rgba(126,65,255,.40)";
+        };
+
+
+    recognition.onend =
+        function() {
+
+            micBtn.style.borderColor =
+                "rgba(194,157,255,.20)";
+
+            micBtn.style.boxShadow =
+                "none";
+        };
+
+
+    recognition.onresult =
+        function(event) {
+
+            const text =
+                event.results[0][0]
+                    .transcript;
+
+            if (!text) return;
+
+            input.value =
+                text;
+
+            sendMessage();
+        };
+}
+
+
+micBtn.addEventListener(
+    "click",
+    function() {
+
+        if (!recognition) {
+
+            alert(
+                "目前瀏覽器不支援語音輸入。"
+            );
+
+            return;
+        }
+
+        try {
+
+            recognition.start();
+
+        } catch (error) {}
+    }
+);
+
+
+/* ==================================================
+   Home傳入語音 / 訊息
+================================================== */
+
+const pendingMessage =
+    sessionStorage.getItem(
+        "xuanjing_pending_message"
+    );
+
+if (pendingMessage) {
+
+    sessionStorage.removeItem(
+        "xuanjing_pending_message"
+    );
+
+    input.value =
+        pendingMessage;
+
+    setTimeout(
+        () => sendMessage(),
+        300
+    );
+}
+
+
+/* ==================================================
+   禁止整頁左右移動
+   保留上下滑動
+================================================== */
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+
+document.addEventListener(
+    "touchstart",
+    function(event) {
+
+        if (!event.touches.length)
+            return;
+
+        touchStartX =
+            event.touches[0].clientX;
+
+        touchStartY =
+            event.touches[0].clientY;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+document.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (!event.touches.length)
+            return;
+
+        const currentX =
+            event.touches[0].clientX;
+
+        const currentY =
+            event.touches[0].clientY;
+
+        const dx =
+            currentX - touchStartX;
+
+        const dy =
+            currentY - touchStartY;
+
+
+        /*
+         * 只有左右移動時阻止。
+         * 上下滑動完全保留。
+         */
+
+        if (
+            Math.abs(dx) >
+            Math.abs(dy)
+            &&
+            Math.abs(dx) > 8
+        ) {
+
+            event.preventDefault();
+        }
+
+    },
+    {
+        passive: false
     }
 );
 
