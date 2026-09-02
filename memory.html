@@ -3,948 +3,1082 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>玄憶｜玄境</title>
+<title>玄憶｜玄境 AI</title>
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
-html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    background:#05030b;
+    color:#f4efff;
+    font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif;
+    overflow-x:hidden;
 }
-body {
-  background:
-    radial-gradient(circle at 50% 15%, rgba(105, 76, 180, .16), transparent 35%),
-    radial-gradient(circle at 20% 80%, rgba(61, 105, 180, .08), transparent 30%),
-    #070711;
-  color: #f4f1ff;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "PingFang TC",
-    "Noto Sans TC",
-    sans-serif;
+/* =========================
+   紫色星光核心背景
+========================= */
+body{
+    position:relative;
+    overflow-x:hidden;
+}
+#stars{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+}
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:#cda8ff;
+    box-shadow:
+        0 0 5px #a45cff,
+        0 0 10px rgba(164,92,255,.45);
+    opacity:.35;
+    animation:twinkle var(--duration) ease-in-out infinite;
+}
+@keyframes twinkle{
+    0%,100%{
+        opacity:.18;
+        transform:scale(.7);
+    }
+    50%{
+        opacity:.9;
+        transform:scale(1.35);
+    }
+}
+.nebula{
+    position:fixed;
+    pointer-events:none;
+    z-index:0;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.2;
+}
+.nebula.one{
+    width:420px;
+    height:420px;
+    top:-150px;
+    right:-120px;
+    background:radial-gradient(
+        circle,
+        rgba(129,60,255,.65),
+        rgba(74,25,150,.2),
+        transparent 70%
+    );
+}
+.nebula.two{
+    width:500px;
+    height:500px;
+    bottom:-230px;
+    left:-180px;
+    background:radial-gradient(
+        circle,
+        rgba(107,46,200,.5),
+        rgba(47,16,100,.18),
+        transparent 70%
+    );
+}
+.meteor{
+    position:fixed;
+    width:120px;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        rgba(203,153,255,0),
+        rgba(203,153,255,.95),
+        rgba(255,255,255,.9)
+    );
+    box-shadow:0 0 8px rgba(177,103,255,.9);
+    transform:rotate(-28deg);
+    pointer-events:none;
+    z-index:1;
+    opacity:0;
+}
+.meteor.show{
+    animation:meteorMove 1.1s linear forwards;
+}
+@keyframes meteorMove{
+    0%{
+        opacity:0;
+        transform:translate(0,0) rotate(-28deg);
+    }
+    10%{
+        opacity:1;
+    }
+    100%{
+        opacity:0;
+        transform:translate(-260px,260px) rotate(-28deg);
+    }
+}
+/* =========================
+   主內容
+========================= */
+.page{
+    position:relative;
+    z-index:2;
+    width:100%;
+    min-height:100vh;
 }
 /* =========================
    頂部
 ========================= */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  height: 68px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 18px;
-  background: rgba(7, 7, 17, .88);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    background:rgba(5,3,11,.72);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(180,120,255,.12);
 }
-.home-btn {
-  width: 42px;
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(255,255,255,.035);
-  color: #ddd6ff;
-  cursor: pointer;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
-.home-btn svg {
-  width: 21px;
-  height: 21px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.brand-mark{
+    width:30px;
+    height:30px;
+    border:1px solid rgba(195,148,255,.55);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+        0 0 12px rgba(145,74,255,.25),
+        inset 0 0 10px rgba(145,74,255,.1);
 }
-.top-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  white-space: nowrap;
+.brand-mark svg{
+    width:16px;
+    height:16px;
+    stroke:#d5b3ff;
+    fill:none;
+    stroke-width:1.4;
 }
-.top-title strong {
-  display: block;
-  font-size: 17px;
-  letter-spacing: 2px;
+.brand-text{
+    font-size:16px;
+    letter-spacing:2px;
 }
-.top-title span {
-  display: block;
-  margin-top: 2px;
-  color: rgba(255,255,255,.43);
-  font-size: 10px;
-  letter-spacing: 1px;
+.home-btn{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1px solid rgba(196,151,255,.28);
+    background:rgba(91,45,155,.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+.home-btn svg{
+    width:20px;
+    height:20px;
+    stroke:#d6b8ff;
+    fill:none;
+    stroke-width:1.5;
 }
 /* =========================
-   主體
+   標題
 ========================= */
-.container {
-  width: min(900px, 100%);
-  margin: 0 auto;
-  padding: 34px 18px 100px;
+.hero{
+    padding:38px 20px 20px;
+    text-align:center;
 }
-.hero {
-  text-align: center;
-  margin-bottom: 28px;
+.hero-symbol{
+    width:66px;
+    height:66px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    border:1px solid rgba(190,139,255,.38);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:
+        0 0 25px rgba(131,62,221,.2),
+        inset 0 0 25px rgba(131,62,221,.1);
 }
-.hero-orb {
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 30%,
-      rgba(255,255,255,.8),
-      rgba(173,145,255,.35) 15%,
-      rgba(91,66,180,.16) 42%,
-      transparent 70%);
-  box-shadow:
-    0 0 40px rgba(134,105,255,.18),
-    inset 0 0 25px rgba(255,255,255,.05);
+.hero-symbol svg{
+    width:32px;
+    height:32px;
+    stroke:#d4aaff;
+    fill:none;
+    stroke-width:1.2;
 }
-.hero h1 {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 500;
-  letter-spacing: 6px;
+.hero h1{
+    margin:0;
+    font-size:30px;
+    font-weight:500;
+    letter-spacing:6px;
 }
-.hero p {
-  margin: 12px 0 0;
-  color: rgba(255,255,255,.48);
-  font-size: 13px;
-  line-height: 1.8;
+.hero p{
+    margin:12px 0 0;
+    color:#9f91b5;
+    font-size:14px;
+    line-height:1.8;
+}
+/* =========================
+   內容區
+========================= */
+.container{
+    width:min(760px,calc(100% - 32px));
+    margin:0 auto;
+    padding-bottom:60px;
+}
+.panel{
+    margin-top:18px;
+    padding:18px;
+    border-radius:20px;
+    border:1px solid rgba(184,130,255,.16);
+    background:rgba(20,12,34,.62);
+    box-shadow:
+        0 12px 40px rgba(0,0,0,.25),
+        inset 0 0 30px rgba(116,54,190,.035);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
 }
 /* =========================
    搜尋
 ========================= */
-.search-box {
-  position: relative;
-  margin-bottom: 18px;
+.search-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    height:48px;
+    padding:0 14px;
+    border-radius:14px;
+    border:1px solid rgba(186,137,255,.16);
+    background:rgba(7,4,15,.55);
 }
-.search-box input {
-  width: 100%;
-  height: 52px;
-  padding: 0 18px 0 48px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.08);
-  outline: none;
-  background: rgba(255,255,255,.035);
-  color: white;
-  font-size: 14px;
+.search-box svg{
+    width:19px;
+    height:19px;
+    stroke:#aa8acb;
+    fill:none;
+    stroke-width:1.5;
+    flex:none;
 }
-.search-box input::placeholder {
-  color: rgba(255,255,255,.32);
+.search-box input{
+    width:100%;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:#f5efff;
+    font-size:15px;
 }
-.search-icon {
-  position: absolute;
-  left: 17px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: rgba(255,255,255,.5);
-  stroke-width: 1.6;
+.search-box input::placeholder{
+    color:#766b86;
 }
 /* =========================
    篩選
 ========================= */
-.filters {
-  display: flex;
-  gap: 9px;
-  margin-bottom: 24px;
-  overflow-x: auto;
-  scrollbar-width: none;
+.filters{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding-bottom:2px;
+    scrollbar-width:none;
 }
-.filters::-webkit-scrollbar {
-  display: none;
+.filters::-webkit-scrollbar{
+    display:none;
 }
-.filter-btn {
-  flex: 0 0 auto;
-  padding: 9px 15px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(255,255,255,.035);
-  color: rgba(255,255,255,.58);
-  font-size: 12px;
-  cursor: pointer;
+.filter-btn{
+    flex:none;
+    height:34px;
+    padding:0 13px;
+    border-radius:18px;
+    border:1px solid rgba(180,130,255,.16);
+    background:rgba(76,39,124,.10);
+    color:#9f91b5;
+    font-size:13px;
+    cursor:pointer;
 }
-.filter-btn.active {
-  background: rgba(145,115,255,.16);
-  border-color: rgba(160,135,255,.32);
-  color: #eee9ff;
-}
-/* =========================
-   狀態
-========================= */
-.status {
-  min-height: 22px;
-  margin-bottom: 12px;
-  color: rgba(255,255,255,.38);
-  font-size: 12px;
+.filter-btn.active{
+    color:#eadcff;
+    border-color:rgba(195,145,255,.42);
+    background:rgba(126,69,205,.20);
+    box-shadow:0 0 16px rgba(126,69,205,.12);
 }
 /* =========================
    記憶卡片
 ========================= */
-.memory-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.memory-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
 }
-.memory-card {
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.07);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.018)
-    );
-  box-shadow: 0 12px 40px rgba(0,0,0,.18);
+.memory-card{
+    position:relative;
+    padding:17px;
+    border-radius:17px;
+    border:1px solid rgba(180,130,255,.12);
+    background:rgba(8,5,16,.48);
+    transition:.25s ease;
 }
-.memory-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+.memory-card:hover{
+    border-color:rgba(190,140,255,.25);
+    box-shadow:0 0 24px rgba(123,62,205,.08);
 }
-.memory-date {
-  color: rgba(255,255,255,.42);
-  font-size: 11px;
+.memory-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
 }
-.memory-type {
-  display: inline-flex;
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: rgba(145,115,255,.11);
-  color: #cfc4ff;
-  font-size: 10px;
+.memory-type{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:#cba9f2;
+    font-size:12px;
 }
-.memory-content {
-  margin-top: 13px;
-  color: rgba(255,255,255,.88);
-  font-size: 14px;
-  line-height: 1.85;
-  white-space: pre-wrap;
-  word-break: break-word;
+.memory-type-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:#b87aff;
+    box-shadow:0 0 8px rgba(184,122,255,.7);
 }
-.memory-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 14px;
+.memory-date{
+    color:#665b73;
+    font-size:11px;
 }
-.meta-item {
-  padding: 5px 9px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.035);
-  color: rgba(255,255,255,.38);
-  font-size: 10px;
+.memory-content{
+    margin-top:12px;
+    color:#e8e0f1;
+    font-size:14px;
+    line-height:1.8;
+    white-space:pre-wrap;
+    word-break:break-word;
 }
-.memory-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 15px;
+.memory-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:14px;
 }
-.action-btn {
-  flex: 1;
-  height: 36px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.07);
-  background: rgba(255,255,255,.025);
-  color: rgba(255,255,255,.62);
-  font-size: 11px;
-  cursor: pointer;
+.memory-source{
+    color:#71667d;
+    font-size:11px;
 }
-.action-btn.delete {
-  color: rgba(255,150,150,.72);
+.memory-actions{
+    display:flex;
+    gap:7px;
 }
-.action-btn:hover {
-  background: rgba(255,255,255,.06);
+.icon-btn{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    border:1px solid rgba(183,135,255,.13);
+    background:rgba(93,48,150,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+.icon-btn svg{
+    width:16px;
+    height:16px;
+    fill:none;
+    stroke:#a996b9;
+    stroke-width:1.4;
+}
+.icon-btn.delete:hover{
+    border-color:rgba(255,100,160,.35);
+}
+.icon-btn.delete:hover svg{
+    stroke:#e995bb;
 }
 /* =========================
    空狀態
 ========================= */
-.empty {
-  padding: 55px 20px;
-  text-align: center;
-  border-radius: 20px;
-  border: 1px dashed rgba(255,255,255,.08);
-  color: rgba(255,255,255,.35);
+.empty{
+    text-align:center;
+    padding:50px 20px;
+    color:#71667e;
 }
-.empty strong {
-  display: block;
-  margin-bottom: 8px;
-  color: rgba(255,255,255,.62);
-  font-size: 14px;
+.empty svg{
+    width:42px;
+    height:42px;
+    stroke:#806695;
+    fill:none;
+    stroke-width:1.2;
+    margin-bottom:14px;
 }
-.empty span {
-  font-size: 12px;
-  line-height: 1.7;
+.empty p{
+    margin:0;
+    font-size:14px;
+}
+/* =========================
+   載入
+========================= */
+.loading{
+    text-align:center;
+    padding:35px;
+    color:#897b98;
+    font-size:13px;
 }
 /* =========================
    編輯視窗
 ========================= */
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: rgba(0,0,0,.7);
-  backdrop-filter: blur(12px);
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,.6);
+    backdrop-filter:blur(8px);
 }
-.modal.show {
-  display: flex;
+.modal.show{
+    display:flex;
 }
-.modal-card {
-  width: min(600px, 100%);
-  padding: 22px;
-  border-radius: 22px;
-  border: 1px solid rgba(255,255,255,.09);
-  background: #10101d;
-  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+.modal-box{
+    width:min(760px,100%);
+    max-height:88vh;
+    overflow-y:auto;
+    padding:22px;
+    border-radius:24px 24px 0 0;
+    background:#10091a;
+    border:1px solid rgba(190,140,255,.18);
+    box-shadow:0 -10px 50px rgba(0,0,0,.45);
 }
-.modal-title {
-  margin-bottom: 17px;
-  font-size: 17px;
-  letter-spacing: 2px;
+.modal-title{
+    font-size:18px;
+    letter-spacing:2px;
+    margin-bottom:18px;
 }
-.modal textarea {
-  width: 100%;
-  min-height: 170px;
-  resize: vertical;
-  padding: 15px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.08);
-  outline: none;
-  background: rgba(255,255,255,.035);
-  color: white;
-  font-size: 14px;
-  line-height: 1.8;
+.form-group{
+    margin-bottom:14px;
 }
-.modal-buttons {
-  display: flex;
-  gap: 9px;
-  margin-top: 14px;
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    color:#9585a6;
+    font-size:12px;
 }
-.modal-buttons button {
-  flex: 1;
-  height: 44px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.08);
-  background: rgba(255,255,255,.04);
-  color: white;
-  cursor: pointer;
+.form-group input,
+.form-group textarea{
+    width:100%;
+    border:1px solid rgba(180,130,255,.15);
+    outline:0;
+    border-radius:12px;
+    background:rgba(5,3,10,.65);
+    color:#f4edfc;
+    padding:12px;
+    font-size:14px;
 }
-.modal-buttons .save {
-  background: rgba(139,110,255,.2);
-  border-color: rgba(139,110,255,.3);
+.form-group textarea{
+    min-height:130px;
+    resize:vertical;
+    line-height:1.7;
+}
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+.modal-actions button{
+    flex:1;
+    height:44px;
+    border-radius:12px;
+    border:1px solid rgba(180,130,255,.18);
+    background:rgba(83,43,137,.13);
+    color:#cbb5df;
+    cursor:pointer;
+}
+.modal-actions .save{
+    background:rgba(126,69,205,.28);
+    border-color:rgba(191,142,255,.35);
+    color:#f0ddff;
 }
 /* =========================
    手機
 ========================= */
-@media (max-width: 600px) {
-  .container {
-    padding-top: 27px;
-  }
-  .hero h1 {
-    font-size: 27px;
-  }
-  .memory-card {
-    padding: 15px;
-  }
+@media(max-width:600px){
+    .topbar{
+        height:62px;
+        padding:0 14px;
+    }
+    .hero{
+        padding-top:30px;
+    }
+    .hero h1{
+        font-size:26px;
+    }
+    .container{
+        width:calc(100% - 24px);
+    }
+    .panel{
+        padding:14px;
+        border-radius:18px;
+    }
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <button class="home-btn" id="homeBtn" aria-label="回到 Home">
-    <svg viewBox="0 0 24 24">
-      <path d="M3 10.5 12 3l9 7.5"></path>
-      <path d="M5.5 9.5V21h13V9.5"></path>
-      <path d="M9.5 21v-6h5v6"></path>
-    </svg>
-  </button>
-  <div class="top-title">
-    <strong>玄憶</strong>
-    <span>MEMORY</span>
-  </div>
-  <div style="width:42px;"></div>
-</header>
-<main class="container">
-  <section class="hero">
-    <div class="hero-orb"></div>
+<!-- 紫色星光 -->
+<div id="stars"></div>
+<div class="nebula one"></div>
+<div class="nebula two"></div>
+<div id="meteor" class="meteor"></div>
+<div class="page">
+<!-- 頂部 -->
+<div class="topbar">
+    <div class="brand">
+        <div class="brand-mark">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 3
+                         C8 6 6 9 6 13
+                         C6 17 8.8 20 12 21
+                         C15.2 20 18 17 18 13
+                         C18 9 16 6 12 3Z"/>
+                <path d="M9 14
+                         C10 12 11 11 12 9
+                         C13 11 14 12 15 14"/>
+            </svg>
+        </div>
+        <div class="brand-text">玄憶</div>
+    </div>
+    <button class="home-btn" onclick="location.href='home.html'" aria-label="Home">
+        <svg viewBox="0 0 24 24">
+            <path d="M3 10.5L12 3l9 7.5"/>
+            <path d="M5.5 9.5V21h13V9.5"/>
+            <path d="M9.5 21v-6h5v6"/>
+        </svg>
+    </button>
+</div>
+<!-- 標題 -->
+<section class="hero">
+    <div class="hero-symbol">
+        <svg viewBox="0 0 32 32">
+            <path d="M16 4
+                     C10 8 7 12 7 17
+                     C7 23 11 27 16 28
+                     C21 27 25 23 25 17
+                     C25 12 22 8 16 4Z"/>
+            <path d="M11 18
+                     C12.5 15.5 14 14 16 11
+                     C18 14 19.5 15.5 21 18"/>
+        </svg>
+    </div>
     <h1>玄憶</h1>
     <p>
-      這裡保存的是你允許留下的記錄。<br>
-      玄境不替你決定什麼重要，只在你需要時幫你找回。
+        你選擇留下的事情，<br>
+        都會安靜地存在這裡。
     </p>
-  </section>
-  <div class="search-box">
-    <svg class="search-icon" viewBox="0 0 24 24">
-      <circle cx="10.8" cy="10.8" r="6.8"></circle>
-      <path d="m16 16 5 5"></path>
-    </svg>
-    <input
-      id="searchInput"
-      type="search"
-      placeholder="搜尋你的記憶……"
-      autocomplete="off"
-    >
-  </div>
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">
-      全部
-    </button>
-    <button class="filter-btn" data-filter="preference">
-      偏好
-    </button>
-    <button class="filter-btn" data-filter="event">
-      事情
-    </button>
-    <button class="filter-btn" data-filter="person">
-      人
-    </button>
-    <button class="filter-btn" data-filter="project">
-      專案
-    </button>
-    <button class="filter-btn" data-filter="other">
-      其他
-    </button>
-  </div>
-  <div id="status" class="status">
-    正在讀取玄憶……
-  </div>
-  <section id="memoryList" class="memory-list"></section>
+</section>
+<main class="container">
+    <!-- 搜尋 -->
+    <section class="panel">
+        <div class="search-box">
+            <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M16.5 16.5L21 21"/>
+            </svg>
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="搜尋你的記憶……"
+                autocomplete="off"
+            >
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" data-type="all">
+                全部
+            </button>
+            <button class="filter-btn" data-type="preference">
+                偏好
+            </button>
+            <button class="filter-btn" data-type="life">
+                生活
+            </button>
+            <button class="filter-btn" data-type="work">
+                工作
+            </button>
+            <button class="filter-btn" data-type="important">
+                重要
+            </button>
+        </div>
+    </section>
+    <!-- 記憶 -->
+    <section class="panel">
+        <div id="memoryList" class="memory-list">
+            <div class="loading">
+                正在讀取你的玄憶……
+            </div>
+        </div>
+    </section>
 </main>
-<!-- 編輯 -->
-<div class="modal" id="editModal">
-  <div class="modal-card">
-    <div class="modal-title">
-      編輯這段記憶
-    </div>
-    <textarea id="editContent"></textarea>
-    <div class="modal-buttons">
-      <button id="cancelEdit">
-        取消
-      </button>
-      <button class="save" id="saveEdit">
-        儲存
-      </button>
-    </div>
-  </div>
 </div>
+<!-- 編輯視窗 -->
+<div id="editModal" class="modal">
+<div class="modal-box">
+    <div class="modal-title">編輯玄憶</div>
+    <div class="form-group">
+        <label>記憶內容</label>
+        <textarea id="editContent"></textarea>
+    </div>
+    <div class="form-group">
+        <label>類型</label>
+        <input id="editType" type="text">
+    </div>
+    <div class="modal-actions">
+        <button onclick="closeEdit()">
+            取消
+        </button>
+        <button class="save" onclick="saveEdit()">
+            保存
+        </button>
+    </div>
+</div>
+</div>
+<script src="config.js"></script>
 <script>
-/* =========================================================
-   玄境 Supabase
-========================================================= */
+/* =====================================================
+   紫色星光
+===================================================== */
+const stars = document.getElementById("stars");
+for(let i = 0; i < 150; i++){
+    const star = document.createElement("div");
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+    const size = Math.random() < .82 ? 1 : 2;
+    star.style.width = size + "px";
+    star.style.height = size + "px";
+    star.style.setProperty(
+        "--duration",
+        (2 + Math.random() * 5) + "s"
+    );
+    star.style.animationDelay =
+        (-Math.random() * 5) + "s";
+    stars.appendChild(star);
+}
+/* =====================================================
+   偶爾流星
+===================================================== */
+const meteor = document.getElementById("meteor");
+function createMeteor(){
+    meteor.classList.remove("show");
+    meteor.style.left =
+        (20 + Math.random() * 90) + "%";
+    meteor.style.top =
+        (5 + Math.random() * 35) + "%";
+    void meteor.offsetWidth;
+    meteor.classList.add("show");
+    const next =
+        8000 + Math.random() * 12000;
+    setTimeout(createMeteor, next);
+}
+setTimeout(createMeteor, 5000);
+/* =====================================================
+   Supabase
+===================================================== */
 const SUPABASE_URL =
-  "https://zuypaeagxjezlqdppvnm.supabase.co";
-/*
-  注意：
-  這裡不能把 Supabase Service Role Key 放進前端。
-  正式版應該使用：
-  Supabase Auth → 使用者 Session → RLS
-  因此這個頁面目前會嘗試取得瀏覽器裡的
-  Supabase Auth Session。
-  如果目前尚未登入，會顯示「尚未登入」，
-  不會讀取所有人的資料。
-*/
+    (typeof XUANJING_CONFIG !== "undefined" &&
+     XUANJING_CONFIG.supabase)
+        ? XUANJING_CONFIG.supabase.url
+        : "https://zuypaeagxjezlqdppvnm.supabase.co";
+const SUPABASE_ANON_KEY =
+    (typeof XUANJING_CONFIG !== "undefined" &&
+     XUANJING_CONFIG.supabase)
+        ? XUANJING_CONFIG.supabase.anonKey
+        : "";
+/* =====================================================
+   狀態
+===================================================== */
 let memories = [];
 let currentFilter = "all";
-let currentSearch = "";
 let editingId = null;
-/* =========================================================
-   Home
-========================================================= */
-document
-  .getElementById("homeBtn")
-  .addEventListener("click", () => {
-    window.location.href = "home.html";
-  });
-/* =========================================================
-   取得目前 Supabase Session
-========================================================= */
-async function getSession() {
-  /*
-    目前先嘗試從 Supabase Auth 的 localStorage
-    找出登入 Session。
-    因為目前專案尚未把 supabase-js 全站統一接入，
-    所以這裡不假設使用者一定已登入。
-  */
-  try {
+/* =====================================================
+   取得登入使用者 Token
+===================================================== */
+function getAuthToken(){
     const keys = Object.keys(localStorage);
-    const supabaseKey = keys.find(key =>
-      key.startsWith("sb-") &&
-      key.includes("-auth-token")
-    );
-    if (!supabaseKey) {
-      return null;
+    for(const key of keys){
+        if(
+            key.includes("auth-token") ||
+            key.startsWith("sb-")
+        ){
+            try{
+                const value =
+                    JSON.parse(localStorage.getItem(key));
+                if(value && value.access_token){
+                    return value.access_token;
+                }
+            }catch(e){}
+        }
     }
-    const raw = localStorage.getItem(supabaseKey);
-    if (!raw) {
-      return null;
-    }
-    const session = JSON.parse(raw);
-    return session;
-  } catch (error) {
-    console.error("Session 讀取失敗:", error);
     return null;
-  }
 }
-/* =========================================================
-   載入記憶
-========================================================= */
-async function loadMemories() {
-  const status = document.getElementById("status");
-  status.textContent = "正在讀取玄憶……";
-  try {
-    const session = await getSession();
-    /*
-      尚未建立登入流程時，不冒險讀取資料。
-    */
-    if (!session || !session.access_token || !session.user) {
-      memories = [];
-      status.textContent =
-        "目前尚未連接登入使用者。請先完成 Supabase Auth。";
-      renderMemories();
-      return;
-    }
-    const userId = session.user.id;
-    const url =
-      SUPABASE_URL +
-      "/rest/v1/memories" +
-      "?select=*" +
-      "&user_id=eq." +
-      encodeURIComponent(userId) +
-      "&order=created_at.desc";
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "apikey": session.access_token,
-        "Authorization":
-          "Bearer " + session.access_token,
-        "Content-Type":
-          "application/json"
-      }
-    });
-    if (!response.ok) {
-      const errorText =
-        await response.text();
-      throw new Error(errorText);
-    }
-    memories = await response.json();
-    status.textContent =
-      `目前共有 ${memories.length} 筆記憶`;
-    renderMemories();
-  } catch (error) {
-    console.error(error);
-    memories = [];
-    status.textContent =
-      "玄憶暫時無法讀取資料。";
-    renderMemories();
-  }
-}
-/* =========================================================
-   篩選
-========================================================= */
-document
-  .querySelectorAll(".filter-btn")
-  .forEach(button => {
-    button.addEventListener("click", () => {
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach(btn =>
-          btn.classList.remove("active")
-        );
-      button.classList.add("active");
-      currentFilter =
-        button.dataset.filter;
-      renderMemories();
-    });
-  });
-/* =========================================================
-   搜尋
-========================================================= */
-document
-  .getElementById("searchInput")
-  .addEventListener("input", event => {
-    currentSearch =
-      event.target.value
-        .trim()
-        .toLowerCase();
-    renderMemories();
-  });
-/* =========================================================
-   格式化日期
-========================================================= */
-function formatDate(value) {
-  if (!value) return "未知時間";
-  const date =
-    new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return date.toLocaleString(
-    "zh-TW",
-    {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit"
-    }
-  );
-}
-/* =========================================================
-   顯示類型
-========================================================= */
-function typeName(type) {
-  const map = {
-    preference: "偏好",
-    event: "事情",
-    person: "人物",
-    project: "專案",
-    place: "地點",
-    idea: "想法",
-    other: "其他"
-  };
-  return map[type] || type || "其他";
-}
-/* =========================================================
-   顯示記憶
-========================================================= */
-function renderMemories() {
-  const list =
-    document.getElementById("memoryList");
-  let filtered =
-    [...memories];
-  /* 類型 */
-  if (currentFilter !== "all") {
-    filtered =
-      filtered.filter(memory =>
-        memory.memory_type === currentFilter
-      );
-  }
-  /* 搜尋 */
-  if (currentSearch) {
-    filtered =
-      filtered.filter(memory => {
-        const content =
-          String(memory.content || "")
-            .toLowerCase();
-        const type =
-          String(memory.memory_type || "")
-            .toLowerCase();
-        const source =
-          String(memory.source || "")
-            .toLowerCase();
-        return (
-          content.includes(currentSearch) ||
-          type.includes(currentSearch) ||
-          source.includes(currentSearch)
-        );
-      });
-  }
-  if (filtered.length === 0) {
-    list.innerHTML = `
-      <div class="empty">
-        <strong>這裡目前沒有找到相關記憶</strong>
-        <span>
-          玄境不會替你編造記憶。<br>
-          當資料真正存在時，我會幫你把它找回來。
-        </span>
-      </div>
-    `;
-    return;
-  }
-  list.innerHTML =
-    filtered.map(memory => {
-      return `
-        <article
-          class="memory-card"
-          data-id="${escapeHtml(memory.id)}"
-        >
-          <div class="memory-head">
-            <div class="memory-date">
-              ${formatDate(memory.created_at)}
-            </div>
-            <div class="memory-type">
-              ${escapeHtml(
-                typeName(memory.memory_type)
-              )}
-            </div>
-          </div>
-          <div class="memory-content">
-            ${escapeHtml(memory.content)}
-          </div>
-          <div class="memory-meta">
-            <div class="meta-item">
-              來源：${escapeHtml(
-                memory.source || "未知"
-              )}
-            </div>
-            <div class="meta-item">
-              重要程度：${Number(
-                memory.importance || 0
-              )}
-            </div>
-            <div class="meta-item">
-              ${
-                memory.confirmed
-                  ? "已確認"
-                  : "未確認"
-              }
-            </div>
-            ${
-              memory.expires_at
-                ? `
-                  <div class="meta-item">
-                    到期：${formatDate(
-                      memory.expires_at
-                    )}
-                  </div>
-                `
-                : ""
+/* =====================================================
+   讀取 Memories
+===================================================== */
+async function loadMemories(){
+    const list =
+        document.getElementById("memoryList");
+    list.innerHTML =
+        '<div class="loading">正在讀取你的玄憶……</div>';
+    try{
+        const token = getAuthToken();
+        if(!token){
+            list.innerHTML = `
+                <div class="empty">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M12 8v4"/>
+                        <path d="M12 16h.01"/>
+                    </svg>
+                    <p>
+                        尚未取得登入狀態。<br>
+                        請先登入玄境。
+                    </p>
+                </div>
+            `;
+            return;
+        }
+        const response = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/memories?select=*&order=created_at.desc",
+            {
+                headers:{
+                    "apikey":SUPABASE_ANON_KEY,
+                    "Authorization":"Bearer " + token,
+                    "Content-Type":"application/json"
+                }
             }
-          </div>
-          <div class="memory-actions">
-            <button
-              class="action-btn"
-              onclick="openEdit('${escapeJs(memory.id)}')"
-            >
-              編輯
-            </button>
-            <button
-              class="action-btn delete"
-              onclick="deleteMemory('${escapeJs(memory.id)}')"
-            >
-              刪除
-            </button>
-          </div>
-        </article>
-      `;
-    }).join("");
+        );
+        if(!response.ok){
+            throw new Error(
+                "讀取失敗：" + response.status
+            );
+        }
+        memories = await response.json();
+        renderMemories();
+    }catch(error){
+        console.error(error);
+        list.innerHTML = `
+            <div class="empty">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 8v4"/>
+                    <path d="M12 16h.01"/>
+                </svg>
+                <p>
+                    暫時無法讀取玄憶。<br>
+                    請稍後再試。
+                </p>
+            </div>
+        `;
+    }
 }
-/* =========================================================
-   編輯
-========================================================= */
-function openEdit(id) {
-  const memory =
-    memories.find(item =>
-      item.id === id
-    );
-  if (!memory) return;
-  editingId = id;
-  document
-    .getElementById("editContent")
-    .value =
-      memory.content || "";
-  document
-    .getElementById("editModal")
-    .classList.add("show");
+/* =====================================================
+   顯示 Memories
+===================================================== */
+function renderMemories(){
+    const list =
+        document.getElementById("memoryList");
+    const search =
+        document.getElementById("searchInput")
+            .value
+            .trim()
+            .toLowerCase();
+    let result = memories.filter(memory => {
+        const type =
+            (memory.memory_type || "").toLowerCase();
+        const content =
+            (memory.content || "").toLowerCase();
+        const matchSearch =
+            !search ||
+            content.includes(search) ||
+            type.includes(search);
+        const matchType =
+            currentFilter === "all" ||
+            type === currentFilter;
+        return matchSearch && matchType;
+    });
+    if(result.length === 0){
+        list.innerHTML = `
+            <div class="empty">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6h16"/>
+                    <path d="M6 6v14h12V6"/>
+                    <path d="M9 6V4h6v2"/>
+                    <path d="M9 10v6"/>
+                    <path d="M12 10v6"/>
+                    <path d="M15 10v6"/>
+                </svg>
+                <p>
+                    這裡暫時沒有找到相關記憶。
+                </p>
+            </div>
+        `;
+        return;
+    }
+    list.innerHTML =
+        result.map(memory => {
+            const date =
+                memory.created_at
+                    ? new Date(memory.created_at)
+                        .toLocaleString("zh-TW")
+                    : "";
+            return `
+                <article class="memory-card">
+                    <div class="memory-top">
+                        <div class="memory-type">
+                            <span class="memory-type-dot"></span>
+                            ${escapeHtml(
+                                memory.memory_type || "一般"
+                            )}
+                        </div>
+                        <div class="memory-date">
+                            ${escapeHtml(date)}
+                        </div>
+                    </div>
+                    <div class="memory-content">
+                        ${escapeHtml(memory.content || "")}
+                    </div>
+                    <div class="memory-bottom">
+                        <div class="memory-source">
+                            ${escapeHtml(
+                                memory.source || "玄境"
+                            )}
+                        </div>
+                        <div class="memory-actions">
+                            <button
+                                class="icon-btn"
+                                onclick="openEdit('${memory.id}')"
+                                aria-label="編輯"
+                            >
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M4 20h4L19 9l-4-4L4 16v4Z"/>
+                                    <path d="M13.5 6.5l4 4"/>
+                                </svg>
+                            </button>
+                            <button
+                                class="icon-btn delete"
+                                onclick="deleteMemory('${memory.id}')"
+                                aria-label="刪除"
+                            >
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M4 7h16"/>
+                                    <path d="M10 11v6"/>
+                                    <path d="M14 11v6"/>
+                                    <path d="M8 7l1-3h6l1 3"/>
+                                    <path d="M6 7l1 14h10l1-14"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }).join("");
 }
+/* =====================================================
+   HTML 安全處理
+===================================================== */
+function escapeHtml(value){
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+/* =====================================================
+   搜尋
+===================================================== */
 document
-  .getElementById("cancelEdit")
-  .addEventListener("click", () => {
+    .getElementById("searchInput")
+    .addEventListener("input", renderMemories);
+/* =====================================================
+   分類
+===================================================== */
+document
+    .querySelectorAll(".filter-btn")
+    .forEach(button => {
+        button.addEventListener("click", () => {
+            document
+                .querySelectorAll(".filter-btn")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+            button.classList.add("active");
+            currentFilter =
+                button.dataset.type;
+            renderMemories();
+        });
+    });
+/* =====================================================
+   編輯
+===================================================== */
+function openEdit(id){
+    const memory =
+        memories.find(item => item.id === id);
+    if(!memory) return;
+    editingId = id;
+    document
+        .getElementById("editContent")
+        .value = memory.content || "";
+    document
+        .getElementById("editType")
+        .value = memory.memory_type || "";
+    document
+        .getElementById("editModal")
+        .classList.add("show");
+}
+function closeEdit(){
     editingId = null;
     document
-      .getElementById("editModal")
-      .classList.remove("show");
-  });
-/* =========================================================
-   儲存編輯
-========================================================= */
-document
-  .getElementById("saveEdit")
-  .addEventListener("click", async () => {
-    if (!editingId) return;
-    const content =
-      document
-        .getElementById("editContent")
-        .value
-        .trim();
-    if (!content) {
-      alert("記憶內容不能為空。");
-      return;
-    }
-    try {
-      const session =
-        await getSession();
-      if (!session || !session.access_token) {
-        alert(
-          "目前尚未登入，無法修改資料。"
-        );
-        return;
-      }
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          "/rest/v1/memories?id=eq." +
-          encodeURIComponent(editingId),
-          {
-            method: "PATCH",
-            headers: {
-              "apikey":
-                session.access_token,
-              "Authorization":
-                "Bearer " +
-                session.access_token,
-              "Content-Type":
-                "application/json",
-              "Prefer":
-                "return=minimal"
-            },
-            body: JSON.stringify({
-              content: content,
-              updated_at:
-                new Date().toISOString()
-            })
-          }
-        );
-      if (!response.ok) {
-        throw new Error(
-          await response.text()
-        );
-      }
-      document
         .getElementById("editModal")
         .classList.remove("show");
-      editingId = null;
-      await loadMemories();
-    } catch (error) {
-      console.error(error);
-      alert(
-        "修改失敗，請稍後再試。"
-      );
+}
+async function saveEdit(){
+    if(!editingId) return;
+    const token = getAuthToken();
+    if(!token){
+        alert("尚未登入。");
+        return;
     }
-  });
-/* =========================================================
-   刪除
-========================================================= */
-async function deleteMemory(id) {
-  const memory =
-    memories.find(item =>
-      item.id === id
-    );
-  if (!memory) return;
-  const ok =
-    confirm(
-      "確定要刪除這段記憶嗎？\n\n刪除後玄境將不再使用這筆資料。"
-    );
-  if (!ok) return;
-  try {
-    const session =
-      await getSession();
-    if (!session || !session.access_token) {
-      alert(
-        "目前尚未登入，無法刪除資料。"
-      );
-      return;
+    const content =
+        document
+            .getElementById("editContent")
+            .value
+            .trim();
+    const memoryType =
+        document
+            .getElementById("editType")
+            .value
+            .trim();
+    if(!content){
+        alert("記憶內容不能為空。");
+        return;
     }
-    const response =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/memories?id=eq." +
-        encodeURIComponent(id),
-        {
-          method: "DELETE",
-          headers: {
-            "apikey":
-              session.access_token,
-            "Authorization":
-              "Bearer " +
-              session.access_token,
-            "Content-Type":
-              "application/json"
-          }
+    try{
+        const response = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/memories?id=eq." +
+            encodeURIComponent(editingId),
+            {
+                method:"PATCH",
+                headers:{
+                    "apikey":SUPABASE_ANON_KEY,
+                    "Authorization":"Bearer " + token,
+                    "Content-Type":"application/json",
+                    "Prefer":"return=minimal"
+                },
+                body:JSON.stringify({
+                    content:content,
+                    memory_type:
+                        memoryType || "一般",
+                    updated_at:
+                        new Date().toISOString()
+                })
+            }
+        );
+        if(!response.ok){
+            throw new Error("保存失敗");
         }
-      );
-    if (!response.ok) {
-      throw new Error(
-        await response.text()
-      );
+        closeEdit();
+        await loadMemories();
+    }catch(error){
+        console.error(error);
+        alert("保存失敗，請稍後再試。");
     }
-    await loadMemories();
-  } catch (error) {
-    console.error(error);
-    alert(
-      "刪除失敗，請稍後再試。"
-    );
-  }
 }
-/* =========================================================
-   防 XSS
-========================================================= */
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+/* =====================================================
+   刪除
+===================================================== */
+async function deleteMemory(id){
+    const ok =
+        confirm("確定要刪除這段玄憶嗎？");
+    if(!ok) return;
+    const token = getAuthToken();
+    if(!token){
+        alert("尚未登入。");
+        return;
+    }
+    try{
+        const response = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/memories?id=eq." +
+            encodeURIComponent(id),
+            {
+                method:"DELETE",
+                headers:{
+                    "apikey":SUPABASE_ANON_KEY,
+                    "Authorization":"Bearer " + token
+                }
+            }
+        );
+        if(!response.ok){
+            throw new Error("刪除失敗");
+        }
+        await loadMemories();
+    }catch(error){
+        console.error(error);
+        alert("刪除失敗，請稍後再試。");
+    }
 }
-function escapeJs(value) {
-  return String(value ?? "")
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'");
-}
-/* =========================================================
-   防止手機整頁橫向拖動
-========================================================= */
+/* =====================================================
+   防止整頁左右滑動
+   允許上下正常滾動
+===================================================== */
 let startX = 0;
+let startY = 0;
 document.addEventListener(
-  "touchstart",
-  event => {
-    if (event.touches.length === 1) {
-      startX =
-        event.touches[0].clientX;
-    }
-  },
-  { passive: true }
+    "touchstart",
+    event => {
+        if(event.touches.length !== 1) return;
+        startX =
+            event.touches[0].clientX;
+        startY =
+            event.touches[0].clientY;
+    },
+    {passive:true}
 );
 document.addEventListener(
-  "touchmove",
-  event => {
-    if (event.touches.length !== 1) {
-      return;
-    }
-    const currentX =
-      event.touches[0].clientX;
-    const diff =
-      currentX - startX;
-    /*
-      阻止整個頁面左右拖動。
-      但搜尋/篩選等真正需要橫向滑動的區域仍可使用。
-    */
-    if (
-      Math.abs(diff) > 8 &&
-      !event.target.closest(".filters")
-    ) {
-      event.preventDefault();
-    }
-  },
-  { passive: false }
+    "touchmove",
+    event => {
+        if(event.touches.length !== 1) return;
+        const x =
+            event.touches[0].clientX;
+        const y =
+            event.touches[0].clientY;
+        const dx = x - startX;
+        const dy = y - startY;
+        /*
+         * 只有當水平移動明顯大於垂直移動時，
+         * 才阻止整頁水平移動。
+         */
+        if(Math.abs(dx) > Math.abs(dy) &&
+           Math.abs(dx) > 8){
+            event.preventDefault();
+        }
+    },
+    {passive:false}
 );
-/* =========================================================
+/* =====================================================
    啟動
-========================================================= */
+===================================================== */
 loadMemories();
 </script>
 </body>
