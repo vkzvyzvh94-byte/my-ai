@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玄境｜我的世界</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background:
+        radial-gradient(circle at 50% 15%, rgba(91, 77, 140, 0.20), transparent 35%),
+        radial-gradient(circle at 15% 80%, rgba(45, 70, 110, 0.14), transparent 35%),
+        #08090f;
+    color: #eeeef4;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+}
+
+/* =========================
+   頂部
+========================= */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: rgba(8, 9, 15, 0.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.home-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.035);
+    color: #eeeeF4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.home-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.top-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.top-title h1 {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 3px;
+}
+
+.top-title p {
+    margin-top: 3px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.42);
+    letter-spacing: 1px;
+}
+
+/* =========================
+   主內容
+========================= */
+
+.container {
+    width: min(1100px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 80px;
+}
+
+/* =========================
+   世界主視覺
+========================= */
+
+.world-hero {
+    position: relative;
+    min-height: 330px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 28px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 48%, rgba(124, 105, 190, 0.28), transparent 17%),
+        radial-gradient(circle at 50% 50%, rgba(55, 68, 130, 0.18), transparent 42%),
+        linear-gradient(145deg, #111320, #090a11 70%);
+}
+
+.world-hero::before,
+.world-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.world-hero::before {
+    width: 360px;
+    height: 360px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(180,170,230,0.13);
+    box-shadow:
+        0 0 80px rgba(110,95,180,0.13),
+        inset 0 0 70px rgba(110,95,180,0.08);
+}
+
+.world-hero::after {
+    width: 190px;
+    height: 190px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(200,190,245,0.15);
+}
+
+.world-center {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.world-symbol {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(220,215,245,0.25);
+    background: rgba(255,255,255,0.035);
+    box-shadow:
+        0 0 40px rgba(126,109,195,0.20),
+        inset 0 0 30px rgba(255,255,255,0.035);
+}
+
+.world-symbol svg {
+    width: 43px;
+    height: 43px;
+    fill: none;
+    stroke: rgba(235,232,250,0.82);
+    stroke-width: 1.2;
+}
+
+.world-center h2 {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 5px;
+}
+
+.world-center p {
+    margin-top: 9px;
+    color: rgba(255,255,255,0.46);
+    font-size: 13px;
+}
+
+/* =========================
+   區塊標題
+========================= */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 38px 2px 16px;
+}
+
+.section-title h2 {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.section-title span {
+    color: rgba(255,255,255,0.35);
+    font-size: 12px;
+}
+
+/* =========================
+   世界卡片
+========================= */
+
+.world-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.world-card {
+    position: relative;
+    min-height: 190px;
+    padding: 22px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 22px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .2s ease, border-color .2s ease;
+    background: rgba(255,255,255,0.025);
+}
+
+.world-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,0.18);
+}
+
+.world-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(150,140,210,0.12), transparent 40%);
+    pointer-events: none;
+}
+
+.card-icon {
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+}
+
+.card-icon svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: rgba(235,235,245,0.75);
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.world-card h3 {
+    position: relative;
+    z-index: 2;
+    font-size: 17px;
+    font-weight: 450;
+}
+
+.world-card p {
+    position: relative;
+    z-index: 2;
+    margin-top: 7px;
+    color: rgba(255,255,255,0.40);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* =========================
+   AI 世界助手
+========================= */
+
+.ai-panel {
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    background: rgba(255,255,255,0.025);
+}
+
+.ai-head {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 18px;
+}
+
+.ai-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.ai-mark svg {
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: rgba(230,225,250,0.8);
+    stroke-width: 1.4;
+}
+
+.ai-head h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.ai-head p {
+    margin-top: 4px;
+    color: rgba(255,255,255,0.38);
+    font-size: 12px;
+}
+
+.ai-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.ai-input {
+    flex: 1;
+    min-height: 52px;
+    max-height: 150px;
+    resize: vertical;
+    padding: 15px 16px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.09);
+    outline: none;
+    background: rgba(0,0,0,0.20);
+    color: #fff;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.ai-input::placeholder {
+    color: rgba(255,255,255,0.28);
+}
+
+.ai-send {
+    width: 54px;
+    min-width: 54px;
+    height: 52px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.06);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.ai-send svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.ai-result {
+    display: none;
+    margin-top: 16px;
+    padding: 17px;
+    border-radius: 17px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.78);
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* =========================
+   建立世界
+========================= */
+
+.create-world {
+    margin-top: 15px;
+    min-height: 105px;
+    border: 1px dashed rgba(255,255,255,0.13);
+    border-radius: 21px;
+    background: rgba(255,255,255,0.018);
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.create-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: rgba(235,235,245,0.75);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+}
+
+.create-world h3 {
+    font-size: 15px;
+    font-weight: 450;
+}
+
+.create-world p {
+    margin-top: 5px;
+    color: rgba(255,255,255,0.37);
+    font-size: 12px;
+}
+
+/* =========================
+   彈窗
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 300;
+    inset: 0;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.62);
+    backdrop-filter: blur(10px);
+}
+
+.modal-box {
+    width: min(520px, 100%);
+    padding: 25px;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 25px;
+    background: #101119;
+}
+
+.modal-box h2 {
+    font-size: 19px;
+    font-weight: 450;
+}
+
+.modal-box p {
+    margin-top: 8px;
+    color: rgba(255,255,255,0.42);
+    font-size: 13px;
+}
+
+.world-name {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.035);
+    color: white;
+    outline: none;
+    font-family: inherit;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.modal-actions button {
+    flex: 1;
+    height: 46px;
+    border-radius: 13px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    color: white;
+    cursor: pointer;
+}
+
+.modal-actions button:last-child {
+    background: rgba(255,255,255,0.10);
+}
+
+/* =========================
+   手機
+========================= */
+
+@media (max-width: 720px) {
+
+    .topbar {
+        height: 62px;
+        padding: 0 14px;
+    }
+
+    .container {
+        width: calc(100% - 22px);
+        padding-top: 18px;
+    }
+
+    .world-hero {
+        min-height: 285px;
+        border-radius: 23px;
+    }
+
+    .world-hero::before {
+        width: 285px;
+        height: 285px;
+    }
+
+    .world-hero::after {
+        width: 145px;
+        height: 145px;
+    }
+
+    .world-center h2 {
+        font-size: 24px;
+    }
+
+    .world-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .world-card {
+        min-height: 150px;
+    }
+
+    .ai-input-row {
+        align-items: flex-end;
+    }
+
+    .ai-panel {
+        padding: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <button class="home-btn" onclick="location.href='home.html'" aria-label="回到 Home">
+        <svg viewBox="0 0 24 24">
+            <path d="M3.5 11.2 12 4l8.5 7.2"/>
+            <path d="M5.5 10.5V20h13v-9.5"/>
+            <path d="M9.5 20v-5.5h5V20"/>
+        </svg>
+    </button>
+
+    <div class="top-title">
+        <h1>我的世界</h1>
+        <p>一個只屬於你的空間</p>
+    </div>
+
+    <div style="width:42px;"></div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- 主世界 -->
+
+    <section class="world-hero">
+
+        <div class="world-center">
+
+            <div class="world-symbol">
+                <svg viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="15"/>
+                    <path d="M9 24h30"/>
+                    <path d="M24 9c4 4.5 6 9.5 6 15s-2 10.5-6 15"/>
+                    <path d="M24 9c-4 4.5-6 9.5-6 15s2 10.5 6 15"/>
+                    <path d="M13 16c6 3 20 3 22 0"/>
+                    <path d="M13 32c6-3 20-3 22 0"/>
+                </svg>
+            </div>
+
+            <h2>玄境</h2>
+            <p>這裡是你的世界，不必迎合任何人</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- 我的世界 -->
+
+    <div class="section-title">
+        <h2>我的世界</h2>
+        <span>可以隨時改變</span>
+    </div>
+
+    <section class="world-grid">
+
+        <div class="world-card" onclick="enterWorld('星空世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 2v3"/>
+                    <path d="M12 19v3"/>
+                    <path d="m4.9 4.9 2.1 2.1"/>
+                    <path d="m17 17 2.1 2.1"/>
+                    <path d="M2 12h3"/>
+                    <path d="M19 12h3"/>
+                    <path d="m4.9 19.1 2.1-2.1"/>
+                    <path d="m17 7 2.1-2.1"/>
+                </svg>
+            </div>
+            <h3>星空世界</h3>
+            <p>安靜、遙遠，適合放空與思考。</p>
+        </div>
+
+
+        <div class="world-card" onclick="enterWorld('森林世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 21V8"/>
+                    <path d="m8 12 4-4 4 4"/>
+                    <path d="m7 17 5-5 5 5"/>
+                    <path d="M9 21h6"/>
+                </svg>
+            </div>
+            <h3>森林世界</h3>
+            <p>樹木、風與自然，讓自己慢下來。</p>
+        </div>
+
+
+        <div class="world-card" onclick="enterWorld('海洋世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 12c2.2-2.2 4.5-2.2 6.7 0s4.5 2.2 6.7 0 4.5-2.2 6.6 0"/>
+                    <path d="M3 17c2.2-2.2 4.5-2.2 6.7 0s4.5 2.2 6.7 0 4.5-2.2 6.6 0"/>
+                    <path d="M12 4v4"/>
+                    <circle cx="12" cy="3" r="1"/>
+                </svg>
+            </div>
+            <h3>海洋世界</h3>
+            <p>沒有喧鬧，只有水流與呼吸。</p>
+        </div>
+
+
+        <div class="world-card" onclick="enterWorld('混沌世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8"/>
+                    <path d="M8 8c2-2 6-2 8 0"/>
+                    <path d="M8 16c2 2 6 2 8 0"/>
+                    <path d="M8 8c-2 2-2 6 0 8"/>
+                    <path d="M16 8c2 2 2 6 0 8"/>
+                </svg>
+            </div>
+            <h3>混沌世界</h3>
+            <p>一切尚未定義，可以從零開始。</p>
+        </div>
+
+
+        <div class="world-card" onclick="enterWorld('宇宙世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <ellipse cx="12" cy="12" rx="9" ry="4"/>
+                    <ellipse cx="12" cy="12" rx="4" ry="9"/>
+                    <circle cx="12" cy="12" r="1.5"/>
+                </svg>
+            </div>
+            <h3>宇宙世界</h3>
+            <p>星系、未知與無限可能。</p>
+        </div>
+
+
+        <div class="world-card" onclick="enterWorld('自由世界')">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3v18"/>
+                    <path d="M3 12h18"/>
+                    <circle cx="12" cy="12" r="8"/>
+                </svg>
+            </div>
+            <h3>自由世界</h3>
+            <p>不預設規則，由你決定它會變成什麼。</p>
+        </div>
+
+    </section>
+
+
+    <!-- AI 世界助手 -->
+
+    <div class="section-title">
+        <h2>玄境 AI</h2>
+        <span>與你的世界一起思考</span>
+    </div>
+
+    <section class="ai-panel">
+
+        <div class="ai-head">
+
+            <div class="ai-mark">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="8"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <path d="M12 4V2"/>
+                    <path d="M12 22v-2"/>
+                    <path d="M4 12H2"/>
+                    <path d="M22 12h-2"/>
+                </svg>
+            </div>
+
+            <div>
+                <h3>告訴玄境，你想怎麼生活</h3>
+                <p>我可以幫你一起想，而不是替你決定。</p>
+            </div>
+
+        </div>
+
+        <div class="ai-input-row">
+
+            <textarea
+                id="aiInput"
+                class="ai-input"
+                placeholder="例如：我最近很累，想建立一個安靜的世界……"
+            ></textarea>
+
+            <button class="ai-send" onclick="askAI()" aria-label="送出">
+
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 12h15"/>
+                    <path d="m13 6 6 6-6 6"/>
+                </svg>
+
+            </button>
+
+        </div>
+
+        <div id="aiResult" class="ai-result"></div>
+
+    </section>
+
+
+    <!-- 建立新世界 -->
+
+    <section class="create-world" onclick="openCreateWorld()">
+
+        <div class="create-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 5v14"/>
+                <path d="M5 12h14"/>
+            </svg>
+        </div>
+
+        <div>
+            <h3>建立一個新的世界</h3>
+            <p>它可以是現實中的地方，也可以是不存在的世界。</p>
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- 建立世界彈窗 -->
+
+<div id="worldModal" class="modal">
+
+    <div class="modal-box">
+
+        <h2>建立你的世界</h2>
+
+        <p>
+            先給它一個名字。世界的內容，以後可以慢慢長出來。
+        </p>
+
+        <input
+            id="worldName"
+            class="world-name"
+            placeholder="例如：只有我知道的星球"
+        >
+
+        <div class="modal-actions">
+
+            <button onclick="closeCreateWorld()">
+                取消
+            </button>
+
+            <button onclick="createWorld()">
+                建立
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   玄境 AI
+========================= */
+
+const AI_FUNCTION_URL =
+    "https://zuypaeagxjezlqdppvnm.supabase.co/functions/v1/ai-chat";
+
+let messages = [];
+
+
+/* =========================
+   AI 對話
+========================= */
+
+async function askAI() {
+
+    const input = document.getElementById("aiInput");
+    const result = document.getElementById("aiResult");
+
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    result.style.display = "block";
+    result.textContent = "玄境正在理解你的想法……";
+
+    messages.push({
+        role: "user",
+        content: text
+    });
+
+    try {
+
+        const response = await fetch(AI_FUNCTION_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: text,
+                messages: messages
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("AI request failed");
+        }
+
+        const data = await response.json();
+
+        const answer =
+            data.reply ||
+            data.message ||
+            data.content ||
+            "玄境暫時沒有收到完整回覆。";
+
+        messages.push({
+            role: "assistant",
+            content: answer
+        });
+
+        result.textContent = answer;
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.textContent =
+            "目前無法連接玄境 AI，請稍後再試。";
+    }
+}
+
+
+/* =========================
+   進入世界
+========================= */
+
+function enterWorld(name) {
+
+    alert(
+        "即將進入「" + name + "」。\n\n" +
+        "目前是第一階段介面，之後會把世界真正做成可以進入、探索、與 AI 互動的空間。"
+    );
+}
+
+
+/* =========================
+   建立世界
+========================= */
+
+function openCreateWorld() {
+
+    document.getElementById("worldModal").style.display = "flex";
+
+    setTimeout(() => {
+        document.getElementById("worldName").focus();
+    }, 100);
+}
+
+
+function closeCreateWorld() {
+
+    document.getElementById("worldModal").style.display = "none";
+}
+
+
+function createWorld() {
+
+    const input = document.getElementById("worldName");
+
+    const name = input.value.trim();
+
+    if (!name) {
+        input.focus();
+        return;
+    }
+
+    closeCreateWorld();
+
+    alert(
+        "「" + name + "」已加入你的世界清單。\n\n" +
+        "下一階段會把它真正寫入 Supabase，並讓 AI 幫你建立世界。"
+    );
+
+    input.value = "";
+}
+
+
+/* =========================
+   防止整頁左右滑動
+========================= */
+
+document.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (Math.abs(event.touches[0].clientX -
+                   (window.innerWidth / 2)) >
+            Math.abs(event.touches[0].clientY -
+                   (window.innerHeight / 2))) {
+
+            // 不讓整個頁面產生水平移動
+            document.body.style.overflowX = "hidden";
+        }
+
+    },
+    { passive: true }
+);
+
+
+/* =========================
+   Enter
+========================= */
+
+document.getElementById("aiInput").addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter" && !event.shiftKey) {
+
+            event.preventDefault();
+
+            askAI();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>
