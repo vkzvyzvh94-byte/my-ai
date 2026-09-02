@@ -164,7 +164,41 @@ body::before{
   border-top-right-radius:6px;
 }
 
-/* 輸入區 */
+/* =========================================================
+   聊天訊息中的圖片／影片
+========================================================= */
+
+.message-media{
+  margin-top:10px;
+  max-width:100%;
+}
+
+.message-image{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:360px;
+  border-radius:14px;
+  cursor:pointer;
+  object-fit:contain;
+  border:1px solid rgba(220,190,255,.18);
+  box-shadow:0 8px 30px rgba(0,0,0,.28);
+}
+
+.message-video{
+  display:block;
+  width:100%;
+  max-width:520px;
+  max-height:360px;
+  border-radius:14px;
+  background:#000;
+  border:1px solid rgba(220,190,255,.18);
+}
+
+/* =========================================================
+   輸入區
+========================================================= */
+
 .composer-wrap{
   position:fixed;
   left:0;
@@ -193,21 +227,88 @@ body::before{
   box-shadow:0 -8px 35px rgba(0,0,0,.35);
 }
 
+/* =========================================================
+   附件預覽區
+========================================================= */
+
 .attach-preview{
   display:none;
-  padding:7px 10px;
+  padding:8px;
   margin-bottom:7px;
-  border-radius:12px;
-  background:rgba(255,255,255,.06);
+  border-radius:15px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(195,155,255,.12);
   color:#d8cbea;
   font-size:12px;
 }
 
 .attach-preview.show{
+  display:block;
+}
+
+.attach-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:8px;
+  margin-bottom:7px;
 }
+
+.attach-info{
+  min-width:0;
+  overflow:hidden;
+}
+
+.attach-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#ddd0ed;
+}
+
+.remove-attach{
+  flex:0 0 auto;
+  border:0;
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(210,180,255,.15);
+  font-size:15px;
+}
+
+.attach-media{
+  display:none;
+  width:100%;
+}
+
+.attach-media.show{
+  display:block;
+}
+
+.attach-image{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:260px;
+  margin:auto;
+  border-radius:12px;
+  object-fit:contain;
+  cursor:pointer;
+}
+
+.attach-video{
+  display:block;
+  width:100%;
+  max-height:300px;
+  border-radius:12px;
+  background:#000;
+}
+
+/* =========================================================
+   輸入列
+========================================================= */
 
 .row{
   display:flex;
@@ -303,16 +404,63 @@ textarea::placeholder{
 }
 
 @keyframes pulse{
-  50%{opacity:.3;transform:scale(.7)}
+  50%{
+    opacity:.3;
+    transform:scale(.7);
+  }
 }
 
-/* 選單 */
+/* 語音 */
 .voice-on{
   color:#d4b7ff!important;
   border-color:rgba(190,140,255,.5)!important;
 }
 
+/* =========================================================
+   圖片放大
+========================================================= */
+
+.media-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.88);
+  backdrop-filter:blur(8px);
+}
+
+.media-modal.show{
+  display:flex;
+}
+
+.media-modal img{
+  display:block;
+  max-width:95vw;
+  max-height:90vh;
+  object-fit:contain;
+  border-radius:12px;
+  box-shadow:0 20px 80px rgba(0,0,0,.7);
+}
+
+.media-modal-close{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:50%;
+  color:#fff;
+  background:rgba(30,10,50,.8);
+  font-size:20px;
+}
+
+/* 手機 */
 @media(max-width:600px){
+
   .bubble{
     max-width:88%;
   }
@@ -324,6 +472,22 @@ textarea::placeholder{
   .tool{
     font-size:11px;
   }
+
+  .attach-image{
+    max-height:220px;
+  }
+
+  .attach-video{
+    max-height:240px;
+  }
+
+  .message-image{
+    max-height:300px;
+  }
+
+  .message-video{
+    max-height:300px;
+  }
 }
 </style>
 </head>
@@ -333,39 +497,92 @@ textarea::placeholder{
 <div class="app">
 
   <header class="topbar">
-    <button id="homeBtn">⌂ 首頁</button>
+
+    <button id="homeBtn">
+      ⌂ 首頁
+    </button>
 
     <div class="title">
       <strong>玄境 AI</strong>
       <span>你的私人智慧空間</span>
     </div>
 
-    <button id="voiceToggle">🔊</button>
+    <button id="voiceToggle">
+      🔊
+    </button>
+
   </header>
+
 
   <main id="chat" class="chat">
 
     <section id="welcome" class="welcome">
+
       <div class="orb"></div>
+
       <h1>玄境 AI</h1>
-      <p>你可以直接說，也可以直接問。</p>
+
+      <p>
+        你可以直接說，也可以直接問。
+      </p>
+
     </section>
 
   </main>
+
 
   <div class="composer-wrap">
 
     <div class="composer">
 
+
+      <!-- =================================================
+           附件預覽
+      ================================================== -->
+
       <div id="attachPreview" class="attach-preview">
-        <span id="attachName"></span>
-        <button id="removeAttach" type="button">✕</button>
+
+        <div class="attach-header">
+
+          <div class="attach-info">
+
+            <div id="attachName" class="attach-name"></div>
+
+          </div>
+
+          <button
+            id="removeAttach"
+            class="remove-attach"
+            type="button"
+          >
+            ✕
+          </button>
+
+        </div>
+
+
+        <div
+          id="attachMedia"
+          class="attach-media"
+        ></div>
+
       </div>
 
+
+      <!-- 狀態 -->
+
       <div id="status" class="status">
+
         <div class="dot"></div>
-        <span>玄境正在思考……</span>
+
+        <span>
+          玄境正在思考……
+        </span>
+
       </div>
+
+
+      <!-- 輸入 -->
 
       <div class="row">
 
@@ -374,7 +591,10 @@ textarea::placeholder{
           class="icon-btn"
           type="button"
           aria-label="更多功能"
-        >＋</button>
+        >
+          ＋
+        </button>
+
 
         <textarea
           id="messageInput"
@@ -382,60 +602,109 @@ textarea::placeholder{
           placeholder="告訴玄境，你現在想做什麼……"
         ></textarea>
 
+
         <button
           id="micBtn"
           class="icon-btn"
           type="button"
           aria-label="語音輸入"
-        >🎙️</button>
+        >
+          🎙️
+        </button>
+
 
         <button
           id="sendBtn"
           class="send-btn"
           type="button"
           aria-label="發送"
-        >➤</button>
+        >
+          ➤
+        </button>
 
       </div>
 
+
+      <!-- 工具 -->
+
       <div id="tools" class="tools">
 
-        <button class="tool" id="cameraBtn" type="button">
+
+        <button
+          class="tool"
+          id="cameraBtn"
+          type="button"
+        >
           <span>📷</span>
           相機
         </button>
 
-        <button class="tool" id="photoBtn" type="button">
+
+        <button
+          class="tool"
+          id="photoBtn"
+          type="button"
+        >
           <span>🖼️</span>
           圖片
         </button>
 
-        <button class="tool" id="videoBtn" type="button">
+
+        <button
+          class="tool"
+          id="videoBtn"
+          type="button"
+        >
           <span>🎬</span>
           影片
         </button>
 
-        <button class="tool" id="fileBtn" type="button">
+
+        <button
+          class="tool"
+          id="fileBtn"
+          type="button"
+        >
           <span>📎</span>
           檔案
         </button>
 
-        <button class="tool" id="drawBtn" type="button">
+
+        <button
+          class="tool"
+          id="drawBtn"
+          type="button"
+        >
           <span>🎨</span>
           AI 繪圖
         </button>
 
-        <button class="tool" id="translateBtn" type="button">
+
+        <button
+          class="tool"
+          id="translateBtn"
+          type="button"
+        >
           <span>🌐</span>
           翻譯
         </button>
 
-        <button class="tool" id="clearBtn" type="button">
+
+        <button
+          class="tool"
+          id="clearBtn"
+          type="button"
+        >
           <span>🧹</span>
           清空
         </button>
 
-        <button class="tool" id="speakBtn" type="button">
+
+        <button
+          class="tool"
+          id="speakBtn"
+          type="button"
+        >
           <span>🔊</span>
           語音朗讀
         </button>
@@ -448,15 +717,67 @@ textarea::placeholder{
 
 </div>
 
-<input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
-<input id="photoInput" type="file" accept="image/*" hidden>
-<input id="videoInput" type="file" accept="video/*" hidden>
-<input id="fileInput" type="file" hidden>
+
+<!-- 檔案選擇 -->
+
+<input
+  id="cameraInput"
+  type="file"
+  accept="image/*"
+  capture="environment"
+  hidden
+>
+
+<input
+  id="photoInput"
+  type="file"
+  accept="image/*"
+  hidden
+>
+
+<input
+  id="videoInput"
+  type="file"
+  accept="video/*"
+  hidden
+>
+
+<input
+  id="fileInput"
+  type="file"
+  hidden
+>
+
+
+<!-- 圖片放大視窗 -->
+
+<div
+  id="mediaModal"
+  class="media-modal"
+>
+
+  <button
+    id="mediaModalClose"
+    class="media-modal-close"
+    type="button"
+  >
+    ✕
+  </button>
+
+  <img
+    id="mediaModalImage"
+    alt="圖片預覽"
+  >
+
+</div>
+
 
 <script>
+
 /* =========================================================
    玄境 AI Chat
-   只使用已確認成功的 ai-chat API
+
+   ★ AI API 完全保持原本設定
 ========================================================= */
 
 const AI_FUNCTION_URL =
@@ -467,25 +788,41 @@ const AI_FUNCTION_URL =
    DOM
 ========================================================= */
 
-const chat = document.getElementById("chat");
-const welcome = document.getElementById("welcome");
+const chat =
+  document.getElementById("chat");
 
-const input = document.getElementById("messageInput");
-const sendBtn = document.getElementById("sendBtn");
-const micBtn = document.getElementById("micBtn");
+const welcome =
+  document.getElementById("welcome");
 
-const plusBtn = document.getElementById("plusBtn");
-const tools = document.getElementById("tools");
+const input =
+  document.getElementById("messageInput");
 
-const status = document.getElementById("status");
+const sendBtn =
+  document.getElementById("sendBtn");
 
-const voiceToggle = document.getElementById("voiceToggle");
+const micBtn =
+  document.getElementById("micBtn");
+
+const plusBtn =
+  document.getElementById("plusBtn");
+
+const tools =
+  document.getElementById("tools");
+
+const status =
+  document.getElementById("status");
+
+const voiceToggle =
+  document.getElementById("voiceToggle");
 
 const attachPreview =
   document.getElementById("attachPreview");
 
 const attachName =
   document.getElementById("attachName");
+
+const attachMedia =
+  document.getElementById("attachMedia");
 
 const removeAttach =
   document.getElementById("removeAttach");
@@ -502,6 +839,8 @@ let voiceEnabled =
 
 let currentAttachment = null;
 
+let currentAttachmentURL = null;
+
 let sending = false;
 
 
@@ -510,60 +849,163 @@ let sending = false;
 ========================================================= */
 
 function updateVoiceButton(){
+
   voiceToggle.classList.toggle(
     "voice-on",
     voiceEnabled
   );
 
   voiceToggle.textContent =
-    voiceEnabled ? "🔊" : "🔇";
+    voiceEnabled
+      ? "🔊"
+      : "🔇";
 }
+
 
 updateVoiceButton();
 
 
-voiceToggle.addEventListener("click", () => {
+voiceToggle.addEventListener(
+  "click",
+  () => {
 
-  voiceEnabled = !voiceEnabled;
+    voiceEnabled =
+      !voiceEnabled;
 
-  localStorage.setItem(
-    "xuanjing_voice",
-    String(voiceEnabled)
-  );
+    localStorage.setItem(
+      "xuanjing_voice",
+      String(voiceEnabled)
+    );
 
-  if (!voiceEnabled) {
-    window.speechSynthesis?.cancel();
+    if (!voiceEnabled){
+
+      window.speechSynthesis?.cancel();
+
+    }
+
+    updateVoiceButton();
+
   }
-
-  updateVoiceButton();
-});
+);
 
 
 function speak(text){
 
-  if (!voiceEnabled) return;
+  if (!voiceEnabled){
+    return;
+  }
 
-  if (!("speechSynthesis" in window)) {
+  if (!("speechSynthesis" in window)){
     return;
   }
 
   const clean =
     String(text || "").trim();
 
-  if (!clean) return;
+  if (!clean){
+    return;
+  }
 
   window.speechSynthesis.cancel();
 
   const utterance =
-    new SpeechSynthesisUtterance(clean);
+    new SpeechSynthesisUtterance(
+      clean
+    );
 
-  utterance.lang = "zh-TW";
-  utterance.rate = 1;
-  utterance.pitch = 1;
+  utterance.lang =
+    "zh-TW";
+
+  utterance.rate =
+    1;
+
+  utterance.pitch =
+    1;
 
   window.speechSynthesis.speak(
     utterance
   );
+
+}
+
+
+/* =========================================================
+   建立圖片／影片訊息
+========================================================= */
+
+function appendMediaToMessage(
+  bubble,
+  file
+){
+
+  if (!file){
+    return;
+  }
+
+  const mediaBox =
+    document.createElement("div");
+
+  mediaBox.className =
+    "message-media";
+
+
+  const url =
+    URL.createObjectURL(file);
+
+
+  if (file.type.startsWith("image/")){
+
+    const img =
+      document.createElement("img");
+
+    img.className =
+      "message-image";
+
+    img.src =
+      url;
+
+    img.alt =
+      file.name || "圖片";
+
+    img.addEventListener(
+      "click",
+      () => openImageModal(url)
+    );
+
+    mediaBox.appendChild(img);
+
+  }
+
+
+  else if (file.type.startsWith("video/")){
+
+    const video =
+      document.createElement("video");
+
+    video.className =
+      "message-video";
+
+    video.src =
+      url;
+
+    video.controls =
+      true;
+
+    video.playsInline =
+      true;
+
+    video.preload =
+      "metadata";
+
+    mediaBox.appendChild(video);
+
+  }
+
+
+  bubble.appendChild(
+    mediaBox
+  );
+
 }
 
 
@@ -571,9 +1013,15 @@ function speak(text){
    顯示訊息
 ========================================================= */
 
-function addMessage(role, text){
+function addMessage(
+  role,
+  text,
+  file = null
+){
 
-  welcome.style.display = "none";
+  welcome.style.display =
+    "none";
+
 
   const wrapper =
     document.createElement("div");
@@ -581,24 +1029,49 @@ function addMessage(role, text){
   wrapper.className =
     "message " + role;
 
+
   const bubble =
     document.createElement("div");
 
-  bubble.className = "bubble";
+  bubble.className =
+    "bubble";
 
-  bubble.textContent =
-    text;
 
-  wrapper.appendChild(bubble);
+  if (text){
 
-  chat.appendChild(wrapper);
+    bubble.textContent =
+      text;
+
+  }
+
+
+  if (file){
+
+    appendMediaToMessage(
+      bubble,
+      file
+    );
+
+  }
+
+
+  wrapper.appendChild(
+    bubble
+  );
+
+  chat.appendChild(
+    wrapper
+  );
+
 
   window.scrollTo({
     top:document.body.scrollHeight,
     behavior:"smooth"
   });
 
+
   return bubble;
+
 }
 
 
@@ -608,7 +1081,9 @@ function addMessage(role, text){
 
 function extractAnswer(data){
 
-  if (!data) return "";
+  if (!data){
+    return "";
+  }
 
   const candidates = [
 
@@ -646,18 +1121,25 @@ function extractAnswer(data){
 
   ];
 
-  for (const value of candidates){
+
+  for (
+    const value of candidates
+  ){
 
     if (
       typeof value === "string" &&
       value.trim()
     ){
+
       return value.trim();
+
     }
 
   }
 
+
   return "";
+
 }
 
 
@@ -667,57 +1149,93 @@ function extractAnswer(data){
 
 async function sendMessage(){
 
-  if (sending) return;
+  if (sending){
+    return;
+  }
+
 
   const text =
     input.value.trim();
 
-  if (!text && !currentAttachment){
+
+  if (
+    !text &&
+    !currentAttachment
+  ){
+
     return;
+
   }
+
 
   sending = true;
 
-  let userText = text;
+
+  let userText =
+    text;
+
 
   if (currentAttachment){
+
     userText +=
       userText
-        ? "\n\n[附件：" + currentAttachment.name + "]"
-        : "[附件：" + currentAttachment.name + "]";
+        ? "\n\n[附件：" +
+          currentAttachment.name +
+          "]"
+        : "[附件：" +
+          currentAttachment.name +
+          "]";
+
   }
+
+
+  /*
+    ★ 顯示真正的圖片／影片
+  */
+
+  const attachmentForMessage =
+    currentAttachment;
+
 
   addMessage(
     "user",
-    userText
+    userText,
+    attachmentForMessage
   );
 
+
   messages.push({
+
     role:"user",
-    content:text || userText
+
+    content:
+      text || userText
+
   });
 
-  input.value = "";
+
+  input.value =
+    "";
+
   autoResize();
 
-  status.classList.add("show");
+
+  status.classList.add(
+    "show"
+  );
+
 
   try {
 
     /*
-      ★ 關鍵 ★
-
-      你的 ai-chat 已經確認：
-      POST {"message":"你好"} 可以成功。
-
-      所以這裡直接使用 message。
-      不再自行改 owner_message。
+      ★ AI API 完全保持原本方式
     */
 
     const response =
       await fetch(
         AI_FUNCTION_URL,
         {
+
           method:"POST",
 
           headers:{
@@ -745,13 +1263,21 @@ async function sendMessage(){
 
     let data;
 
+
     try {
+
       data =
-        JSON.parse(responseText);
+        JSON.parse(
+          responseText
+        );
+
     } catch {
+
       data = {
-        raw:responseText
+        raw:
+          responseText
       };
+
     }
 
 
@@ -764,9 +1290,11 @@ async function sendMessage(){
         responseText ||
         "未知錯誤";
 
+
       throw new Error(
         `服務回應錯誤：${response.status}｜${details}`
       );
+
     }
 
 
@@ -779,12 +1307,17 @@ async function sendMessage(){
       throw new Error(
         "AI 已回應，但沒有取得回答內容。"
       );
+
     }
 
 
     messages.push({
+
       role:"assistant",
-      content:answer
+
+      content:
+        answer
+
     });
 
 
@@ -794,7 +1327,9 @@ async function sendMessage(){
     );
 
 
-    speak(answer);
+    speak(
+      answer
+    );
 
 
   } catch(error){
@@ -804,17 +1339,25 @@ async function sendMessage(){
       error
     );
 
+
     addMessage(
       "ai",
       "抱歉，這次沒有成功取得 AI 回應。\n\n" +
-      String(error?.message || error)
+      String(
+        error?.message ||
+        error
+      )
     );
+
 
   } finally {
 
-    sending = false;
+    sending =
+      false;
 
-    status.classList.remove("show");
+    status.classList.remove(
+      "show"
+    );
 
     clearAttachment();
 
@@ -870,7 +1413,9 @@ function autoResize(){
       input.scrollHeight,
       150
     ) + "px";
+
 }
+
 
 input.addEventListener(
   "input",
@@ -895,19 +1440,234 @@ plusBtn.addEventListener(
 
 
 /* =========================================================
+   圖片放大
+========================================================= */
+
+const mediaModal =
+  document.getElementById(
+    "mediaModal"
+  );
+
+const mediaModalImage =
+  document.getElementById(
+    "mediaModalImage"
+  );
+
+const mediaModalClose =
+  document.getElementById(
+    "mediaModalClose"
+  );
+
+
+function openImageModal(url){
+
+  mediaModalImage.src =
+    url;
+
+  mediaModal.classList.add(
+    "show"
+  );
+
+}
+
+
+function closeImageModal(){
+
+  mediaModal.classList.remove(
+    "show"
+  );
+
+  mediaModalImage.src =
+    "";
+
+}
+
+
+mediaModalClose.addEventListener(
+  "click",
+  closeImageModal
+);
+
+
+mediaModal.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      mediaModal
+    ){
+
+      closeImageModal();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    附件
 ========================================================= */
 
 function setAttachment(file){
 
-  if (!file) return;
+  if (!file){
+    return;
+  }
 
-  currentAttachment = file;
+
+  /*
+    先清除上一個 Object URL
+  */
+
+  if (currentAttachmentURL){
+
+    URL.revokeObjectURL(
+      currentAttachmentURL
+    );
+
+    currentAttachmentURL =
+      null;
+
+  }
+
+
+  currentAttachment =
+    file;
+
+
+  currentAttachmentURL =
+    URL.createObjectURL(
+      file
+    );
+
 
   attachName.textContent =
     file.name;
 
+
+  attachMedia.innerHTML =
+    "";
+
+
+  /*
+    ★ 圖片
+  */
+
+  if (
+    file.type.startsWith(
+      "image/"
+    )
+  ){
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.className =
+      "attach-image";
+
+    img.src =
+      currentAttachmentURL;
+
+    img.alt =
+      file.name;
+
+    img.addEventListener(
+      "click",
+      () => {
+
+        openImageModal(
+          currentAttachmentURL
+        );
+
+      }
+    );
+
+
+    attachMedia.appendChild(
+      img
+    );
+
+  }
+
+
+  /*
+    ★ 影片
+  */
+
+  else if (
+    file.type.startsWith(
+      "video/"
+    )
+  ){
+
+    const video =
+      document.createElement(
+        "video"
+      );
+
+    video.className =
+      "attach-video";
+
+    video.src =
+      currentAttachmentURL;
+
+    video.controls =
+      true;
+
+    video.playsInline =
+      true;
+
+    video.preload =
+      "metadata";
+
+
+    attachMedia.appendChild(
+      video
+    );
+
+  }
+
+
+  /*
+    ★ 一般檔案
+  */
+
+  else {
+
+    const fileText =
+      document.createElement(
+        "div"
+      );
+
+    fileText.textContent =
+      "📎 " +
+      file.name;
+
+    fileText.style.padding =
+      "12px";
+
+    fileText.style.borderRadius =
+      "10px";
+
+    fileText.style.background =
+      "rgba(255,255,255,.05)";
+
+    attachMedia.appendChild(
+      fileText
+    );
+
+  }
+
+
   attachPreview.classList.add(
+    "show"
+  );
+
+  attachMedia.classList.add(
     "show"
   );
 
@@ -916,9 +1676,34 @@ function setAttachment(file){
 
 function clearAttachment(){
 
-  currentAttachment = null;
+  if (currentAttachmentURL){
 
-  attachName.textContent = "";
+    URL.revokeObjectURL(
+      currentAttachmentURL
+    );
+
+    currentAttachmentURL =
+      null;
+
+  }
+
+
+  currentAttachment =
+    null;
+
+
+  attachName.textContent =
+    "";
+
+
+  attachMedia.innerHTML =
+    "";
+
+
+  attachMedia.classList.remove(
+    "show"
+  );
+
 
   attachPreview.classList.remove(
     "show"
@@ -938,67 +1723,95 @@ removeAttach.addEventListener(
 ========================================================= */
 
 const cameraInput =
-  document.getElementById("cameraInput");
+  document.getElementById(
+    "cameraInput"
+  );
 
 const photoInput =
-  document.getElementById("photoInput");
+  document.getElementById(
+    "photoInput"
+  );
 
 const videoInput =
-  document.getElementById("videoInput");
+  document.getElementById(
+    "videoInput"
+  );
 
 const fileInput =
-  document.getElementById("fileInput");
-
-
-document.getElementById("cameraBtn")
-  .addEventListener(
-    "click",
-    () => cameraInput.click()
+  document.getElementById(
+    "fileInput"
   );
 
 
-document.getElementById("photoBtn")
-  .addEventListener(
-    "click",
-    () => photoInput.click()
-  );
+document.getElementById(
+  "cameraBtn"
+).addEventListener(
+  "click",
+  () =>
+    cameraInput.click()
+);
 
 
-document.getElementById("videoBtn")
-  .addEventListener(
-    "click",
-    () => videoInput.click()
-  );
+document.getElementById(
+  "photoBtn"
+).addEventListener(
+  "click",
+  () =>
+    photoInput.click()
+);
 
 
-document.getElementById("fileBtn")
-  .addEventListener(
-    "click",
-    () => fileInput.click()
-  );
+document.getElementById(
+  "videoBtn"
+).addEventListener(
+  "click",
+  () =>
+    videoInput.click()
+);
+
+
+document.getElementById(
+  "fileBtn"
+).addEventListener(
+  "click",
+  () =>
+    fileInput.click()
+);
 
 
 cameraInput.addEventListener(
   "change",
-  () => setAttachment(cameraInput.files?.[0])
+  () =>
+    setAttachment(
+      cameraInput.files?.[0]
+    )
 );
 
 
 photoInput.addEventListener(
   "change",
-  () => setAttachment(photoInput.files?.[0])
+  () =>
+    setAttachment(
+      photoInput.files?.[0]
+    )
 );
 
 
 videoInput.addEventListener(
   "change",
-  () => setAttachment(videoInput.files?.[0])
+  () =>
+    setAttachment(
+      videoInput.files?.[0]
+    )
 );
 
 
 fileInput.addEventListener(
   "change",
-  () => setAttachment(fileInput.files?.[0])
+  () =>
+    setAttachment(
+      fileInput.files?.[0]
+    )
 );
 
 
@@ -1006,112 +1819,139 @@ fileInput.addEventListener(
    AI 繪圖
 ========================================================= */
 
-document.getElementById("drawBtn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById(
+  "drawBtn"
+).addEventListener(
+  "click",
+  () => {
 
-      input.value =
-        "我想生成一張圖片，請先幫我一起構思畫面。";
+    input.value =
+      "我想生成一張圖片，請先幫我一起構思畫面。";
 
-      autoResize();
+    autoResize();
 
-      input.focus();
+    input.focus();
 
-    }
-  );
+  }
+);
 
 
 /* =========================================================
    翻譯
 ========================================================= */
 
-document.getElementById("translateBtn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById(
+  "translateBtn"
+).addEventListener(
+  "click",
+  () => {
 
-      input.value =
-        "請幫我翻譯以下內容：";
+    input.value =
+      "請幫我翻譯以下內容：";
 
-      autoResize();
+    autoResize();
 
-      input.focus();
+    input.focus();
 
-    }
-  );
+  }
+);
 
 
 /* =========================================================
    清空
 ========================================================= */
 
-document.getElementById("clearBtn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById(
+  "clearBtn"
+).addEventListener(
+  "click",
+  () => {
 
-      if (
-        !confirm("確定要清空這次對話嗎？")
-      ){
-        return;
-      }
+    if (
+      !confirm(
+        "確定要清空這次對話嗎？"
+      )
+    ){
 
-      messages = [];
-
-      document
-        .querySelectorAll(".message")
-        .forEach(
-          el => el.remove()
-        );
-
-      welcome.style.display =
-        "block";
-
-      window.speechSynthesis?.cancel();
+      return;
 
     }
-  );
+
+
+    messages =
+      [];
+
+
+    document
+      .querySelectorAll(
+        ".message"
+      )
+      .forEach(
+        el =>
+          el.remove()
+      );
+
+
+    welcome.style.display =
+      "block";
+
+
+    window.speechSynthesis?.cancel();
+
+  }
+);
 
 
 /* =========================================================
    語音朗讀
 ========================================================= */
 
-document.getElementById("speakBtn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById(
+  "speakBtn"
+).addEventListener(
+  "click",
+  () => {
 
-      voiceEnabled = true;
+    voiceEnabled =
+      true;
 
-      localStorage.setItem(
-        "xuanjing_voice",
-        "true"
+
+    localStorage.setItem(
+      "xuanjing_voice",
+      "true"
+    );
+
+
+    updateVoiceButton();
+
+
+    const lastAI =
+      [
+        ...document.querySelectorAll(
+          ".message.ai .bubble"
+        )
+      ].pop();
+
+
+    if (lastAI){
+
+      speak(
+        lastAI.textContent
       );
 
-      updateVoiceButton();
-
-      const lastAI =
-        [...document.querySelectorAll(
-          ".message.ai .bubble"
-        )].pop();
-
-      if (lastAI){
-        speak(
-          lastAI.textContent
-        );
-      }
-
     }
-  );
+
+  }
+);
 
 
 /* =========================================================
    語音輸入
 ========================================================= */
 
-let recognition = null;
+let recognition =
+  null;
+
 
 const SpeechRecognition =
   window.SpeechRecognition ||
@@ -1123,11 +1963,14 @@ if (SpeechRecognition){
   recognition =
     new SpeechRecognition();
 
+
   recognition.lang =
     "zh-TW";
 
+
   recognition.continuous =
     false;
+
 
   recognition.interimResults =
     true;
@@ -1167,9 +2010,11 @@ if (SpeechRecognition){
         event.error
       );
 
+
       micBtn.classList.remove(
         "voice-on"
       );
+
 
       micBtn.textContent =
         "🎙️";
@@ -1180,21 +2025,30 @@ if (SpeechRecognition){
   recognition.onresult =
     event => {
 
-      let transcript = "";
+      let transcript =
+        "";
+
 
       for (
-        let i = event.resultIndex;
-        i < event.results.length;
+        let i =
+          event.resultIndex;
+
+        i <
+          event.results.length;
+
         i++
       ){
 
         transcript +=
-          event.results[i][0].transcript;
+          event.results[i][0]
+            .transcript;
 
       }
 
+
       input.value =
         transcript;
+
 
       autoResize();
 
@@ -1217,6 +2071,7 @@ micBtn.addEventListener(
 
     }
 
+
     try {
 
       recognition.start();
@@ -1224,7 +2079,9 @@ micBtn.addEventListener(
     } catch {
 
       try {
+
         recognition.stop();
+
       } catch {}
 
     }
@@ -1237,16 +2094,17 @@ micBtn.addEventListener(
    首頁
 ========================================================= */
 
-document.getElementById("homeBtn")
-  .addEventListener(
-    "click",
-    () => {
+document.getElementById(
+  "homeBtn"
+).addEventListener(
+  "click",
+  () => {
 
-      window.location.href =
-        "home.html";
+    window.location.href =
+      "home.html";
 
-    }
-  );
+  }
+);
 
 
 /* =========================================================
