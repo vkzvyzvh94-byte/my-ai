@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>玄境 AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>玄境</title>
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html,
@@ -24,126 +25,238 @@
         "PingFang SC",
         "Microsoft YaHei",
         sans-serif;
-      background: #05030a;
+      background: #02030a;
       color: white;
     }
 
     body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
     }
 
-    .universe {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
+    /* =========================
+       星空背景
+    ========================= */
+
+    .space {
+      position: fixed;
+      inset: 0;
       overflow: hidden;
       background:
-        radial-gradient(circle at 50% 50%, #241638 0%, #0c0714 35%, #030208 75%);
+        radial-gradient(
+          circle at center,
+          rgba(55, 45, 110, 0.25),
+          rgba(2, 3, 10, 0.95) 65%
+        ),
+        #02030a;
     }
 
-    /* 星空 */
-    .stars,
-    .stars::before,
-    .stars::after {
-      position: absolute;
-      inset: 0;
-      content: "";
-      pointer-events: none;
-    }
+    /* 星星 */
 
     .stars {
+      position: absolute;
+      inset: 0;
       background-image:
-        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px);
-      background-size: 90px 90px;
-      opacity: .35;
-      animation: starsMove 18s linear infinite;
+        radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.45) 1px, transparent 1px),
+        radial-gradient(circle, rgba(150,180,255,0.5) 1px, transparent 1px);
+
+      background-size:
+        90px 90px,
+        140px 140px,
+        210px 210px;
+
+      background-position:
+        10px 20px,
+        50px 80px,
+        100px 30px;
+
+      animation: starMove 30s linear infinite;
+      opacity: 0.7;
     }
 
-    .stars::before {
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px);
-      background-size: 137px 137px;
-      opacity: .35;
-    }
-
-    .stars::after {
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,.6) 1px, transparent 1px);
-      background-size: 211px 211px;
-      opacity: .3;
-    }
-
-    @keyframes starsMove {
+    @keyframes starMove {
       from {
         transform: scale(1);
       }
 
       to {
-        transform: scale(1.15);
+        transform: scale(1.08);
       }
     }
 
-    /* 中央玄境入口 */
-    .portal {
+    /* =========================
+       中央光晕
+    ========================= */
+
+    .glow {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: min(62vw, 430px);
-      height: min(62vw, 430px);
+
+      width: 600px;
+      height: 600px;
+
       transform: translate(-50%, -50%);
+
       border-radius: 50%;
 
       background:
         radial-gradient(
-          circle at center,
-          #030207 0%,
-          #10091b 25%,
-          #211032 45%,
-          #08040f 70%,
-          transparent 72%
+          circle,
+          rgba(130, 110, 255, 0.18) 0%,
+          rgba(80, 60, 180, 0.08) 35%,
+          transparent 70%
         );
 
-      box-shadow:
-        0 0 35px rgba(166, 101, 255, .25),
-        0 0 100px rgba(101, 61, 190, .25),
-        inset 0 0 50px rgba(255,255,255,.04);
+      filter: blur(20px);
 
-      animation: breathe 4s ease-in-out infinite;
-      cursor: pointer;
+      animation: glowPulse 5s ease-in-out infinite;
     }
 
-    .portal::before,
-    .portal::after {
-      content: "";
-      position: absolute;
-      inset: 4%;
-      border-radius: 50%;
-      border: 1px solid rgba(205, 158, 255, .35);
-    }
-
-    .portal::before {
-      animation: rotate 16s linear infinite;
-      border-left-color: transparent;
-      border-bottom-color: rgba(255,255,255,.55);
-    }
-
-    .portal::after {
-      inset: 11%;
-      animation: rotateReverse 11s linear infinite;
-      border-right-color: transparent;
-      border-top-color: rgba(170, 111, 255, .6);
-    }
-
-    @keyframes breathe {
-      0%, 100% {
+    @keyframes glowPulse {
+      0%,
+      100% {
         transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
       }
 
       50% {
-        transform: translate(-50%, -50%) scale(1.035);
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
       }
+    }
+
+    /* =========================
+       入口内容
+    ========================= */
+
+    .entrance {
+      position: absolute;
+      inset: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      z-index: 10;
+
+      transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+    }
+
+    /* =========================
+       标题
+    ========================= */
+
+    .title {
+      position: relative;
+
+      margin-bottom: 15px;
+
+      font-size: clamp(48px, 10vw, 90px);
+
+      font-weight: 300;
+
+      letter-spacing: 0.35em;
+
+      padding-left: 0.35em;
+
+      color: rgba(255,255,255,0.95);
+
+      text-shadow:
+        0 0 20px rgba(150,130,255,0.5),
+        0 0 50px rgba(100,80,255,0.25);
+    }
+
+    .subtitle {
+      font-size: 15px;
+
+      letter-spacing: 0.25em;
+
+      padding-left: 0.25em;
+
+      color: rgba(255,255,255,0.55);
+
+      margin-bottom: 65px;
+    }
+
+    /* =========================
+       中央漩涡
+    ========================= */
+
+    .portal {
+      position: relative;
+
+      width: 230px;
+      height: 230px;
+
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.5s ease,
+        opacity 0.8s ease;
+
+      animation: portalFloat 5s ease-in-out infinite;
+    }
+
+    @keyframes portalFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* 外圈 */
+
+    .portal::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      border-radius: 50%;
+
+      border:
+        1px solid rgba(170,150,255,0.45);
+
+      box-shadow:
+        0 0 25px rgba(120,100,255,0.25),
+        0 0 60px rgba(100,80,255,0.18),
+        inset 0 0 30px rgba(120,100,255,0.15);
+
+      animation: rotate 20s linear infinite;
+    }
+
+    /* 第二层 */
+
+    .portal::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 20px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid rgba(210,200,255,0.35);
+
+      box-shadow:
+        inset 0 0 35px rgba(130,110,255,0.3);
+
+      animation: rotateReverse 12s linear infinite;
     }
 
     @keyframes rotate {
@@ -166,171 +279,184 @@
       }
     }
 
-    /* 中央文字 */
-    .center {
+    /* 漩涡中心 */
+
+    .portal-core {
       position: absolute;
+
       left: 50%;
       top: 50%;
+
+      width: 110px;
+      height: 110px;
+
       transform: translate(-50%, -50%);
-      text-align: center;
-      width: 80%;
-      z-index: 2;
-      pointer-events: none;
-    }
 
-    .title {
-      font-size: clamp(42px, 9vw, 76px);
-      font-weight: 300;
-      letter-spacing: .22em;
-      margin-left: .22em;
-
-      background: linear-gradient(
-        120deg,
-        #ffffff,
-        #d9baff,
-        #ffffff
-      );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-
-      text-shadow: 0 0 35px rgba(213, 174, 255, .35);
-    }
-
-    .subtitle {
-      margin-top: 18px;
-      font-size: 14px;
-      letter-spacing: .35em;
-      margin-left: .35em;
-      color: rgba(255,255,255,.62);
-    }
-
-    .enter {
-      margin-top: 42px;
-      padding: 13px 30px;
-
-      border: 1px solid rgba(255,255,255,.3);
-      border-radius: 40px;
-
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.9);
-
-      font-size: 14px;
-      letter-spacing: .18em;
-
-      backdrop-filter: blur(10px);
-
-      transition:
-        transform .3s ease,
-        background .3s ease,
-        border-color .3s ease;
-    }
-
-    .portal:hover .enter {
-      transform: scale(1.06);
-      background: rgba(255,255,255,.09);
-      border-color: rgba(220,190,255,.7);
-    }
-
-    /* 进入后的页面 */
-    .home {
-      position: absolute;
-      inset: 0;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      background:
-        radial-gradient(circle at 50% 45%, #29183a, #08050d 65%);
-
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(1.15);
-
-      transition:
-        opacity 1.2s ease,
-        transform 1.2s ease,
-        visibility 1.2s;
-    }
-
-    .home.active {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1);
-    }
-
-    .home h1 {
-      font-size: clamp(32px, 7vw, 64px);
-      font-weight: 300;
-      letter-spacing: .15em;
-    }
-
-    .home p {
-      margin-top: 20px;
-      color: rgba(255,255,255,.55);
-      letter-spacing: .12em;
-    }
-
-    .back {
-      position: absolute;
-      bottom: 35px;
-
-      border: 1px solid rgba(255,255,255,.2);
-      background: rgba(255,255,255,.04);
-      color: rgba(255,255,255,.7);
-
-      padding: 10px 22px;
-      border-radius: 30px;
-      cursor: pointer;
-    }
-
-    /* 小小的我 */
-    .little-me {
-      margin-top: 45px;
-      width: 90px;
-      height: 90px;
       border-radius: 50%;
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
       background:
-        radial-gradient(circle at 35% 30%, #ffffff, #c9a8ff 35%, #6941a5 70%);
+        radial-gradient(
+          circle at 40% 35%,
+          rgba(255,255,255,0.25),
+          rgba(100,80,220,0.18) 25%,
+          rgba(15,10,45,0.95) 65%,
+          #010208 100%
+        );
 
       box-shadow:
-        0 0 35px rgba(188, 140, 255, .45);
+        0 0 30px rgba(110,90,255,0.45),
+        0 0 80px rgba(80,60,200,0.25);
 
-      font-size: 38px;
-
-      animation: float 3s ease-in-out infinite;
+      overflow: hidden;
     }
 
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
+    /* 漩涡线条 */
+
+    .portal-core::before {
+      content: "";
+
+      position: absolute;
+
+      inset: -30px;
+
+      border-radius: 50%;
+
+      border:
+        2px solid rgba(200,190,255,0.3);
+
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+
+      animation:
+        vortex 4s linear infinite;
+    }
+
+    .portal-core::after {
+      content: "";
+
+      position: absolute;
+
+      inset: 15px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid rgba(255,255,255,0.25);
+
+      border-left-color: transparent;
+      border-top-color: transparent;
+
+      animation:
+        vortexReverse 3s linear infinite;
+    }
+
+    @keyframes vortex {
+      from {
+        transform: rotate(0deg) scale(0.9);
       }
 
-      50% {
-        transform: translateY(-10px);
+      to {
+        transform: rotate(360deg) scale(1.1);
       }
     }
+
+    @keyframes vortexReverse {
+      from {
+        transform: rotate(360deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+
+    /* =========================
+       进入文字
+    ========================= */
+
+    .enter {
+      margin-top: 35px;
+
+      font-size: 14px;
+
+      letter-spacing: 0.2em;
+
+      padding-left: 0.2em;
+
+      color: rgba(255,255,255,0.6);
+
+      transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+    }
+
+    .portal:hover + .enter {
+      color: rgba(255,255,255,0.95);
+
+      transform: translateY(-3px);
+    }
+
+    .portal:hover {
+      transform: scale(1.06);
+
+      filter:
+        drop-shadow(
+          0 0 30px rgba(130,110,255,0.4)
+        );
+    }
+
+    /* =========================
+       底部文字
+    ========================= */
+
+    .bottom-text {
+      position: absolute;
+
+      bottom: 28px;
+
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: 100%;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      letter-spacing: 0.15em;
+
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* =========================
+       手机适配
+    ========================= */
 
     @media (max-width: 600px) {
-      .portal {
-        width: 78vw;
-        height: 78vw;
+
+      .title {
+        font-size: 52px;
       }
 
       .subtitle {
-        font-size: 11px;
+        font-size: 13px;
+
+        margin-bottom: 50px;
       }
 
-      .enter {
-        margin-top: 32px;
+      .portal {
+        width: 190px;
+        height: 190px;
+      }
+
+      .portal-core {
+        width: 90px;
+        height: 90px;
+      }
+
+      .bottom-text {
+        bottom: 20px;
       }
     }
   </style>
@@ -338,75 +464,93 @@
 
 <body>
 
-  <main class="universe">
+  <div class="space">
 
     <div class="stars"></div>
 
-    <!-- 玄境入口 -->
-    <section class="portal" id="portal">
+    <div class="glow"></div>
 
-      <div class="center">
-        <div class="title">玄境</div>
+    <div class="entrance" id="entrance">
 
-        <div class="subtitle">
-          一个属于你的数字空间
-        </div>
-
-        <div class="enter">
-          进入玄境
-        </div>
+      <div class="title">
+        玄境
       </div>
 
-    </section>
-
-    <!-- 进入后的个人空间 -->
-    <section class="home" id="home">
-
-      <h1>欢迎来到你的玄境</h1>
-
-      <p>
-        这里不是一个游戏，而是属于你的空间。
-      </p>
-
-      <div class="little-me">
-        ✦
+      <div class="subtitle">
+        一个属于你的数字空间
       </div>
 
-      <button class="back" id="back">
-        返回入口
-      </button>
+      <div
+        class="portal"
+        id="portal"
+        aria-label="进入玄境"
+        role="button"
+        tabindex="0"
+      >
 
-    </section>
+        <div class="portal-core"></div>
 
-  </main>
+      </div>
+
+      <div class="enter">
+        点击进入玄境
+      </div>
+
+    </div>
+
+    <div class="bottom-text">
+      AI · 空间 · 记忆 · 世界 · 现实
+    </div>
+
+  </div>
+
 
   <script>
+
     const portal = document.getElementById("portal");
-    const home = document.getElementById("home");
-    const back = document.getElementById("back");
+    const entrance = document.getElementById("entrance");
 
-    portal.addEventListener("click", () => {
-      portal.style.opacity = "0";
-      portal.style.transform = "translate(-50%, -50%) scale(2)";
+    function enterXuJing() {
 
-      setTimeout(() => {
-        portal.style.display = "none";
-        home.classList.add("active");
-      }, 800);
-    });
+      /* 入口开始消失 */
 
-    back.addEventListener("click", () => {
-      home.classList.remove("active");
+      entrance.style.opacity = "0";
+
+      entrance.style.transform = "scale(1.15)";
+
+      /* 等待动画结束后进入 home.html */
 
       setTimeout(() => {
-        portal.style.display = "block";
 
-        setTimeout(() => {
-          portal.style.opacity = "1";
-          portal.style.transform = "translate(-50%, -50%) scale(1)";
-        }, 50);
+        window.location.href = "home.html";
+
       }, 800);
+
+    }
+
+
+    /* 鼠标点击 */
+
+    portal.addEventListener("click", enterXuJing);
+
+
+    /* 手机 / 键盘操作 */
+
+    portal.addEventListener("keydown", function(event) {
+
+      if (
+        event.key === "Enter" ||
+        event.key === " "
+      ) {
+
+        event.preventDefault();
+
+        enterXuJing();
+
+      }
+
     });
+
   </script>
 
 </body>
