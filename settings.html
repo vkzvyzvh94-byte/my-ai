@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>玄境｜設定</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(100,85,155,.18), transparent 35%),
+        #08090f;
+    color: #eeeeF4;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        sans-serif;
+}
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    background: rgba(8,9,15,.84);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.home-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.035);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.home-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.title h1 {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 3px;
+}
+
+.title p {
+    margin-top: 3px;
+    color: rgba(255,255,255,.38);
+    font-size: 11px;
+}
+
+.container {
+    width: min(760px, calc(100% - 28px));
+    margin: auto;
+    padding: 26px 0 80px;
+}
+
+.section {
+    margin-bottom: 28px;
+}
+
+.section-title {
+    margin: 0 4px 11px;
+    color: rgba(255,255,255,.42);
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.panel {
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 21px;
+    background: rgba(255,255,255,.025);
+}
+
+.setting-row {
+    min-height: 67px;
+    padding: 14px 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,.055);
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.row-left {
+    min-width: 0;
+}
+
+.row-title {
+    font-size: 14px;
+    font-weight: 450;
+}
+
+.row-description {
+    margin-top: 4px;
+    color: rgba(255,255,255,.36);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.arrow {
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    fill: none;
+    stroke: rgba(255,255,255,.35);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.toggle {
+    position: relative;
+    width: 48px;
+    height: 28px;
+    min-width: 48px;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    background: rgba(255,255,255,.12);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 3px;
+    top: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.78);
+    transition: .2s;
+}
+
+.toggle input:checked + .slider {
+    background: rgba(145,125,210,.48);
+}
+
+.toggle input:checked + .slider::before {
+    transform: translateX(20px);
+    background: white;
+}
+
+.value {
+    color: rgba(255,255,255,.48);
+    font-size: 12px;
+}
+
+.profile-card {
+    padding: 22px;
+}
+
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.035);
+}
+
+.profile-avatar svg {
+    width: 31px;
+    height: 31px;
+    fill: none;
+    stroke: rgba(235,235,245,.72);
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.profile-name {
+    font-size: 18px;
+    font-weight: 450;
+}
+
+.profile-sub {
+    margin-top: 5px;
+    color: rgba(255,255,255,.37);
+    font-size: 12px;
+}
+
+.danger {
+    color: rgba(255,150,150,.82);
+}
+
+.version {
+    text-align: center;
+    color: rgba(255,255,255,.22);
+    font-size: 11px;
+    line-height: 1.7;
+    margin-top: 34px;
+}
+
+button {
+    font-family: inherit;
+}
+
+/* 小彈窗 */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(10px);
+}
+
+.modal-box {
+    width: min(500px,100%);
+    padding: 24px;
+    border-radius: 23px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: #101119;
+}
+
+.modal-box h2 {
+    font-size: 18px;
+    font-weight: 450;
+}
+
+.modal-box p {
+    margin-top: 9px;
+    color: rgba(255,255,255,.43);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.modal-close {
+    width: 100%;
+    height: 45px;
+    margin-top: 20px;
+    border-radius: 13px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.06);
+    color: white;
+    cursor: pointer;
+}
+
+@media(max-width:600px) {
+
+    .container {
+        width: calc(100% - 20px);
+        padding-top: 19px;
+    }
+
+    .setting-row {
+        min-height: 64px;
+        padding: 13px 14px;
+    }
+
+    .row-title {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <button class="home-btn" onclick="location.href='home.html'" aria-label="回到 Home">
+        <svg viewBox="0 0 24 24">
+            <path d="M3.5 11.2 12 4l8.5 7.2"/>
+            <path d="M5.5 10.5V20h13v-9.5"/>
+            <path d="M9.5 20v-5.5h5V20"/>
+        </svg>
+    </button>
+
+    <div class="title">
+        <h1>玄境設定</h1>
+        <p>由你決定玄境如何陪伴你</p>
+    </div>
+
+    <div style="width:42px"></div>
+
+</header>
+
+
+<main class="container">
+
+    <!-- 個人 -->
+
+    <section class="section">
+
+        <div class="section-title">我的玄境</div>
+
+        <div class="panel">
+
+            <div class="profile-card">
+
+                <div class="profile-avatar">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="3.2"/>
+                        <path d="M5.5 20c.8-4 3-6 6.5-6s5.7 2 6.5 6"/>
+                    </svg>
+                </div>
+
+                <div class="profile-name">我的玄境</div>
+
+                <div class="profile-sub">
+                    這裡只屬於你，你可以隨時改變它。
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- AI -->
+
+    <section class="section">
+
+        <div class="section-title">玄境 AI</div>
+
+        <div class="panel">
+
+            <div class="setting-row" onclick="openModal(
+                'AI 行為',
+                '玄境 AI 應該理解你的需求、分析資訊、提供選項並協助執行，而不是替你決定人生。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title">AI 行為</div>
+                    <div class="row-description">
+                        調整玄境 AI 的思考與協助方式
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="row-left">
+                    <div class="row-title">AI 語音</div>
+                    <div class="row-description">
+                        AI 回覆時自動使用語音
+                    </div>
+                </div>
+
+                <label class="toggle">
+                    <input
+                        id="voiceToggle"
+                        type="checkbox"
+                        checked
+                        onchange="saveSetting('voice', this.checked)"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="row-left">
+                    <div class="row-title">語音輸入</div>
+                    <div class="row-description">
+                        使用麥克風與玄境交流
+                    </div>
+                </div>
+
+                <label class="toggle">
+                    <input
+                        id="micToggle"
+                        type="checkbox"
+                        checked
+                        onchange="saveSetting('mic', this.checked)"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 記憶 -->
+
+    <section class="section">
+
+        <div class="section-title">玄憶</div>
+
+        <div class="panel">
+
+            <div class="setting-row" onclick="openModal(
+                '我的記憶',
+                '玄憶中的資料屬於你。未來你可以查看、修改、刪除，也可以決定哪些資料允許玄境使用。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title">我的記憶</div>
+                    <div class="row-description">
+                        查看與管理已保存的內容
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+
+            <div class="setting-row">
+
+                <div class="row-left">
+                    <div class="row-title">允許 AI 使用記憶</div>
+                    <div class="row-description">
+                        AI 回答問題時，可以使用你已授權的記憶
+                    </div>
+                </div>
+
+                <label class="toggle">
+                    <input
+                        id="memoryToggle"
+                        type="checkbox"
+                        checked
+                        onchange="saveSetting('memory', this.checked)"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 隱私 -->
+
+    <section class="section">
+
+        <div class="section-title">隱私與權限</div>
+
+        <div class="panel">
+
+            <div class="setting-row" onclick="openModal(
+                '資料權限',
+                '玄境應只使用你允許使用的資料。高風險操作需要你的確認。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title">資料權限</div>
+                    <div class="row-description">
+                        管理玄境可以使用哪些資料
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+
+            <div class="setting-row" onclick="openModal(
+                '隱私原則',
+                '你的資料應該屬於你。玄境不應在未經授權的情況下讀取、使用或分享你的私人資料。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title">隱私原則</div>
+                    <div class="row-description">
+                        查看玄境如何保護你的資料
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 通知 -->
+
+    <section class="section">
+
+        <div class="section-title">通知</div>
+
+        <div class="panel">
+
+            <div class="setting-row">
+
+                <div class="row-left">
+                    <div class="row-title">提醒通知</div>
+                    <div class="row-description">
+                        接收任務、行程與重要提醒
+                    </div>
+                </div>
+
+                <label class="toggle">
+                    <input
+                        id="notificationToggle"
+                        type="checkbox"
+                        onchange="saveSetting('notification', this.checked)"
+                    >
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- 危險操作 -->
+
+    <section class="section">
+
+        <div class="section-title">資料管理</div>
+
+        <div class="panel">
+
+            <div class="setting-row" onclick="openModal(
+                '匯出資料',
+                '未來可以把你的玄境資料匯出，包括記憶、對話、任務與其他屬於你的資料。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title">匯出我的資料</div>
+                    <div class="row-description">
+                        把你的資料帶走
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+
+            <div class="setting-row" onclick="openModal(
+                '刪除資料',
+                '刪除資料是一項不可逆操作。正式功能完成後，這裡會要求再次確認。'
+            )">
+
+                <div class="row-left">
+                    <div class="row-title danger">刪除資料</div>
+                    <div class="row-description">
+                        永久刪除你的玄境資料
+                    </div>
+                </div>
+
+                <svg class="arrow" viewBox="0 0 24 24">
+                    <path d="m9 5 7 7-7 7"/>
+                </svg>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="version">
+        玄境 AI<br>
+        以人為本 · 以人為核心 · 服務於人
+    </div>
+
+</main>
+
+
+<!-- Modal -->
+
+<div id="modal" class="modal" onclick="closeModal(event)">
+
+    <div class="modal-box" onclick="event.stopPropagation()">
+
+        <h2 id="modalTitle"></h2>
+
+        <p id="modalText"></p>
+
+        <button class="modal-close" onclick="closeModal()">
+            知道了
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   設定保存
+========================= */
+
+function saveSetting(name, value) {
+
+    localStorage.setItem(
+        "xuanjing_setting_" + name,
+        value ? "true" : "false"
+    );
+}
+
+
+/* =========================
+   載入設定
+========================= */
+
+function loadSettings() {
+
+    const voice =
+        localStorage.getItem("xuanjing_setting_voice");
+
+    const mic =
+        localStorage.getItem("xuanjing_setting_mic");
+
+    const memory =
+        localStorage.getItem("xuanjing_setting_memory");
+
+    const notification =
+        localStorage.getItem("xuanjing_setting_notification");
+
+
+    if (voice !== null) {
+        document.getElementById("voiceToggle").checked =
+            voice === "true";
+    }
+
+    if (mic !== null) {
+        document.getElementById("micToggle").checked =
+            mic === "true";
+    }
+
+    if (memory !== null) {
+        document.getElementById("memoryToggle").checked =
+            memory === "true";
+    }
+
+    if (notification !== null) {
+        document.getElementById("notificationToggle").checked =
+            notification === "true";
+    }
+}
+
+
+/* =========================
+   Modal
+========================= */
+
+function openModal(title, text) {
+
+    document.getElementById("modalTitle").textContent = title;
+
+    document.getElementById("modalText").textContent = text;
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+
+function closeModal(event) {
+
+    if (
+        event &&
+        event.target !== document.getElementById("modal")
+    ) {
+        return;
+    }
+
+    document.getElementById("modal").style.display = "none";
+}
+
+
+/* =========================
+   初始化
+========================= */
+
+loadSettings();
+
+</script>
+
+</body>
+</html>
