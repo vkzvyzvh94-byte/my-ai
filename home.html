@@ -1,1273 +1,600 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>玄境 · 我的空间</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>玄境 AI</title>
 
   <style>
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      min-height: 100%;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "PingFang SC",
-        "Microsoft YaHei",
-        sans-serif;
-
-      background: #03040b;
-      color: #ffffff;
     }
 
     body {
       min-height: 100vh;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "PingFang SC",
+        "Microsoft YaHei",
+        sans-serif;
+      color: #eee;
+      background:
+        radial-gradient(circle at 50% 30%, #252044 0%, #100e20 42%, #05050b 100%);
       overflow-x: hidden;
     }
 
-
-    /* =====================================
-       背景
-    ===================================== */
-
-    .background {
+    body::before {
+      content: "";
       position: fixed;
       inset: 0;
-
-      z-index: -10;
-
-      background:
-        radial-gradient(
-          circle at 50% 20%,
-          rgba(85, 65, 150, 0.22),
-          transparent 45%
-        ),
-        radial-gradient(
-          circle at 20% 80%,
-          rgba(40, 80, 130, 0.12),
-          transparent 40%
-        ),
-        #03040b;
-    }
-
-
-    .stars {
-      position: fixed;
-      inset: 0;
-
-      z-index: -9;
-
-      opacity: 0.5;
-
+      pointer-events: none;
       background-image:
-        radial-gradient(
-          circle,
-          rgba(255,255,255,0.8) 1px,
-          transparent 1px
-        ),
-        radial-gradient(
-          circle,
-          rgba(180,190,255,0.5) 1px,
-          transparent 1px
-        );
-
-      background-size:
-        100px 100px,
-        180px 180px;
-
-      animation: starsMove 35s linear infinite;
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1px),
+        radial-gradient(circle, rgba(170,150,255,.5) 1px, transparent 1px);
+      background-size: 90px 90px, 150px 150px;
+      background-position: 10px 20px, 50px 80px;
+      opacity: .18;
     }
-
-
-    @keyframes starsMove {
-
-      from {
-        transform: scale(1);
-      }
-
-      to {
-        transform: scale(1.08);
-      }
-
-    }
-
-
-    /* =====================================
-       顶部
-    ===================================== */
 
     .topbar {
-
-      height: 70px;
-
+      height: 72px;
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
-      padding: 0 35px;
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.08);
-
-      background:
-        rgba(3,4,11,0.65);
-
-      backdrop-filter: blur(20px);
-
-      position: sticky;
-
-      top: 0;
-
-      z-index: 50;
+      padding: 0 30px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(5,5,12,.42);
+      backdrop-filter: blur(16px);
+      position: relative;
+      z-index: 5;
     }
-
 
     .logo {
-
       font-size: 24px;
-
-      font-weight: 300;
-
-      letter-spacing: 0.3em;
-
-      padding-left: 0.3em;
+      letter-spacing: 5px;
+      font-weight: 500;
     }
 
-
-    .top-right {
-
-      display: flex;
-
-      align-items: center;
-
-      gap: 12px;
+    .top-status {
+      font-size: 13px;
+      color: #aaa4c7;
     }
-
-
-    .icon-button {
-
-      width: 42px;
-
-      height: 42px;
-
-      border-radius: 50%;
-
-      border:
-        1px solid rgba(255,255,255,0.12);
-
-      background:
-        rgba(255,255,255,0.04);
-
-      color: white;
-
-      cursor: pointer;
-
-      font-size: 17px;
-
-      transition: 0.3s;
-    }
-
-
-    .icon-button:hover {
-
-      background:
-        rgba(255,255,255,0.1);
-
-      transform: translateY(-2px);
-    }
-
-
-    /* =====================================
-       主内容
-    ===================================== */
 
     .container {
-
-      width: min(1180px, calc(100% - 40px));
-
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-
-      padding: 55px 0 80px;
+      padding: 45px 0 70px;
+      position: relative;
+      z-index: 2;
     }
-
 
     .welcome {
-
-      margin-bottom: 35px;
+      text-align: center;
+      margin-bottom: 42px;
     }
-
 
     .welcome h1 {
-
-      font-size: clamp(30px, 5vw, 48px);
-
-      font-weight: 300;
-
-      letter-spacing: 0.08em;
-
-      margin-bottom: 12px;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      letter-spacing: 10px;
+      margin-bottom: 14px;
     }
-
 
     .welcome p {
-
-      color:
-        rgba(255,255,255,0.48);
-
+      color: #aaa4c7;
       font-size: 15px;
-
-      line-height: 1.8;
     }
 
-
-    /* =====================================
-       我的玄境
-    ===================================== */
-
-    .space-card {
-
-      position: relative;
-
-      min-height: 390px;
-
-      border-radius: 30px;
-
-      overflow: hidden;
-
-      border:
-        1px solid rgba(255,255,255,0.1);
-
+    .main-space {
+      min-height: 430px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 28px;
       background:
-        linear-gradient(
-          145deg,
-          rgba(70,55,130,0.18),
-          rgba(255,255,255,0.025)
-        );
-
+        radial-gradient(circle at center, rgba(108,86,180,.15), transparent 45%),
+        rgba(10,9,20,.65);
       box-shadow:
-        0 30px 80px rgba(0,0,0,0.35);
-
-      margin-bottom: 28px;
-    }
-
-
-    .space-light {
-
-      position: absolute;
-
-      width: 450px;
-
-      height: 450px;
-
-      left: 50%;
-
-      top: 50%;
-
-      transform: translate(-50%, -50%);
-
-      border-radius: 50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(130,110,255,0.18),
-          transparent 65%
-        );
-
-      filter: blur(10px);
-    }
-
-
-    .space-content {
-
-      position: relative;
-
-      min-height: 390px;
-
+        0 30px 90px rgba(0,0,0,.45),
+        inset 0 0 80px rgba(150,120,255,.04);
       display: flex;
-
       flex-direction: column;
-
       align-items: center;
-
       justify-content: center;
-
-      text-align: center;
-
-      padding: 40px;
+      position: relative;
+      overflow: hidden;
     }
 
-
-    .little-me {
-
-      width: 150px;
-
-      height: 150px;
-
+    .main-space::before {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
       border-radius: 50%;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      font-size: 65px;
-
-      background:
-        radial-gradient(
-          circle at 35% 30%,
-          rgba(255,255,255,0.25),
-          rgba(90,75,160,0.22) 35%,
-          rgba(10,10,25,0.9)
-        );
-
-      border:
-        1px solid rgba(210,200,255,0.22);
-
+      border: 1px solid rgba(180,160,255,.12);
       box-shadow:
-        0 0 35px rgba(110,90,255,0.3),
-        inset 0 0 35px rgba(120,100,255,0.15);
-
-      margin-bottom: 25px;
-
-      animation:
-        littleFloat 5s ease-in-out infinite;
+        0 0 80px rgba(120,90,220,.08),
+        inset 0 0 80px rgba(120,90,220,.05);
     }
 
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      background:
+        radial-gradient(circle at 35% 30%, #7168a6, #292343 55%, #100e1c);
+      border: 1px solid rgba(220,210,255,.22);
+      box-shadow:
+        0 0 50px rgba(130,110,240,.2),
+        inset 0 0 30px rgba(255,255,255,.04);
+      position: relative;
+      z-index: 2;
+      margin-bottom: 24px;
+    }
 
-    @keyframes littleFloat {
+    .avatar.active {
+      animation: breathe 2.2s ease-in-out infinite;
+    }
 
-      0%,
-      100% {
-        transform: translateY(0);
+    @keyframes breathe {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 50px rgba(130,110,240,.2);
       }
 
       50% {
-        transform: translateY(-8px);
+        transform: scale(1.045);
+        box-shadow: 0 0 75px rgba(150,120,255,.38);
       }
-
     }
 
-
-    .space-title {
-
-      font-size: 25px;
-
-      font-weight: 300;
-
-      margin-bottom: 10px;
-    }
-
-
-    .space-description {
-
-      max-width: 520px;
-
-      color:
-        rgba(255,255,255,0.5);
-
-      line-height: 1.8;
-
-      font-size: 14px;
-
-      margin-bottom: 25px;
-    }
-
-
-    .primary-button {
-
-      border: none;
-
-      border-radius: 999px;
-
-      padding: 13px 28px;
-
-      color: white;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(130,110,255,0.8),
-          rgba(80,65,180,0.8)
-        );
-
-      box-shadow:
-        0 10px 30px rgba(90,70,220,0.25);
-
-      cursor: pointer;
-
-      font-size: 14px;
-
-      transition: 0.3s;
-    }
-
-
-    .primary-button:hover {
-
-      transform: translateY(-3px);
-
-      box-shadow:
-        0 15px 40px rgba(90,70,220,0.4);
-    }
-
-
-    /* =====================================
-       功能区域
-    ===================================== */
-
-    .section-title {
-
+    .little-title {
+      position: relative;
+      z-index: 2;
       font-size: 20px;
-
-      font-weight: 300;
-
-      letter-spacing: 0.08em;
-
-      margin:
-        45px 0 18px;
-    }
-
-
-    .grid {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 15px;
-    }
-
-
-    .card {
-
-      min-height: 150px;
-
-      padding: 25px;
-
-      border-radius: 22px;
-
-      border:
-        1px solid rgba(255,255,255,0.08);
-
-      background:
-        rgba(255,255,255,0.035);
-
-      cursor: pointer;
-
-      transition:
-        transform 0.3s,
-        background 0.3s,
-        border-color 0.3s;
-    }
-
-
-    .card:hover {
-
-      transform: translateY(-5px);
-
-      background:
-        rgba(255,255,255,0.065);
-
-      border-color:
-        rgba(180,170,255,0.22);
-    }
-
-
-    .card-icon {
-
-      font-size: 25px;
-
-      margin-bottom: 20px;
-    }
-
-
-    .card h3 {
-
-      font-size: 16px;
-
-      font-weight: 400;
-
       margin-bottom: 8px;
     }
 
+    .little-subtitle {
+      position: relative;
+      z-index: 2;
+      color: #8f89aa;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    .primary-btn {
+      position: relative;
+      z-index: 2;
+      border: 1px solid rgba(220,210,255,.2);
+      border-radius: 999px;
+      padding: 13px 30px;
+      color: #fff;
+      background: rgba(100,85,170,.2);
+      cursor: pointer;
+      font-size: 14px;
+      transition: .25s;
+      backdrop-filter: blur(10px);
+    }
+
+    .primary-btn:hover {
+      background: rgba(130,110,210,.32);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 35px rgba(100,80,180,.2);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .card {
+      min-height: 150px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      background: rgba(12,11,24,.65);
+      cursor: pointer;
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(190,170,255,.22);
+      background: rgba(22,19,40,.75);
+    }
+
+    .card-icon {
+      font-size: 27px;
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
 
     .card p {
-
-      font-size: 13px;
-
-      line-height: 1.6;
-
-      color:
-        rgba(255,255,255,0.4);
-    }
-
-
-    /* =====================================
-       我的事情
-    ===================================== */
-
-    .projects {
-
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 15px;
-    }
-
-
-    .project {
-
-      padding: 23px;
-
-      border-radius: 20px;
-
-      background:
-        rgba(255,255,255,0.035);
-
-      border:
-        1px solid rgba(255,255,255,0.07);
-
-      transition: 0.3s;
-    }
-
-
-    .project:hover {
-
-      transform: translateY(-4px);
-
-      background:
-        rgba(255,255,255,0.06);
-    }
-
-
-    .project-name {
-
-      font-size: 16px;
-
-      margin-bottom: 10px;
-    }
-
-
-    .project-status {
-
+      color: #858098;
       font-size: 12px;
-
-      color:
-        rgba(255,255,255,0.4);
-
-      margin-bottom: 15px;
+      line-height: 1.7;
     }
 
-
-    .progress {
-
-      width: 100%;
-
-      height: 5px;
-
-      border-radius: 999px;
-
-      background:
-        rgba(255,255,255,0.08);
-
-      overflow: hidden;
+    .section {
+      margin-top: 45px;
     }
 
-
-    .progress-bar {
-
-      height: 100%;
-
-      width: 45%;
-
-      border-radius: 999px;
-
-      background:
-        rgba(150,135,255,0.75);
+    .section-title {
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 16px;
     }
 
-
-    /* =====================================
-       状态
-    ===================================== */
+    .project-box {
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: 24px;
+      background: rgba(10,9,20,.55);
+      color: #88839b;
+      font-size: 14px;
+    }
 
     .status {
-
-      margin-top: 25px;
-
-      padding: 20px;
-
-      border-radius: 20px;
-
-      background:
-        rgba(255,255,255,0.025);
-
-      border:
-        1px solid rgba(255,255,255,0.06);
+      margin-top: 20px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(7,7,14,.45);
+      color: #77728b;
+      font-size: 12px;
     }
 
-
-    .status-title {
-
-      font-size: 14px;
-
-      margin-bottom: 10px;
-    }
-
-
-    .status-text {
-
-      font-size: 13px;
-
-      color:
-        rgba(255,255,255,0.45);
-
-      line-height: 1.7;
-    }
-
-
-    /* =====================================
-       AI 对话窗口
-    ===================================== */
+    /* =========================
+       CHAT
+    ========================= */
 
     .chat-overlay {
-
       position: fixed;
-
       inset: 0;
-
-      background:
-        rgba(0,0,0,0.65);
-
+      background: rgba(2,2,7,.72);
       backdrop-filter: blur(12px);
-
-      z-index: 100;
-
       display: none;
-
-      align-items: flex-end;
-
+      align-items: center;
       justify-content: center;
-
       padding: 20px;
+      z-index: 100;
     }
 
-
-    .chat-overlay.active {
-
+    .chat-overlay.show {
       display: flex;
     }
 
-
-    .chat {
-
-      width: min(700px, 100%);
-
-      height: min(680px, 90vh);
-
-      border-radius: 28px;
-
+    .chat-window {
+      width: min(760px, 100%);
+      height: min(720px, 92vh);
+      border-radius: 25px;
+      border: 1px solid rgba(255,255,255,.12);
       background:
-        rgba(12,13,27,0.97);
-
-      border:
-        1px solid rgba(255,255,255,0.1);
-
-      box-shadow:
-        0 30px 100px rgba(0,0,0,0.6);
-
+        linear-gradient(
+          180deg,
+          rgba(24,21,43,.97),
+          rgba(8,8,17,.98)
+        );
+      box-shadow: 0 35px 100px rgba(0,0,0,.65);
       display: flex;
-
       flex-direction: column;
-
       overflow: hidden;
     }
 
-
     .chat-header {
-
-      height: 65px;
-
-      padding: 0 20px;
-
+      height: 68px;
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
-
-      border-bottom:
-        1px solid rgba(255,255,255,0.07);
+      padding: 0 22px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
 
+    .chat-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-    .chat-header-title {
+    .chat-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #8d82d8;
+      box-shadow: 0 0 14px #8d82d8;
+    }
 
+    .chat-title span {
       font-size: 16px;
     }
 
-
-    .close-chat {
-
-      width: 36px;
-
-      height: 36px;
-
-      border-radius: 50%;
-
-      border: none;
-
-      background:
-        rgba(255,255,255,0.05);
-
-      color: white;
-
+    .close-btn {
+      border: 0;
+      background: transparent;
+      color: #9993ae;
+      font-size: 26px;
       cursor: pointer;
-
-      font-size: 18px;
     }
-
 
     .messages {
-
       flex: 1;
-
       overflow-y: auto;
-
       padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
-
 
     .message {
-
-      margin-bottom: 18px;
-
-      display: flex;
+      max-width: 82%;
+      padding: 14px 17px;
+      border-radius: 17px;
+      line-height: 1.7;
+      font-size: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
+    .message.ai {
+      align-self: flex-start;
+      background: rgba(55,49,83,.65);
+      border: 1px solid rgba(255,255,255,.07);
+      color: #eee;
+      border-bottom-left-radius: 5px;
+    }
 
     .message.user {
-
-      justify-content: flex-end;
+      align-self: flex-end;
+      background: rgba(100,82,170,.38);
+      border: 1px solid rgba(190,170,255,.12);
+      color: #fff;
+      border-bottom-right-radius: 5px;
     }
 
-
-    .bubble {
-
-      max-width: 78%;
-
-      padding: 13px 16px;
-
-      border-radius: 18px;
-
-      font-size: 14px;
-
-      line-height: 1.7;
+    .typing {
+      display: none;
+      align-self: flex-start;
+      color: #8f89aa;
+      font-size: 13px;
+      padding: 4px 5px;
     }
 
-
-    .message.ai .bubble {
-
-      background:
-        rgba(255,255,255,0.06);
-
-      border:
-        1px solid rgba(255,255,255,0.06);
+    .typing.show {
+      display: block;
     }
 
-
-    .message.user .bubble {
-
-      background:
-        rgba(110,95,220,0.7);
+    .chat-input-area {
+      padding: 15px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(5,5,11,.55);
     }
 
+    .chat-input-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
 
     .chat-input {
-
-      display: flex;
-
-      gap: 10px;
-
-      padding: 15px;
-
-      border-top:
-        1px solid rgba(255,255,255,0.07);
-    }
-
-
-    .chat-input input {
-
       flex: 1;
-
-      height: 48px;
-
-      border-radius: 14px;
-
-      border:
-        1px solid rgba(255,255,255,0.1);
-
-      background:
-        rgba(255,255,255,0.04);
-
-      color: white;
-
-      padding: 0 15px;
-
+      min-height: 48px;
+      max-height: 140px;
+      resize: none;
+      border-radius: 15px;
+      border: 1px solid rgba(255,255,255,.1);
       outline: none;
-
+      background: rgba(20,18,34,.85);
+      color: #fff;
+      padding: 13px 15px;
       font-size: 14px;
+      font-family: inherit;
     }
 
-
-    .chat-input input:focus {
-
-      border-color:
-        rgba(160,145,255,0.4);
+    .chat-input:focus {
+      border-color: rgba(170,150,255,.35);
     }
 
-
-    .send {
-
-      width: 70px;
-
-      border: none;
-
-      border-radius: 14px;
-
-      background:
-        rgba(120,105,230,0.75);
-
+    .send-btn {
+      width: 48px;
+      height: 48px;
+      border: 0;
+      border-radius: 15px;
+      background: rgba(110,92,185,.55);
       color: white;
-
       cursor: pointer;
+      font-size: 19px;
+      transition: .2s;
     }
 
+    .send-btn:hover {
+      background: rgba(130,110,210,.72);
+    }
 
-    /* =====================================
-       响应式
-    ===================================== */
+    .send-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: #656073;
+      font-size: 11px;
+      text-align: center;
+    }
 
     @media (max-width: 850px) {
-
-      .grid {
-
-        grid-template-columns:
-          repeat(2, 1fr);
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
       }
-
-      .projects {
-
-        grid-template-columns:
-          1fr;
-      }
-
     }
 
-
-    @media (max-width: 600px) {
-
+    @media (max-width: 560px) {
       .topbar {
-
         padding: 0 18px;
       }
 
       .container {
-
-        width:
-          calc(100% - 28px);
-
-        padding-top: 35px;
+        width: min(100% - 20px, 1180px);
+        padding-top: 30px;
       }
 
-      .space-card {
-
-        min-height: 350px;
-
-        border-radius: 24px;
+      .main-space {
+        min-height: 390px;
       }
 
-      .space-content {
-
-        min-height: 350px;
-
-        padding: 25px;
+      .cards {
+        grid-template-columns: 1fr;
       }
 
-      .little-me {
-
-        width: 120px;
-
-        height: 120px;
-
-        font-size: 50px;
+      .message {
+        max-width: 90%;
       }
 
-      .grid {
-
-        grid-template-columns:
-          1fr;
+      .chat-window {
+        height: 94vh;
+        border-radius: 20px;
       }
-
-      .chat {
-
-        height: 90vh;
-
-        border-radius: 24px;
-      }
-
     }
-
   </style>
 </head>
 
-
 <body>
 
-  <!-- 背景 -->
-
-  <div class="background"></div>
-
-  <div class="stars"></div>
-
-
-  <!-- 顶部 -->
+  <!-- =========================
+       TOP
+  ========================== -->
 
   <header class="topbar">
-
-    <div class="logo">
-      玄境
-    </div>
-
-    <div class="top-right">
-
-      <button
-        class="icon-button"
-        title="设置"
-        onclick="showMessage('设置功能将在后续版本开放')"
-      >
-        ⚙
-      </button>
-
-      <button
-        class="icon-button"
-        title="个人空间"
-        onclick="showMessage('这是你的私人玄境')"
-      >
-        ◉
-      </button>
-
-    </div>
-
+    <div class="logo">玄境</div>
+    <div class="top-status">你的私人数字空间</div>
   </header>
 
-
-  <!-- 主内容 -->
+  <!-- =========================
+       MAIN
+  ========================== -->
 
   <main class="container">
 
-
-    <!-- 欢迎 -->
-
     <section class="welcome">
-
-      <h1>
-        我的玄境
-      </h1>
-
-      <p>
-        这里不是一个普通的应用。
-        <br>
-        这里是属于你的数字空间。
-      </p>
-
+      <h1>我的玄境</h1>
+      <p>这里属于你。</p>
     </section>
 
+    <section class="main-space">
 
-    <!-- 我的玄境 -->
-
-    <section class="space-card">
-
-      <div class="space-light"></div>
-
-
-      <div class="space-content">
-
-        <div class="little-me">
-          ✦
-        </div>
-
-
-        <div class="space-title">
-          小小的我
-        </div>
-
-
-        <div class="space-description">
-
-          一个属于你的数字化入口。
-          <br>
-
-          你的记忆、事情、世界和未来，
-          都可以慢慢来到这里。
-
-        </div>
-
-
-        <button
-          class="primary-button"
-          onclick="openChat()"
-        >
-          和我聊聊
-        </button>
-
+      <div class="avatar" id="avatar">
+        ✦
       </div>
 
-    </section>
+      <div class="little-title">
+        小小的我
+      </div>
 
+      <div class="little-subtitle" id="aiStatus">
+        正在等待与你相遇
+      </div>
 
-    <!-- 核心功能 -->
-
-    <h2 class="section-title">
-      我的玄境
-    </h2>
-
-
-    <section class="grid">
-
-
-      <div
-        class="card"
-        onclick="openChat()"
+      <button
+        class="primary-btn"
+        id="openChatBtn"
       >
-
-        <div class="card-icon">
-          ◇
-        </div>
-
-        <h3>
-          与玄境交流
-        </h3>
-
-        <p>
-          和玄境说说话，
-          思考问题、整理想法。
-        </p>
-
-      </div>
-
-
-      <div
-        class="card"
-        onclick="showMessage('事情管理即将连接 Supabase')"
-      >
-
-        <div class="card-icon">
-          ◎
-        </div>
-
-        <h3>
-          我的事情
-        </h3>
-
-        <p>
-          目标、项目、任务，
-          逐渐形成你的人生操作台。
-        </p>
-
-      </div>
-
-
-      <div
-        class="card"
-        onclick="showMessage('玄忆系统将在下一阶段连接')"
-      >
-
-        <div class="card-icon">
-          ✧
-        </div>
-
-        <h3>
-          玄忆
-        </h3>
-
-        <p>
-          让玄境逐渐记住
-          你真正希望留下的东西。
-        </p>
-
-      </div>
-
-
-      <div
-        class="card"
-        onclick="showMessage('世界生成器将在后续开放')"
-      >
-
-        <div class="card-icon">
-          ◌
-        </div>
-
-        <h3>
-          我的世界
-        </h3>
-
-        <p>
-          创建属于你的世界，
-          未来可以不断变化和成长。
-        </p>
-
-      </div>
-
+        和我聊聊
+      </button>
 
     </section>
 
+    <!-- =========================
+         CARDS
+    ========================== -->
 
-    <!-- 我的事情 -->
+    <section class="cards">
 
-    <h2 class="section-title">
-      最近的事情
-    </h2>
-
-
-    <section class="projects">
-
-
-      <div class="project">
-
-        <div class="project-name">
-          建立我的玄境
-        </div>
-
-        <div class="project-status">
-          正在进行
-        </div>
-
-        <div class="progress">
-
-          <div
-            class="progress-bar"
-            style="width: 45%;"
-          ></div>
-
-        </div>
-
+      <div class="card" id="chatCard">
+        <div class="card-icon">💬</div>
+        <h3>与玄境交流</h3>
+        <p>和你的 AI 说说话，想事情，问问题。</p>
       </div>
 
-
-      <div class="project">
-
-        <div class="project-name">
-          学习 AI
-        </div>
-
-        <div class="project-status">
-          进行中
-        </div>
-
-        <div class="progress">
-
-          <div
-            class="progress-bar"
-            style="width: 25%;"
-          ></div>
-
-        </div>
-
+      <div class="card">
+        <div class="card-icon">◈</div>
+        <h3>我的事情</h3>
+        <p>查看正在进行的事情、目标和任务。</p>
       </div>
 
-
-      <div class="project">
-
-        <div class="project-name">
-          我的未来计划
-        </div>
-
-        <div class="project-status">
-          尚未开始
-        </div>
-
-        <div class="progress">
-
-          <div
-            class="progress-bar"
-            style="width: 5%;"
-          ></div>
-
-        </div>
-
+      <div class="card">
+        <div class="card-icon">✧</div>
+        <h3>玄忆</h3>
+        <p>属于你的记忆与长期信息。</p>
       </div>
 
-
-    </section>
-
-
-    <!-- 状态 -->
-
-    <section class="status">
-
-      <div class="status-title">
-        玄境状态
-      </div>
-
-      <div class="status-text">
-
-        当前是你的私人空间。
-        <br>
-
-        玄境正在等待与你一起成长。
-
+      <div class="card">
+        <div class="card-icon">🌌</div>
+        <h3>我的世界</h3>
+        <p>探索属于你的数字世界。</p>
       </div>
 
     </section>
 
+    <!-- =========================
+         PROJECT
+    ========================== -->
+
+    <section class="section">
+      <div class="section-title">
+        最近的事情
+      </div>
+
+      <div class="project-box">
+        目前还没有建立项目。
+        <br />
+        <br />
+        以后这里会成为你的「人生操作台」。
+      </div>
+    </section>
+
+    <div class="status" id="systemStatus">
+      玄境 AI：正在连接……
+    </div>
 
   </main>
 
+  <!-- =========================
+       CHAT
+  ========================== -->
 
-  <!-- =====================================
-       AI 对话窗口
-  ====================================== -->
+  <div class="chat-overlay" id="chatOverlay">
 
-  <div
-    class="chat-overlay"
-    id="chatOverlay"
-  >
-
-    <div class="chat">
-
+    <div class="chat-window">
 
       <div class="chat-header">
 
-        <div class="chat-header-title">
-          玄境
+        <div class="chat-title">
+          <div class="chat-dot"></div>
+          <span>玄境 AI</span>
         </div>
 
         <button
-          class="close-chat"
-          onclick="closeChat()"
+          class="close-btn"
+          id="closeChatBtn"
+          aria-label="关闭"
         >
           ×
         </button>
 
       </div>
-
 
       <div
         class="messages"
@@ -1275,61 +602,45 @@
       >
 
         <div class="message ai">
+          你好，我是玄境里的 AI。
+          你可以直接告诉我你现在想做什么。
+        </div>
 
-          <div class="bubble">
-
-            你好。
-
-            <br><br>
-
-            这里是你的玄境。
-
-            <br>
-
-            你可以告诉我：
-            <br>
-
-            「我现在在想什么」
-            <br>
-
-            「我最近有什么事情」
-            <br>
-
-            「我不知道该怎么办」
-            <br>
-
-            「帮我整理一下」
-
-            <br><br>
-
-            我会先理解，
-            再和你一起想办法。
-
-          </div>
-
+        <div
+          class="typing"
+          id="typing"
+        >
+          玄境正在思考……
         </div>
 
       </div>
 
+      <div class="chat-input-area">
 
-      <div class="chat-input">
+        <div class="chat-input-wrap">
 
-        <input
-          type="text"
-          id="chatInput"
-          placeholder="告诉玄境你正在想什么……"
-          onkeydown="handleEnter(event)"
-        >
+          <textarea
+            id="chatInput"
+            class="chat-input"
+            placeholder="告诉玄境你在想什么……"
+            rows="1"
+          ></textarea>
 
-        <button
-          class="send"
-          onclick="sendMessage()"
-        >
-          发送
-        </button>
+          <button
+            id="sendBtn"
+            class="send-btn"
+            title="发送"
+          >
+            ↑
+          </button>
+
+        </div>
+
+        <div class="hint">
+          Enter 发送 · Shift + Enter 换行
+        </div>
 
       </div>
-
 
     </div>
 
@@ -1337,194 +648,457 @@
 
 
   <script>
+    /*
+     * =========================================================
+     * 玄境 AI
+     * Supabase Edge Function
+     * ai-chat
+     * =========================================================
+     */
+
+    // ---------------------------------------------------------
+    // ① 你的 Supabase 项目地址
+    // ---------------------------------------------------------
+
+    const SUPABASE_URL =
+      "https://你的玄境项目.supabase.co";
 
 
-    /* =====================================
-       打开聊天
-    ===================================== */
+    // ---------------------------------------------------------
+    // ② Supabase 前端公开 Key
+    //
+    // 注意：
+    // 这里放的是 anon / publishable key。
+    //
+    // 绝对不要放：
+    // AIVAULT_API_KEY
+    // GEMINI_API_KEY
+    // GROQ_API_KEY
+    // ---------------------------------------------------------
+
+    const SUPABASE_ANON_KEY =
+      "你的-Supabase-anon或publishable-key";
+
+
+    // ---------------------------------------------------------
+    // ③ 玄境 AI Function
+    // ---------------------------------------------------------
+
+    const AI_FUNCTION_URL =
+      SUPABASE_URL + "/functions/v1/ai-chat";
+
+
+    // ---------------------------------------------------------
+    // DOM
+    // ---------------------------------------------------------
+
+    const openChatBtn =
+      document.getElementById("openChatBtn");
+
+    const chatCard =
+      document.getElementById("chatCard");
+
+    const closeChatBtn =
+      document.getElementById("closeChatBtn");
+
+    const chatOverlay =
+      document.getElementById("chatOverlay");
+
+    const chatInput =
+      document.getElementById("chatInput");
+
+    const sendBtn =
+      document.getElementById("sendBtn");
+
+    const messages =
+      document.getElementById("messages");
+
+    const typing =
+      document.getElementById("typing");
+
+    const avatar =
+      document.getElementById("avatar");
+
+    const aiStatus =
+      document.getElementById("aiStatus");
+
+    const systemStatus =
+      document.getElementById("systemStatus");
+
+
+    // ---------------------------------------------------------
+    // 对话历史
+    // ---------------------------------------------------------
+
+    const conversationHistory = [];
+
+
+    // ---------------------------------------------------------
+    // 打开聊天
+    // ---------------------------------------------------------
 
     function openChat() {
-
-      document
-        .getElementById("chatOverlay")
-        .classList
-        .add("active");
+      chatOverlay.classList.add("show");
 
       setTimeout(() => {
-
-        document
-          .getElementById("chatInput")
-          .focus();
-
-      }, 200);
-
+        chatInput.focus();
+      }, 100);
     }
 
 
-    /* =====================================
-       关闭聊天
-    ===================================== */
+    // ---------------------------------------------------------
+    // 关闭聊天
+    // ---------------------------------------------------------
 
     function closeChat() {
-
-      document
-        .getElementById("chatOverlay")
-        .classList
-        .remove("active");
-
+      chatOverlay.classList.remove("show");
     }
 
 
-    /* =====================================
-       发送消息
-    ===================================== */
+    openChatBtn.addEventListener(
+      "click",
+      openChat
+    );
 
-    function sendMessage() {
+    chatCard.addEventListener(
+      "click",
+      openChat
+    );
 
-      const input =
-        document.getElementById("chatInput");
+    closeChatBtn.addEventListener(
+      "click",
+      closeChat
+    );
 
-      const text =
-        input.value.trim();
 
+    // 点击黑色背景关闭
+    chatOverlay.addEventListener(
+      "click",
+      (event) => {
 
-      if (!text) {
-
-        return;
+        if (event.target === chatOverlay) {
+          closeChat();
+        }
 
       }
+    );
 
 
-      const messages =
-        document.getElementById("messages");
+    // ---------------------------------------------------------
+    // 添加消息
+    // ---------------------------------------------------------
 
+    function addMessage(
+      content,
+      role
+    ) {
 
-      /* 用户消息 */
-
-      const userMessage =
+      const message =
         document.createElement("div");
 
-      userMessage.className =
-        "message user";
+      message.className =
+        "message " + role;
 
+      message.textContent =
+        content;
 
-      const userBubble =
-        document.createElement("div");
-
-      userBubble.className =
-        "bubble";
-
-      userBubble.textContent =
-        text;
-
-
-      userMessage.appendChild(
-        userBubble
+      messages.insertBefore(
+        message,
+        typing
       );
-
-
-      messages.appendChild(
-        userMessage
-      );
-
-
-      input.value = "";
-
 
       messages.scrollTop =
         messages.scrollHeight;
+    }
 
 
-      /* =================================
-         目前是演示回复
-         后面会连接真正 AI
-      ================================= */
+    // ---------------------------------------------------------
+    // AI 正在思考
+    // ---------------------------------------------------------
 
-      setTimeout(() => {
+    function setThinking(
+      thinking
+    ) {
 
-        const aiMessage =
-          document.createElement("div");
+      if (thinking) {
 
-        aiMessage.className =
-          "message ai";
+        typing.classList.add("show");
+
+        avatar.classList.add("active");
+
+        aiStatus.textContent =
+          "正在思考……";
+
+      } else {
+
+        typing.classList.remove("show");
+
+        avatar.classList.remove("active");
+
+        aiStatus.textContent =
+          "我在这里";
+
+      }
+
+      messages.scrollTop =
+        messages.scrollHeight;
+    }
 
 
-        const aiBubble =
-          document.createElement("div");
+    // ---------------------------------------------------------
+    // 调用玄境 ai-chat
+    // ---------------------------------------------------------
 
-        aiBubble.className =
-          "bubble";
+    async function callAI(
+      userMessage
+    ) {
 
+      const response =
+        await fetch(
+          AI_FUNCTION_URL,
+          {
+            method: "POST",
 
-        aiBubble.textContent =
-          "我收到了。现在的玄境还只是第一副骨架，下一步我会真正连接记忆、事情和 AI，让这里慢慢成为一个真正属于你的空间。";
+            headers: {
+              "Content-Type":
+                "application/json",
 
+              "apikey":
+                SUPABASE_ANON_KEY,
 
-        aiMessage.appendChild(
-          aiBubble
+              "Authorization":
+                "Bearer " +
+                SUPABASE_ANON_KEY
+            },
+
+            body: JSON.stringify({
+
+              message:
+                userMessage,
+
+              messages:
+                conversationHistory
+
+            })
+          }
         );
 
 
-        messages.appendChild(
-          aiMessage
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data?.error ||
+          data?.details ||
+          "AI 请求失败"
         );
 
+      }
 
-        messages.scrollTop =
-          messages.scrollHeight;
 
-      }, 600);
+      if (
+        data?.success === false
+      ) {
+
+        throw new Error(
+          data?.error ||
+          "AI 服务返回失败"
+        );
+
+      }
+
+
+      return (
+        data?.answer ||
+        data?.data?.content ||
+        data?.content ||
+        "AI 没有返回内容。"
+      );
 
     }
 
 
-    /* =====================================
-       Enter 发送
-    ===================================== */
+    // ---------------------------------------------------------
+    // 发送消息
+    // ---------------------------------------------------------
 
-    function handleEnter(event) {
+    async function sendMessage() {
 
-      if (event.key === "Enter") {
+      const text =
+        chatInput.value.trim();
 
-        sendMessage();
+
+      if (!text) {
+        return;
+      }
+
+
+      // 防止重复发送
+      sendBtn.disabled =
+        true;
+
+      chatInput.disabled =
+        true;
+
+
+      // 显示用户消息
+      addMessage(
+        text,
+        "user"
+      );
+
+
+      // 清空输入框
+      chatInput.value = "";
+
+
+      // 加入历史
+      conversationHistory.push({
+        role: "user",
+        content: text
+      });
+
+
+      // AI 思考
+      setThinking(true);
+
+
+      try {
+
+        const answer =
+          await callAI(text);
+
+
+        addMessage(
+          answer,
+          "ai"
+        );
+
+
+        // 加入 AI 历史
+        conversationHistory.push({
+          role: "assistant",
+          content: answer
+        });
+
+
+        systemStatus.textContent =
+          "玄境 AI：连接正常";
+
+
+      } catch (error) {
+
+        console.error(
+          "玄境 AI Error:",
+          error
+        );
+
+
+        addMessage(
+          "暂时无法连接玄境 AI。\n\n" +
+          "错误信息：" +
+          error.message,
+          "ai"
+        );
+
+
+        systemStatus.textContent =
+          "玄境 AI：连接失败";
+
+
+      } finally {
+
+        setThinking(false);
+
+        sendBtn.disabled =
+          false;
+
+        chatInput.disabled =
+          false;
+
+        chatInput.focus();
 
       }
 
     }
 
 
-    /* =====================================
-       普通提示
-    ===================================== */
+    // ---------------------------------------------------------
+    // 点击发送
+    // ---------------------------------------------------------
 
-    function showMessage(text) {
+    sendBtn.addEventListener(
+      "click",
+      sendMessage
+    );
 
-      alert(text);
 
-    }
+    // ---------------------------------------------------------
+    // Enter 发送
+    // Shift + Enter 换行
+    // ---------------------------------------------------------
 
+    chatInput.addEventListener(
+      "keydown",
+      (event) => {
 
-    /* =====================================
-       点击黑色区域关闭聊天
-    ===================================== */
+        if (
+          event.key === "Enter" &&
+          !event.shiftKey
+        ) {
 
-    document
-      .getElementById("chatOverlay")
-      .addEventListener(
-        "click",
-        function(event) {
+          event.preventDefault();
 
-          if (
-            event.target === this
-          ) {
-
-            closeChat();
-
-          }
+          sendMessage();
 
         }
-      );
 
+      }
+    );
+
+
+    // ---------------------------------------------------------
+    // 自动调整输入框高度
+    // ---------------------------------------------------------
+
+    chatInput.addEventListener(
+      "input",
+      () => {
+
+        chatInput.style.height =
+          "auto";
+
+        chatInput.style.height =
+          Math.min(
+            chatInput.scrollHeight,
+            140
+          ) + "px";
+
+      }
+    );
+
+
+    // ---------------------------------------------------------
+    // 初始状态
+    // ---------------------------------------------------------
+
+    if (
+      SUPABASE_URL.includes("你的玄境项目") ||
+      SUPABASE_ANON_KEY.includes("你的-Supabase")
+    ) {
+
+      systemStatus.textContent =
+        "玄境 AI：请先填写 Supabase 配置";
+
+    } else {
+
+      systemStatus.textContent =
+        "玄境 AI：已准备";
+
+    }
 
   </script>
 
